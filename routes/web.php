@@ -46,7 +46,7 @@ Route::middleware('ceklogin')->group(function () {
 
 });
 
-Route::middleware(['ceklogin','cekrole:pengelola_data'])->group(function () {
+Route::middleware(['ceklogin','cekrole:pengelola_data','permission:kelola_user'])->group(function () {
 
     Route::get('/dashboard-pengelola', function () {
 
@@ -141,6 +141,7 @@ Route::middleware(['ceklogin','cekrole:pimpinan'])->group(function () {
     });
 
 });
+Route::resource('user-aplikasi', UserAplikasiController::class);
 
 Route::get('/login', [AuthController::class, 'login']);
 Route::post('/proses-login', [AuthController::class, 'prosesLogin']);

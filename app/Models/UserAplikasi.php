@@ -8,7 +8,7 @@ class UserAplikasi extends Model
 {
     protected $table = 'user';
 
-    protected $primaryKey = 'id_petugas';
+    protected $primaryKey = 'id_user';
 
     public $timestamps = false;
 
@@ -16,6 +16,7 @@ class UserAplikasi extends Model
         'username',
         'password',
         'role',
-        'email'
+        'email',
+        'id_role'
     ];
 }

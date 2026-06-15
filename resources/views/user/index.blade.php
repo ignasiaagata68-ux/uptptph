@@ -31,6 +31,7 @@
                 <th>Username</th>
                 <th>Role</th>
                 <th>Email</th>
+                <th>Id User</th>
                 <th width="1%">Aksi</th>
             </tr>
         </thead>
@@ -41,19 +42,20 @@
 
         <tr>
 
-            <td>{{ $row->id_petugas }}</td>
+            <td>{{ $row->id_user }}</td>
             <td>{{ $row->username }}</td>
             <td>{{ $row->role }}</td>
             <td>{{ $row->email }}</td>
+            <td>{{ $row->id_role }}</td>
 
             <td style="white-space: nowrap;">
 
-                <a href="{{ route('user-aplikasi.edit',$row->id_petugas) }}"
+                <a href="{{ route('user-aplikasi.edit',$row->id_user') }}"
                    class="btn btn-warning btn-sm me-2">
                     Edit
                 </a>
 
-                <form action="{{ route('user-aplikasi.destroy',$row->id_petugas) }}"
+                <form action="{{ route('user-aplikasi.destroy',$row->id_user) }}"
                       method="POST"
                       style="display:inline;">
 
