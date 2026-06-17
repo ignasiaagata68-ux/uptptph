@@ -31,7 +31,7 @@
                 <th>Username</th>
                 <th>Role</th>
                 <th>Email</th>
-                <th>Id User</th>
+                <th>Id Petugas</th>
                 <th width="1%">Aksi</th>
             </tr>
         </thead>

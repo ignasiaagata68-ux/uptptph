@@ -37,16 +37,14 @@ class UserAplikasiController extends Controller
             'username' => 'required',
             'password' => 'required',
             'role'     => 'required',
-            'email'    => 'required',
-            'id_role'  => 'required'
+            'email'    => 'required'
         ]);
 
         UserAplikasi::create([
             'username' => $request->username,
             'password' => $request->password,
             'role'     => $request->role,
-            'email'    => $request->email,
-            'id_role'  => $request->id_role
+            'email'    => $request->email
         ]);
 
         return redirect()->route('user-aplikasi.index')
@@ -84,8 +82,7 @@ class UserAplikasiController extends Controller
             'username' => $request->username,
             'password' => $request->password,
             'role'     => $request->role,
-            'email'    => $request->email,
-            'id_role'  => $request->id_role
+            'email'    => $request->email
         ]);
 
         return redirect()->route('user-aplikasi.index')

@@ -16,7 +16,6 @@ class UserAplikasi extends Model
         'username',
         'password',
         'role',
-        'email',
-        'id_role'
+        'email'
     ];
 }
