@@ -69,15 +69,23 @@ class KabupatenKotaController extends Controller
     {
         //
         try {
-
             $data = KabupatenKota::findOrFail($id);
+
             $data->delete();
+
+            return redirect()
+                ->route('kabupaten.index')
+                ->with(
+                    'success',
+                    'Data berhasil dihapus.'
+                );
 
         } catch (\Exception $e) {
 
             return redirect()
                 ->route('kabupaten.index')
-                ->with('error',
+                ->with(
+                    'error',
                     'Data tidak dapat dihapus karena masih digunakan.'
                 );
         }

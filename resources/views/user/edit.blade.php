@@ -14,7 +14,7 @@
         Edit User
     </h2>
 
-    <form action="{{ route('user-aplikasi.update',$data->id_petugas) }}"
+    <form action="{{ route('user-aplikasi.update',$data->id_user) }}"
           method="POST">
 
         @csrf
@@ -42,6 +42,8 @@
 
         <div class="mb-3">
             <label class="form-label">Role</label>
+
+            <p> ID Role Saat Ini : {{ $data->id_role }}</p>
 
             <select name="role"
                     class="form-select"

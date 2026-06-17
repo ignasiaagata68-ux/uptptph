@@ -49,26 +49,10 @@
             <td>{{ $row->id_role }}</td>
 
             <td style="white-space: nowrap;">
-
-                <a href="{{ route('user-aplikasi.edit',$row->id_user') }}"
-                   class="btn btn-warning btn-sm me-2">
+                <a href="{{ route('user-aplikasi.edit', $row->id_user) }}"
+                    class="btn btn-warning btn-sm">
                     Edit
                 </a>
-
-                <form action="{{ route('user-aplikasi.destroy',$row->id_user) }}"
-                      method="POST"
-                      style="display:inline;">
-
-                    @csrf
-                    @method('DELETE')
-
-                    <button type="submit"
-                            class="btn btn-danger btn-sm"
-                            onclick="return confirm('Yakin ingin menghapus data?')">
-                        Hapus
-                    </button>
-
-                </form>
 
             </td>
 

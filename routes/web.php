@@ -15,6 +15,7 @@ use App\Http\Controllers\UserAplikasiController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RoleController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -32,8 +33,8 @@ Route::middleware('ceklogin')->group(function () {
             return redirect('/dashboard-popt');
         }
 
-        if (session('role') == 'php') {
-            return redirect('/dashboard-php');
+        if (session('role') == 'lphp') {
+            return redirect('/dashboard-lphp');
         }
 
         if (session('role') == 'pimpinan') {
@@ -45,39 +46,85 @@ Route::middleware('ceklogin')->group(function () {
     });
 
 });
-
-Route::middleware(['ceklogin','cekrole:pengelola_data','permission:kelola_user'])->group(function () {
+Route::middleware([
+    'ceklogin',
+    'cekrole:pengelola_data'
+])->group(function () {
 
     Route::get('/dashboard-pengelola', function () {
 
         return '
-        <h1>Dashboard Pengelola Data</h1>
-        <hr>
+            <h1>Dashboard Pengelola Data</h1>
+            <hr>
 
-        Login sebagai : '.session('username').'<br>
-        Role : '.session('role').'<br><br>
+            Login sebagai : '.session('username').'<br>
+            Role : '.session('role').'<br><br>
 
-        <h3>Master Data</h3>
+            <h3>Master Data</h3>
 
-        <a href="/kabupaten">Kabupaten/Kota</a><br>
-        <a href="/kecamatan">Kecamatan</a><br>
-        <a href="/desa">Desa</a><br>
-        <a href="/komoditas">Komoditas</a><br>
-        <a href="/musim_tanam">Musim Tanam</a><br>
-        <a href="/tahun">Tahun</a><br>
-        <a href="/bulan">Bulan</a><br>
-        <a href="/kelompok-tani">Kelompok Tani</a><br>
-        <a href="/ma">MA</a><br>
-        <a href="/opt">OPT</a><br>
-        <a href="/periode">Periode</a><br>
-        <a href="/petugas">Petugas</a><br>
-        <a href="/user-aplikasi">User Aplikasi</a><br><br>
+            <a href="/kabupaten">Kabupaten/Kota</a><br>
+            <a href="/kecamatan">Kecamatan</a><br>
+            <a href="/desa">Desa</a><br>
+            <a href="/komoditas">Komoditas</a><br>
+            <a href="/musim_tanam">Musim Tanam</a><br>
+            <a href="/tahun">Tahun</a><br>
+            <a href="/bulan">Bulan</a><br>
+            <a href="/kelompok-tani">Kelompok Tani</a><br>
+            <a href="/ma">MA</a><br>
+            <a href="/opt">OPT</a><br>
+            <a href="/periode">Periode</a><br>
+            <a href="/petugas">Petugas</a><br>
+            <a href="/user-aplikasi">User Aplikasi</a><br>
+            <a href="/role">Role & Permission</a><br><br>
 
-        <a href="/logout">Logout</a>
+            <a href="/logout">Logout</a>
+
         ';
     });
 
+    // MASTER DATA
+    Route::resource('kabupaten', KabupatenKotaController::class);
+    Route::resource('kecamatan', KecamatanController::class);
+    Route::resource('desa', DesaController::class);
+    Route::resource('komoditas', KomoditasController::class);
+    Route::resource('musim_tanam', MusimTanamController::class);
+    Route::resource('tahun', TahunController::class);
+    Route::resource('bulan', BulanController::class);
+    Route::resource('kelompok-tani', KelompokTaniController::class);
+    Route::resource('ma', MaController::class);
+    Route::resource('opt', OptController::class);
+    Route::resource('periode', PeriodeController::class);
+    Route::resource('petugas', PetugasController::class);
+
+    Route::middleware('permission:kelola_user')->group(function () {
+
+        Route::resource(
+            'user-aplikasi',
+            UserAplikasiController::class
+        );
+
+        Route::get('/role', [RoleController::class, 'index']);
+        Route::get('/role/{id}', [RoleController::class, 'show']);
+        Route::post('/role/{id}', [RoleController::class, 'update']);
+
+    });
+
 });
+
+    Route::middleware('permission:kelola_user')->group(function () {
+
+        Route::resource(
+            'user-aplikasi',
+            UserAplikasiController::class
+        );
+
+        Route::get('/role', [RoleController::class, 'index']);
+        Route::get('/role/{id}', [RoleController::class, 'show']);
+        Route::post('/role/{id}', [RoleController::class, 'update']);
+
+
+
+    });
 
 Route::middleware(['ceklogin','cekrole:popt'])->group(function () {
 
@@ -139,11 +186,8 @@ Route::middleware(['ceklogin','cekrole:pimpinan'])->group(function () {
         <a href="/logout">Logout</a>
         ';
     });
-
 });
-Route::resource('user-aplikasi', UserAplikasiController::class);
 
 Route::get('/login', [AuthController::class, 'login']);
 Route::post('/proses-login', [AuthController::class, 'prosesLogin']);
 Route::get('/logout', [AuthController::class, 'logout']);
-
