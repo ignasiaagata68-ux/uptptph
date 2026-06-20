@@ -12,8 +12,39 @@
 
     <h3>DATA</h3>
 
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <form action="{{ route('data.store') }}"
           method="POST">
+
+        <input type="hidden" name="id_petugas"
+            value="{{ $petugas->id_petugas }}">
+
+        <input type="hidden" name="id_tahun"
+            value="{{ $tahunAktif->id_tahun }}">
+
+        <input type="hidden" name="id_bulan"
+            value="{{ $bulanAktif->id_bulan }}">
+
+        <input type="hidden" name="id_periode"
+            value="{{ $periodeAktif->id_periode }}">
+
+        <input type="hidden" name="tanggal_laporan"
+            value="{{ date('Y-m-d') }}">
 
         @csrf
 
@@ -24,7 +55,9 @@
                 <td>{{ $petugas->nama ?? '-' }}</td>
 
                 <td width="120">Tahun</td>
-                <td>OTOMATIS</td>
+                <td>
+                    {{ $tahunAktif->tahun ?? '-' }}
+                </td>
             </tr>
 
             <tr>
@@ -32,7 +65,9 @@
                 <td>{{ $petugas->NIP ?? '-' }}</td>
 
                 <td>Bulan</td>
-                <td>OTOMATIS</td>
+                <td>
+                    {{ $bulanAktif->bulan ?? '-' }}
+                </td>
             </tr>
 
             <tr>
@@ -42,7 +77,9 @@
                 </td>
 
                 <td>Periode</td>
-                <td>OTOMATIS</td>
+                <td>
+                    {{ $periodeAktif->id_periode ?? '-' }}
+                </td>
             </tr>
 
             <tr>
@@ -57,7 +94,9 @@
 
             <tr>
                 <td>Periode Pengamatan</td>
-                <td>OTOMATIS</td>
+                <td>
+                    {{ $periodeAktif->periode_pengamatan ?? '-' }}
+                </td>
 
                 <td></td>
                 <td></td>
@@ -65,7 +104,9 @@
 
             <tr>
                 <td>Bulan</td>
-                <td>OTOMATIS</td>
+                <td>
+                    {{ $bulanAktif->bulan ?? '-' }}
+                </td>
 
                 <td></td>
                 <td></td>
@@ -106,9 +147,24 @@
 
         </table>
 
-        <button class="btn btn-success">
-            Simpan
-        </button>
+        <div class="mt-3">
+
+            <a href="{{ url('/dashboard-popt') }}"
+            class="btn btn-secondary">
+                ← Kembali
+            </a>
+
+            <button type="submit"
+                    class="btn btn-success">
+                Simpan
+            </button>
+
+            <a href="{{ url('/det-pengamatan/create') }}"
+            class="btn btn-primary">
+                Next →
+            </a>
+
+        </div>
 
     </form>
 

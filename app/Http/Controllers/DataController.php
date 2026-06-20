@@ -35,16 +35,68 @@ class DataController extends Controller
      */
     public function create()
     {
-        //
-         $userId = session('id_user');
-
-        dd($userId);
+        $userId = session('id_user');
 
         $petugas = Petugas::with(
             'kecamatan.kabupaten'
         )
         ->where('id_user', $userId)
         ->first();
+
+        $tahun = Tahun::all();
+        $bulan = Bulan::all();
+        $periode = Periode::all();
+        $musimTanam = MusimTanam::all();
+
+        // Tahun aktif berdasarkan tahun sekarang
+        $tahunAktif = Tahun::where(
+            'tahun',
+            date('Y')
+        )->first();
+
+        // Bulan aktif berdasarkan bulan sekarang
+        $namaBulan = [
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Maret',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Juni',
+            7 => 'Juli',
+            8 => 'Agustus',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Desember'
+        ];
+
+        $bulanAktif = Bulan::where(
+            'bulan',
+            $namaBulan[date('n')]
+        )->first();
+
+        // Periode aktif berdasarkan tanggal hari ini
+        $hari = date('d');
+
+        if ($hari <= 15) {
+            $periodeAktif = Periode::find(1);
+        } else {
+            $periodeAktif = Periode::find(2);
+        }
+
+        return view(
+            'data.create',
+            compact(
+                'petugas',
+                'tahun',
+                'bulan',
+                'periode',
+                'musimTanam',
+                'tahunAktif',
+                'bulanAktif',
+                'periodeAktif'
+            )
+        );
     }
 
     /**
@@ -62,18 +114,17 @@ class DataController extends Controller
         'tanggal_laporan' => 'required'
     ]);
 
-    Data::create([
-        'id_petugas'      => $request->id_petugas,
-        'id_tahun'        => $request->id_tahun,
-        'id_bulan'        => $request->id_bulan,
-        'id_periode'      => $request->id_periode,
-        'id_musim_tanam'  => $request->id_musim_tanam,
-        'tanggal_laporan' => $request->tanggal_laporan
+    $data = Data::create([
+    'id_petugas'      => $request->id_petugas,
+    'id_tahun'        => $request->id_tahun,
+    'id_bulan'        => $request->id_bulan,
+    'id_periode'      => $request->id_periode,
+    'id_musim_tanam'  => $request->id_musim_tanam,
+    'tanggal_laporan' => $request->tanggal_laporan
     ]);
 
     return redirect()
-        ->route('data.index')
-        ->with('success', 'Data berhasil ditambahkan');
+        ->route('sp.create', $data->id_data);
     }
 
     /**

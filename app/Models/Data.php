@@ -10,7 +10,7 @@ class Data extends Model
 
     protected $primaryKey = 'id_data';
 
-    public $timestamps = true;
+    public $timestamps = false;
 
     protected $fillable = [
         'id_petugas',

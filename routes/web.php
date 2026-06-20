@@ -17,6 +17,8 @@ use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DataController;
+use App\Http\Controllers\SpController;
+use App\Http\Controllers\PengamatanPersemaianPadiController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -52,6 +54,7 @@ Route::middleware([
     'cekrole:pengelola_data'
 ])->group(function () {
 
+    //DASHBOARD
     Route::get('/dashboard-pengelola', function () {
 
         return '
@@ -60,6 +63,10 @@ Route::middleware([
 
             Login sebagai : '.session('username').'<br>
             Role : '.session('role').'<br><br>
+
+            <h3>Dashboard</h3>
+            <a href="/dashboard-opt">Dashboard OPT</a><br>
+            <a href="/dashboard-dpi">Dashboard DPI</a><br><br>
 
             <h3>Master Data</h3>
 
@@ -75,9 +82,20 @@ Route::middleware([
             <a href="/opt">OPT</a><br>
             <a href="/periode">Periode</a><br>
             <a href="/petugas">Petugas</a><br>
-            <a href="/data">DATA</a><br>
+
+
+            <h3>Data Pengamatan</h3>
+            <a href="/data">Data</a><br>
+            <a href="/sp">SP</a><br>
+            <a href="/pengamatan-persemaian-padi">Pengamatan Persemaian Padi</a><br><br>
+
+            <h3>Manajemen Pengguna</h3>
             <a href="/user-aplikasi">User Aplikasi</a><br>
             <a href="/role">Role & Permission</a><br><br>
+
+            <h3>Laporan</h3>
+            <a href="/laporan-opt">Laporan OPT</a><br>
+            <a href="/laporan-dpi">Laporan DPI</a><br><br>
 
             <a href="/logout">Logout</a>
 
@@ -97,37 +115,29 @@ Route::middleware([
     Route::resource('opt', OptController::class);
     Route::resource('periode', PeriodeController::class);
     Route::resource('petugas', PetugasController::class);
-    
 
+    //DATA PENGAMATAN
+    Route::resource('data', DataController::class);
+    Route::get('/sp/{id_data}',[SpController::class, 'create'])->name('sp.create');
+    Route::get('/pengamatan-persemaian-padi/{id_data}',[PengamatanPersemaianPadiController::class,'create'])->name('pengamatan-persemaian-padi.create');
+    Route::post('/pengamatan-persemaian-padi/store',[PengamatanPersemaianPadiController::class, 'store'])->name('pengamatan-persemaian-padi.store');
+    Route::get('/pengamatan-persemaian-padi',[PengamatanPersemaianPadiController::class, 'index'])->name('pengamatan-persemaian-padi.index');
+    Route::get('/pengamatan-persemaian-padi/show/{id}',[PengamatanPersemaianPadiController::class, 'show'])->name('pengamatan-persemaian-padi.show');
+    Route::get('/pengamatan-persemaian-padi/edit/{id}',[PengamatanPersemaianPadiController::class, 'edit'])->name('pengamatan-persemaian-padi.edit');
+    Route::post('/pengamatan-persemaian-padi/update/{id}',[PengamatanPersemaianPadiController::class, 'update'])->name('pengamatan-persemaian-padi.update');
+
+
+    //MANAJEMEN PENGGUNA
     Route::middleware('permission:kelola_user')->group(function () {
-
-        Route::resource(
-            'user-aplikasi',
-            UserAplikasiController::class
-        );
-
+        Route::resource('user-aplikasi',UserAplikasiController::class);
         Route::get('/role', [RoleController::class, 'index']);
         Route::get('/role/{id}', [RoleController::class, 'show']);
         Route::post('/role/{id}', [RoleController::class, 'update']);
-
+        
     });
-
 });
 
-    Route::middleware('permission:kelola_user')->group(function () {
-
-        Route::resource(
-            'user-aplikasi',
-            UserAplikasiController::class
-        );
-
-        Route::get('/role', [RoleController::class, 'index']);
-        Route::get('/role/{id}', [RoleController::class, 'show']);
-        Route::post('/role/{id}', [RoleController::class, 'update']);
-
-
-
-    });
+ 
 
 Route::middleware(['ceklogin','cekrole:popt'])->group(function () {
 
@@ -149,7 +159,7 @@ Route::middleware(['ceklogin','cekrole:popt'])->group(function () {
     });
 
 });
-Route::resource('data', DataController::class);
+
 
 Route::middleware(['ceklogin','cekrole:lphp'])->group(function () {
 
@@ -169,6 +179,8 @@ Route::middleware(['ceklogin','cekrole:lphp'])->group(function () {
         <a href="/logout">Logout</a>
         ';
     });
+
+    
 
 });
 
