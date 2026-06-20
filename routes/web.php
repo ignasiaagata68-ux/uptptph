@@ -16,6 +16,7 @@ use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\DataController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -74,6 +75,7 @@ Route::middleware([
             <a href="/opt">OPT</a><br>
             <a href="/periode">Periode</a><br>
             <a href="/petugas">Petugas</a><br>
+            <a href="/data">DATA</a><br>
             <a href="/user-aplikasi">User Aplikasi</a><br>
             <a href="/role">Role & Permission</a><br><br>
 
@@ -95,6 +97,7 @@ Route::middleware([
     Route::resource('opt', OptController::class);
     Route::resource('periode', PeriodeController::class);
     Route::resource('petugas', PetugasController::class);
+    
 
     Route::middleware('permission:kelola_user')->group(function () {
 
@@ -146,6 +149,7 @@ Route::middleware(['ceklogin','cekrole:popt'])->group(function () {
     });
 
 });
+Route::resource('data', DataController::class);
 
 Route::middleware(['ceklogin','cekrole:lphp'])->group(function () {
 

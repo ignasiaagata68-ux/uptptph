@@ -24,9 +24,9 @@ class Petugas extends Model
     public function user()
     {
         return $this->belongsTo(
-            UserAplikasi::class,
+            User::class,
             'id_user',
-            'id_petugas'
+            'id_user'
         );
     }
 
@@ -38,4 +38,5 @@ class Petugas extends Model
             'id_kecamatan'
         );
     }
+
 }
