@@ -19,6 +19,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DataController;
 use App\Http\Controllers\SpController;
 use App\Http\Controllers\PengamatanPersemaianPadiController;
+use App\Http\Controllers\KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -88,6 +89,9 @@ Route::middleware([
             <a href="/data">Data</a><br>
             <a href="/sp">SP</a><br>
             <a href="/pengamatan-persemaian-padi">Pengamatan Persemaian Padi</a><br><br>
+            <a href="/keadaan-serangan-opt">Keadaan serangan OPT dan pengendalian di wilayah pengamatan</a>
+
+
 
             <h3>Manajemen Pengguna</h3>
             <a href="/user-aplikasi">User Aplikasi</a><br>
@@ -125,6 +129,14 @@ Route::middleware([
     Route::get('/pengamatan-persemaian-padi/show/{id}',[PengamatanPersemaianPadiController::class, 'show'])->name('pengamatan-persemaian-padi.show');
     Route::get('/pengamatan-persemaian-padi/edit/{id}',[PengamatanPersemaianPadiController::class, 'edit'])->name('pengamatan-persemaian-padi.edit');
     Route::post('/pengamatan-persemaian-padi/update/{id}',[PengamatanPersemaianPadiController::class, 'update'])->name('pengamatan-persemaian-padi.update');
+    Route::get('/keadaan-serangan-opt/{id_data}',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class,'create'])->name('keadaan-serangan-opt.create');
+    Route::post('/keadaan-serangan-opt/store',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class,'store'])->name('keadaan-serangan-opt.store');
+    Route::get('/keadaan-serangan-opt',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class,'index'])->name('keadaan-serangan-opt.index');
+    Route::get('/keadaan-serangan-opt/show/{id}',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class,'show'])->name('keadaan-serangan-opt.show');
+    Route::get('/keadaan-serangan-opt/edit/{id}',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class,'edit'])->name('keadaan-serangan-opt.edit');
+    Route::post('/keadaan-serangan-opt/update/{id}',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class,'update'])->name('keadaan-serangan-opt.update');
+
+
 
 
     //MANAJEMEN PENGGUNA

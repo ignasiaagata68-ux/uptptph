@@ -104,37 +104,37 @@ class PengamatanPersemaianPadiController extends Controller
             )
         );
     }
-    public function update(Request $request, $id)
-    {
-        for ($i = 0; $i < count($request->id_detail); $i++) {
+  public function update(Request $request, $id)
+{
+    for ($i = 0; $i < count($request->id_detail); $i++) {
 
-            DetPengamatanPersemaianPadi::where(
-                'id_det_pengamatan_persemaian_padi',
-                $request->id_detail[$i]
-            )->update([
+        DetPengamatanPersemaianPadi::where(
+            'id_det_pengamatan_persemaian_padi',
+            $request->id_detail[$i]
+        )->update([
 
-                'no_persemaian' => $request->no_persemaian[$i],
-                'luas' => $request->luas[$i],
-                'umur' => $request->umur[$i],
-                'varietas' => $request->varietas[$i],
-                'pop_ayunan_wbc' =>$request->pop_ayunan_wbc[$i],
-                'wdh' => $request->wdh[$i],
-                'id_ma' => $request->id_ma[$i],
-                'tikus' => $request->tikus[$i],
-                'pop_kt_pbp' => $request->pop_kt_pbp[$i],
-                'penyakit' => $request->penyakit[$i],
-                'wbc' => $request->wbc[$i]
+            'no_persemaian' => $request->no_persemaian[$i],
+            'luas' => $request->luas[$i],
+            'umur' => $request->umur[$i],
+            'varietas' => $request->varietas[$i],
+            'pop_ayunan_wbc' => $request->pop_ayunan_wbc[$i],
+            'wdh' => $request->wdh[$i],
+            'id_ma' => $request->id_ma[$i],
+            'tikus' => $request->tikus[$i],
+            'pop_kt_pbp' => $request->pop_kt_pbp[$i],
+            'penyakit' => $request->penyakit[$i],
+            'wbc' => $request->wbc[$i]
 
-            ]);
-        }
-
-        return redirect()
-            ->route('pengamatan-persemaian-padi.index')
-            ->with(
-                'success',
-                'Data berhasil diupdate'
-            );
+        ]);
     }
+
+    return redirect()
+        ->route('pengamatan-persemaian-padi.index')
+        ->with(
+            'success',
+            'Data berhasil diupdate'
+        );
+}
    public function store(Request $request)
     {
         $header = PengamatanPersemaianPadi::create([

@@ -12,8 +12,8 @@
 
     <h3>Edit Pengamatan Persemaian Padi</h3>
 
-   <form action="{{ route('pengamatan-persemaian-padi.update',$header->id_pengamatan_persemaian_padi) }}"
-      method="POST">
+    <form action="{{ route('pengamatan-persemaian-padi.update',$header->id_pengamatan_persemaian_padi) }}"
+          method="POST">
 
         @csrf
 
@@ -37,7 +37,8 @@
             <input
                 type="text"
                 class="form-control"
-                value="{{ $header->petak_pengamatan }}">
+                value="{{ $header->petak_pengamatan }}"
+                readonly>
         </div>
 
         <h5>Data Detail</h5>
@@ -67,56 +68,62 @@
                 @foreach($detail as $d)
 
                 <tr>
+
+                    <input
+                        type="hidden"
+                        name="id_detail[]"
+                        value="{{ $d->id_det_pengamatan_persemaian_padi }}">
+
                     <td>
                         <input
-                            type="hidden"
-                            name="id_detail[]"
-                            value="{{ $d->id_det_pengamatan_persemaian_padi }}">
+                            type="text"
+                            name="no_persemaian[]"
+                            class="form-control"
+                            value="{{ $d->no_persemaian }}">
                     </td>
 
                     <td>
-                        <input  type="text"
-                                name="no_persemaian[]"
-                                class="form-control"
-                                value="{{ $d->no_persemaian }}">
+                        <input
+                            type="text"
+                            name="luas[]"
+                            class="form-control"
+                            value="{{ $d->luas }}">
                     </td>
 
                     <td>
-                        <input  type="text"
-                                name="luas[]"
-                                class="form-control"
-                                value="{{ $d->luas }}">
+                        <input
+                            type="text"
+                            name="umur[]"
+                            class="form-control"
+                            value="{{ $d->umur }}">
                     </td>
 
                     <td>
-                        <input  type="text"
-                                name="umur[]"
-                                class="form-control"
-                                value="{{ $d->umur }}">
+                        <input
+                            type="text"
+                            name="varietas[]"
+                            class="form-control"
+                            value="{{ $d->varietas }}">
                     </td>
 
                     <td>
-                        <input  type="text"
-                                name="varietas[]"
-                                class="form-control"
-                                value="{{ $d->varietas }}">
+                        <input
+                            type="text"
+                            name="pop_ayunan_wbc[]"
+                            class="form-control"
+                            value="{{ $d->pop_ayunan_wbc }}">
                     </td>
 
                     <td>
-                        <input  type="text"
-                                name="pop_ayunan_wbc[]"
-                                class="form-control"
-                                value="{{ $d->pop_ayunan_wbc }}">
+                        <input
+                            type="text"
+                            name="wdh[]"
+                            class="form-control"
+                            value="{{ $d->wdh }}">
                     </td>
 
                     <td>
-                        <input  type="text"
-                                name="wdh[]"
-                                class="form-control"
-                                value="{{ $d->wdh }}">
-                    </td>
 
-                    <td>
                         <select
                             name="id_ma[]"
                             class="form-select">
@@ -138,30 +145,39 @@
                             @endforeach
 
                         </select>
+
                     </td>
 
                     <td>
-                        <input type="text"
-                               class="form-control"
-                               value="{{ $d->tikus }}">
+                        <input
+                            type="text"
+                            name="tikus[]"
+                            class="form-control"
+                            value="{{ $d->tikus }}">
                     </td>
 
                     <td>
-                        <input type="text"
-                               class="form-control"
-                               value="{{ $d->pbp }}">
+                        <input
+                            type="text"
+                            name="pop_kt_pbp[]"
+                            class="form-control"
+                            value="{{ $d->pop_kt_pbp }}">
                     </td>
 
                     <td>
-                        <input type="text"
-                               class="form-control"
-                               value="{{ $d->penyakit }}">
+                        <input
+                            type="text"
+                            name="penyakit[]"
+                            class="form-control"
+                            value="{{ $d->penyakit }}">
                     </td>
 
                     <td>
-                        <input type="text"
-                               class="form-control"
-                               value="{{ $d->wbc }}">
+                        <input
+                            type="text"
+                            name="wbc[]"
+                            class="form-control"
+                            value="{{ $d->wbc }}">
                     </td>
 
                 </tr>

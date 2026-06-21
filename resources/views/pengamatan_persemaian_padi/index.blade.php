@@ -3,96 +3,124 @@
 <head>
     <title>Data Pengamatan Persemaian Padi</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-4">
+    <!DOCTYPE html>
+
+<html>
+
+<div class="container mt-4">
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Data Pengamatan Persemaian Padi</title>
+
+```
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet">
+```
+
 </head>
 <body>
 
 <div class="container mt-4">
 
-    <h3>Data Pengamatan Persemaian Padi</h3>
+```
+<h2>Data Pengamatan Persemaian Padi</h2>
 
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
+@if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
 
-    <table class="table table-bordered">
+@if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
 
-        <thead>
+<table class="table table-bordered table-striped">
 
-            <tr>
-                <th>No</th>
-                <th>Tanggal</th>
-                <th>Petak</th>
-                <th>Status Verifikasi</th>
-                <th>Keterangan</th>
-                <th>Aksi</th>
-            </tr>
+    <thead class="table-dark">
 
-        </thead>
+        <tr>
+            <th>No</th>
+            <th>Tanggal</th>
+            <th>Petak Pengamatan</th>
+            <th>Status Verifikasi</th>
+            <th>Keterangan</th>
+            <th>Aksi</th>
+        </tr>
 
-        <tbody>
+    </thead>
 
-            @foreach($data as $d)
+    <tbody>
 
-            <tr>
+    @foreach($data as $d)
 
-                <td>{{ $loop->iteration }}</td>
+    <tr>
 
-                <td>{{ $d->tgl_pengamatan }}</td>
+        <td>{{ $loop->iteration }}</td>
 
-                <td>{{ $d->petak_pengamatan }}</td>
+        <td>{{ $d->tgl_pengamatan }}</td>
 
-                <td>
+        <td>{{ $d->petak_pengamatan }}</td>
 
-                    @if($d->status_verifikasi == 'benar')
+        <td>
 
-                        <span class="badge bg-success">
-                            Benar
-                        </span>
+            @if($d->status_verifikasi == 'benar')
 
-                    @elseif($d->status_verifikasi == 'salah')
+                <span class="badge bg-success">
+                    Benar
+                </span>
 
-                        <span class="badge bg-danger">
-                            Salah
-                        </span>
+            @elseif($d->status_verifikasi == 'salah')
 
-                    @else
+                <span class="badge bg-danger">
+                    Salah
+                </span>
 
-                        <span class="badge bg-warning">
-                            Menunggu
-                        </span>
+            @else
 
-                    @endif
+                <span class="badge bg-warning text-dark">
+                    Menunggu
+                </span>
 
-                </td>
+            @endif
 
-                <td>
-                    {{ $d->keterangan_verifikasi ?? '-' }}
-                </td>
+        </td>
 
-                <td>
-                    <a href="{{ route('pengamatan-persemaian-padi.show', $d->id_pengamatan_persemaian_padi) }}"
-                    class="btn btn-primary btn-sm">
-                        Detail
-                    </a>
+        <td>
+            {{ $d->keterangan_verifikasi ?? '-' }}
+        </td>
 
-                    <a href="{{ route('pengamatan-persemaian-padi.edit', $d->id_pengamatan_persemaian_padi) }}"
-                        class="btn btn-warning btn-sm">
-                        Edit
-                    </a>
+        <td style="white-space: nowrap; width:1%;">
 
-                </td>
+            <a href="{{ route('pengamatan-persemaian-padi.show', $d->id_pengamatan_persemaian_padi) }}"
+               class="btn btn-info btn-sm me-2">
+                Detail
+            </a>
 
-            </tr>
+            <a href="{{ route('pengamatan-persemaian-padi.edit', $d->id_pengamatan_persemaian_padi) }}"
+               class="btn btn-warning btn-sm">
+                Edit
+            </a>
 
-            @endforeach
+        </td>
 
-        </tbody>
+    </tr>
 
-    </table>
+    @endforeach
+
+    </tbody>
+
+</table>
+```
 
 </div>
 
