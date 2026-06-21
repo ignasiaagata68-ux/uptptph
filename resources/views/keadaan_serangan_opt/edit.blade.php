@@ -76,73 +76,71 @@
 
                 <table class="table table-bordered table-sm">
 
-                    <tr>
-                        <th width="200">
-                            Kabupaten/Kota
-                        </th>
+            <tr>
+                <th width="200">
+                    Kabupaten/Kota
+                </th>
 
-                        <td>
-                            {{ $header->petugas->kecamatan->kabupaten->nama_kabupaten_kota }}
+                <td>
+                    {{ $header->nama_kabupaten_kota }}
 
-                            <input type="hidden"
-                                   name="id_kabupaten_kota"
-                                   value="{{ $header->petugas->kecamatan->kabupaten->id_kabupaten_kota }}">
-                        </td>
-                    </tr>
+                    <input type="hidden"
+                        name="id_kabupaten_kota"
+                        value="{{ $header->id_kabupaten_kota }}">
+                </td>
+            </tr>
 
-                    <tr>
-                        <th>
-                            Kecamatan
-                        </th>
+            <tr>
+                <th>
+                    Kecamatan
+                </th>
 
-                        <td>
-                            {{ $header->petugas->kecamatan->nama_kecamatan }}
+                <td>
+                    {{ $header->nama_kecamatan }}
 
-                            <input type="hidden"
-                                   name="id_kecamatan"
-                                   value="{{ $header->petugas->id_kecamatan }}">
-                        </td>
-                    </tr>
+                    <input type="hidden"
+                        name="id_kecamatan"
+                        value="{{ $header->id_kecamatan }}">
+                </td>
+            </tr>
 
-                </table>
+        </table>
 
-            </div>
+        </div>
 
-            <div class="col-md-6">
+        <div class="col-md-6">
 
-                <table class="table table-bordered table-sm">
+            <table class="table table-bordered table-sm">
 
-                    <tr>
-                        <th width="200">
-                            Periode Pengamatan
-                        </th>
+                <tr>
+                    <th width="200">
+                        Periode Pengamatan
+                    </th>
 
-                        <td>
-                            {{ $header->periode->periode_pengamatan }}
+                    <td>
+                        {{ $header->periode_pengamatan }}
 
-                            <input type="hidden"
-                                   name="id_periode"
-                                   value="{{ $header->id_periode }}">
-                        </td>
-                    </tr>
+                        <input type="hidden"
+                            name="id_periode"
+                            value="{{ $header->id_periode }}">
+                    </td>
+                </tr>
 
-                    <tr>
-                        <th>
-                            Musim Tanam
-                        </th>
+                <tr>
+                    <th>
+                        Musim Tanam
+                    </th>
 
-                        <td>
-                            {{ $header->musimTanam->musim_tanam }}
+                    <td>
+                        {{ $header->musim_tanam }}
 
-                            <input type="hidden"
-                                   name="id_musim_tanam"
-                                   value="{{ $header->id_musim_tanam }}">
-                        </td>
-                    </tr>
+                        <input type="hidden"
+                            name="id_musim_tanam"
+                            value="{{ $header->id_musim_tanam }}">
+                    </td>
+                </tr>
 
-                </table>
-
-            </div>
+            </table>
 
         </div>
 
@@ -266,80 +264,67 @@
         </thead>
 
         <tbody id="tbody-opt">
+            @foreach($detail as $d)
             <tr>
 
             <!-- THN -->
             <td class="bg-pink">
-
-                {{ $header->tahun->tahun }}
-
+                {{ $d->id_tahun }}
                 <input type="hidden"
                     name="id_tahun[]"
-                    value="{{ $header->id_tahun }}">
-
+                    value="{{ $d->id_tahun }}">
             </td>
 
             <!-- BLN -->
             <td class="bg-pink">
-
-                {{ $header->bulan->id_bulan }}
-
+                {{ $d->id_bulan }}
                 <input type="hidden"
                     name="id_bulan[]"
-                    value="{{ $header->id_bulan }}">
-
+                    value="{{ $d->id_bulan }}">
             </td>
 
             <!-- PER -->
             <td class="bg-pink">
-
-                {{ $header->periode->id_periode }}
-
+                {{ $d->id_periode }}
                 <input type="hidden"
                     name="id_periode"
-                    value="{{ $header->id_periode }}">
-
+                    value="{{ $d->id_periode }}">
             </td>
 
             <!-- KABUPATEN -->
             <td class="bg-hijau">
 
-                {{ $header->petugas->kecamatan->kabupaten->nama_kabupaten_kota }}
-
+                {{ $header->nama_kabupaten_kota }}
                 <input type="hidden"
                     name="id_kabupaten_kota"
-                    value="{{ $header->petugas->kecamatan->kabupaten->id_kabupaten_kota }}">
-
+                    value="{{ $header->id_kabupaten_kota }}">
             </td>
 
             <!-- KECAMATAN -->
             <td class="bg-hijau">
 
-                {{ $header->petugas->kecamatan->nama_kecamatan }}
-
+                {{ $header->nama_kecamatan }}
                 <input type="hidden"
                     name="id_kecamatan"
-                    value="{{ $header->petugas->id_kecamatan }}">
-
+                    value="{{ $header->id_kecamatan }}">
+               
             </td>
 
             <!-- DESA -->
             <td class="bg-hijau">
 
-                <select name="id_desa[]"
-                        class="form-select">
+                <select name="id_desa[]" class="form-select">
 
-                    <option value="">
-                        Pilih
-                    </option>
+                @foreach($desa as $desaItem)
 
-                    @foreach($desa as $d)
+                <option value="{{ $desaItem->id_desa }}"
+                    {{ $desaItem->id_desa == $d->id_desa ? 'selected' : '' }}>
 
-                    <option value="{{ $d->id_desa }}">
-                        {{ $d->nama_desa }}
-                    </option>
+                    {{ $desaItem->nama_desa }}
 
-                    @endforeach
+                </option>
+
+                @endforeach
 
                 </select>
 
@@ -348,20 +333,18 @@
             <!-- KOMODITAS -->
             <td class="bg-hijau">
 
-                <select name="id_komoditas[]"
-                        class="form-select">
+                <select name="id_komoditas[]" class="form-select">
 
-                    <option value="">
-                        Pilih
-                    </option>
+                @foreach($komoditas as $k)
 
-                    @foreach($komoditas as $k)
+                <option value="{{ $k->id_komoditas }}"
+                    {{ $k->id_komoditas == $d->id_komoditas ? 'selected' : '' }}>
 
-                    <option value="{{ $k->id_komoditas }}">
-                        {{ $k->komoditas }}
-                    </option>
+                    {{ $k->komoditas }}
 
-                    @endforeach
+                </option>
+
+                @endforeach
 
                 </select>
 
@@ -370,55 +353,73 @@
                 <!-- VAR -->
                 <td>
                     <input type="text"
-                        name="varietas[]"
-                        class="form-control">
+                            name="varietas[]"
+                            value="{{ $d->varietas }}"
+                            class="form-control">
                 </td>
 
                 <!-- LUAS -->
                 <td>
                     <input type="number"
-                        name="luas[]"
-                        class="form-control">
+                            name="luas[]"
+                            value="{{ $d->luas }}"
+                            class="form-control">
                 </td>
 
                 <!-- OPT -->
                 <td class="bg-hijau">
 
-                    <select name="id_opt[]"
-                            class="form-select">
+                    <select name="id_opt[]" class="form-select">
 
-                        <option value="">
-                            Pilih
-                        </option>
+                    @foreach($opt as $o)
 
-                        @foreach($opt as $o)
+                    <option value="{{ $o->id_opt }}"
+                        {{ $o->id_opt == $d->id_opt ? 'selected' : '' }}>
 
-                        <option value="{{ $o->id_opt }}">
-                            {{ $o->nama_opt }}
-                        </option>
+                        {{ $o->nama_opt }}
 
-                        @endforeach
+                    </option>
+
+                    @endforeach
 
                     </select>
 
                 </td>
 
                 <!-- S_R -->
-                <td><input type="number" name="s_r[]" class="form-control sr"></td>
+                <td>
+                    <input type="number"
+                        name="s_r[]"
+                        value="{{ $d->sisa_periode_sebelumnya_serangan_ringan }}"
+                        class="form-control sr">
+                </td>
 
                 <!-- S_S -->
-                <td><input type="number" name="s_s[]" class="form-control ss"></td>
-
+                <td>
+                    <input type="number"
+                        name="s_s[]"
+                        value="{{ $d->sisa_periode_sebelumnya_sisa_serangan_sedang }}"
+                        class="form-control ss">
+                </td>
                 <!-- S_B -->
-                <td><input type="number" name="s_b[]" class="form-control sb"></td>
-
+                <td>
+                    <input type="number"
+                        name="s_b[]"
+                        value="{{ $d->sisa_sisa_periode_sebelumnya_serangan_berat }}"
+                        class="form-control sb">
+                </td>
                 <!-- S_P -->
-                <td><input type="number" name="s_p[]" class="form-control sp"></td>
-
+                <td>
+                    <input type="number"
+                        name="s_p[]"
+                        value="{{ $d->sisa_sisa_periode_sebelumnya_serangan_puso }}"
+                        class="form-control sp">
+                </td>
                 <!-- S_J -->
                 <td>
                     <input type="number"
                         name="s_j[]"
+                        value="{{ $d->sisa_serangan_jumlah }}"
                         class="form-control sj readonly"
                         readonly>
                 </td>
@@ -427,6 +428,7 @@
                 <td>
                     <input type="number"
                         name="luas_terkendali[]"
+                        value="{{ $d->luas_terkendali }}"
                         class="form-control">
                 </td>
 
@@ -434,39 +436,58 @@
                 <td>
                     <input type="number"
                         name="luas_panen[]"
+                        value="{{ $d->luas_panen }}"
                         class="form-control">
                 </td>
 
                 <!-- T_R -->
-                <td><input type="number" name="t_r[]" class="form-control tr"></td>
-
+                <td>
+                    <input type="number"
+                        name="t_r[]"
+                        value="{{ $d->luas_tambah_serangan_ringan }}"
+                        class="form-control tr">
+                </td>
                 <!-- T_S -->
-                <td><input type="number" name="t_s[]" class="form-control ts"></td>
-
+                <td>
+                    <input type="number"
+                        name="t_s[]"
+                        value="{{ $d->luas_tambah_serangan_sedang }}"
+                        class="form-control ts">
+                </td>
                 <!-- T_B -->
-                <td><input type="number" name="t_b[]" class="form-control tb"></td>
-
+               <td>
+                    <input type="number"
+                        name="t_b[]"
+                        value="{{ $d->luas_tambah_serangan_berat }}"
+                        class="form-control tb">
+                </td>
                 <!-- T_P -->
-                <td><input type="number" name="t_p[]" class="form-control tp"></td>
-
+                <td>
+                    <input type="number"
+                        name="t_p[]"
+                        value="{{ $d->luas_tambah_serangan_puso }}"
+                        class="form-control tp">
+                </td>
                 <!-- T_J -->
                 <td>
                     <input type="number"
-                        name="t_j[]"
-                        class="form-control tj readonly"
-                        readonly>
+                           name="t_j[]"
+                           value="{{ $d->luas_tambah_serangan_jumlah }}"
+                           class="form-control tj readonly"
+                           readonly>
                 </td>
                     <!-- KIM -->
                 <td>
                     <input type="number"
                         name="kimia[]"
+                        value="{{ $d->pestisida_kimia }}"
                         class="form-control kim">
                 </td>
-
                 <!-- HYT -->
                 <td>
                     <input type="number"
                         name="hayati[]"
+                        value="{{ $d->pestisida_hayati }}"
                         class="form-control hyt">
                 </td>
 
@@ -474,6 +495,7 @@
                 <td>
                     <input type="number"
                         name="cara_lain[]"
+                        value="{{ $d->cara_lain }}"
                         class="form-control cl">
                 </td>
 
@@ -481,6 +503,7 @@
                 <td>
                     <input type="number"
                         name="jml[]"
+                        value="{{ $d->jml }}"
                         class="form-control jml readonly"
                         readonly>
                 </td>
@@ -489,6 +512,7 @@
                 <td>
                     <input type="number"
                         name="k_r[]"
+                        value="{{ $d->luas_keadaan_serangan_ringan }}"
                         class="form-control kr readonly"
                         readonly>
                 </td>
@@ -497,6 +521,7 @@
                 <td>
                     <input type="number"
                         name="k_s[]"
+                        value="{{ $d->luas_keadaan_serangan_sedang }}"
                         class="form-control ks readonly"
                         readonly>
                 </td>
@@ -505,6 +530,7 @@
                 <td>
                     <input type="number"
                         name="k_b[]"
+                        value="{{ $d->luas_keadaan_serangan_berat }}"
                         class="form-control kb readonly"
                         readonly>
                 </td>
@@ -513,6 +539,7 @@
                 <td>
                     <input type="number"
                         name="k_p[]"
+                        value="{{ $d->luas_keadaan_serangan_puso }}"
                         class="form-control kp readonly"
                         readonly>
                 </td>
@@ -521,6 +548,7 @@
                 <td>
                     <input type="number"
                         name="k_j[]"
+                        value="{{ $d->luas_keadaan_serangan_jumlah }}"
                         class="form-control kj readonly"
                         readonly>
                 </td>
@@ -529,17 +557,19 @@
                 <td>
                     <input type="text"
                         name="mt[]"
+                        value="{{ $d->mt }}"
                         class="form-control">
                 </td>
 
                 <!-- TAHUN -->
                 <td class="bg-pink">
 
-                    {{ $header->tahun->tahun }}
+                    {{ $detail[0]->id_tahun }}
 
                 </td>
 
             </tr>
+            @endforeach
 
         </tbody>
 
@@ -621,31 +651,30 @@ document.addEventListener('input', function(e){
 </script>
 <script>
 
-document.getElementById('tambahBaris').addEventListener('click', function(){
+    document.getElementById('tambahBaris').addEventListener('click', function(){
 
-    let tbody = document.getElementById('tbody-opt');
+        let tbody = document.getElementById('tbody-opt');
 
-    let row = tbody.rows[0].cloneNode(true);
+        let row = tbody.rows[0].cloneNode(true);
 
-    row.querySelectorAll('input').forEach(function(input){
+        row.querySelectorAll('input').forEach(function(input){
 
-        if(input.type != 'hidden'){
-            input.value = '';
-        }
+            if(input.type != 'hidden'){
+                input.value = '';
+            }
+
+        });
+
+        row.querySelectorAll('select').forEach(function(select){
+
+            select.selectedIndex = 0;
+
+        });
+
+        tbody.appendChild(row);
 
     });
-
-    row.querySelectorAll('select').forEach(function(select){
-
-        select.selectedIndex = 0;
-
-    });
-
-    tbody.appendChild(row);
-
-});
 
 </script>
 </body>
-</head>
 </html>
