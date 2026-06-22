@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Data Laporan Kerusakan Tanaman Akibat Banjir</title>
+    <title>Laporan Kerusakan Tanaman Akibat Kekeringan</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
@@ -10,24 +10,31 @@
 
 <div class="container mt-4">
 
-    <h3>Data Laporan Kerusakan Tanaman Akibat Banjir</h3>
+    <h3>Laporan Kerusakan Tanaman Akibat Kekeringan</h3>
 
     @if(session('success'))
+
         <div class="alert alert-success">
+
             {{ session('success') }}
+
         </div>
+
     @endif
 
-    <table class="table table-bordered">
+    <table class="table table-bordered table-striped">
 
         <thead class="table-dark">
 
             <tr>
-                <th>ID</th>
+
+                <th>No</th>
                 <th>Kabupaten/Kota</th>
                 <th>Kecamatan</th>
                 <th>Periode</th>
+                <th>Musim Tanam</th>
                 <th>Aksi</th>
+
             </tr>
 
         </thead>
@@ -39,7 +46,7 @@
             <tr>
 
                 <td>
-                    {{ $d->id_laporan_kerusakan_tanaman_akibat_banjir }}
+                    {{ $loop->iteration }}
                 </td>
 
                 <td>
@@ -51,21 +58,30 @@
                 </td>
 
                 <td>
-                    {{ $d->periode_pengamatan ?? '-' }}
+                    {{ $d->periode_pengamatan }}
+                </td>
+
+                <td>
+                    {{ $d->musim_tanam }}
                 </td>
 
                 <td>
 
                     <a href="{{ route(
-                        'laporan-kerusakan-tanaman-akibat-banjir.detail',
-                        $d->id_laporan_kerusakan_tanaman_akibat_banjir
+                        'laporan-kerusakan-tanaman-akibat-kekeringan.detail',
+                        $d->id_laporan_kerusakan_tanaman_akibat_kekeringan
                     ) }}"
                     class="btn btn-info btn-sm">
+
                         Detail
+
                     </a>
 
-                    <a href="#"
-                       class="btn btn-warning btn-sm">
+                    <a href="{{ route(
+                        'laporan-kerusakan-tanaman-akibat-kekeringan.edit',
+                        $d->id_laporan_kerusakan_tanaman_akibat_kekeringan
+                    ) }}"
+                    class="btn btn-warning btn-sm">
 
                         Edit
 
@@ -79,7 +95,7 @@
 
             <tr>
 
-                <td colspan="5" class="text-center">
+                <td colspan="6" class="text-center">
 
                     Belum ada data
 

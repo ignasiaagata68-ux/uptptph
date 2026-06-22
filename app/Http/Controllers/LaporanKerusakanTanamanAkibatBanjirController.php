@@ -21,7 +21,48 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
      */
     public function index()
     {
-        //
+        $data = DB::table(
+                'laporan_kerusakan_tanaman_akibat_banjir as l'
+            )
+
+            ->leftJoin(
+                'kabupaten_kota as kab',
+                'l.id_kabupaten_kota',
+                '=',
+                'kab.id_kabupaten_kota'
+            )
+
+            ->leftJoin(
+                'kecamatan as kec',
+                'l.id_kecamatan',
+                '=',
+                'kec.id_kecamatan'
+            )
+
+            ->leftJoin(
+                'periode as p',
+                'l.id_periode',
+                '=',
+                'p.id_periode'
+            )
+
+            ->select(
+                'l.*',
+                'kab.nama_kabupaten_kota',
+                'kec.nama_kecamatan',
+                'p.periode_pengamatan'
+            )
+
+            ->latest(
+                'l.id_laporan_kerusakan_tanaman_akibat_banjir'
+            )
+
+            ->get();
+
+        return view(
+            'laporan_kerusakan_tanaman_akibat_banjir.index',
+            compact('data')
+        );
     }
 
     /**
@@ -41,7 +82,7 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
         $desa = Desa::all();
 
         $komoditas = Komoditas::all();
-        dd($komoditas->first()->toArray());
+        
         return view(
             'laporan_kerusakan_tanaman_akibat_banjir.create',
             compact(
@@ -57,13 +98,8 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        dd(
-            $request->id_komoditas,
-            $request->id_desa
-        );
         $header =
-        LaporanKerusakanTanamanAkibatBanjir::create([
+        LaporanKerusakanTanamanAkibatKekeringan::create([
 
             'id_periode' =>
                 $request->id_periode[0],
@@ -80,10 +116,11 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
 
         for($i = 0; $i < count($request->id_desa); $i++)
         {
-            DetLaporanKerusakanTanamanAkibatBanjir::create([
 
-                'id_laporan_kerusakan_tanaman_akibat_banjir' =>
-                    $header->id_laporan_kerusakan_tanaman_akibat_banjir,
+            DetLaporanKerusakanTanamanAkibatKekeringan::create([
+
+                'id_laporan_kerusakan_tanaman_akibat_kekeringan' =>
+                    $header->id_laporan_kerusakan_tanaman_akibat_kekeringan,
 
                 'id_tahun' =>
                     $request->id_tahun[0],
@@ -109,50 +146,74 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
                 'var' =>
                     $request->var[$i],
 
-                'umur' =>
-                    $request->umur[$i],
+                'umr' =>
+                    $request->umr[$i],
 
-                'luas_tanam' =>
-                    $request->luas_tanam[$i],
+                'lst' =>
+                    $request->lst[$i],
 
-                'luas_waspada' =>
-                    $request->luas_waspada[$i],
+                'was' =>
+                    $request->was[$i],
 
-                'sps_surut_luas' =>
-                    $request->sps_surut_luas[$i],
+                'sp_r' =>
+                    $request->sp_r[$i],
 
-                'sps_surut_ket' =>
-                    $request->sps_surut_ket[$i],
+                'sp_s' =>
+                    $request->sp_s[$i],
 
-                'sps_puso_luas' =>
-                    $request->sps_puso_luas[$i],
+                'sp_b' =>
+                    $request->sp_b[$i],
 
-                'sps_puso_ket' =>
-                    $request->sps_puso_ket[$i],
+                'sp_ps' =>
+                    $request->sp_ps[$i],
 
-                'luas_tambah_terkena' =>
-                    $request->luas_tambah_terkena[$i],
+                'sp_pl' =>
+                    $request->sp_pl[$i],
 
-                'luas_tambah_puso' =>
-                    $request->luas_tambah_puso[$i],
+                'sp_j' =>
+                    $request->sp_j[$i],
 
-                'luas_keadaan_terkena' =>
-                    $request->luas_keadaan_terkena[$i],
+                'lt_r' =>
+                    $request->lt_r[$i],
 
-                'luas_keadaan_puso' =>
-                    $request->luas_keadaan_puso[$i],
+                'lt_s' =>
+                    $request->lt_s[$i],
 
-                'penangan_upaya' =>
-                    $request->penangan_upaya[$i],
+                'lt_b' =>
+                    $request->lt_b[$i],
 
-                'penangan_jumlah' =>
-                    $request->penangan_jumlah[$i],
+                'lt_p' =>
+                    $request->lt_p[$i],
 
-                'koordinat_latitude' =>
-                    $request->koordinat_latitude[$i],
+                'lt_j' =>
+                    $request->lt_j[$i],
 
-                'koordinat_longitude' =>
-                    $request->koordinat_longitude[$i],
+                'lk_r' =>
+                    $request->lk_r[$i],
+
+                'lk_s' =>
+                    $request->lk_s[$i],
+
+                'lk_b' =>
+                    $request->lk_b[$i],
+
+                'lk_p' =>
+                    $request->lk_p[$i],
+
+                'lk_j' =>
+                    $request->lk_j[$i],
+
+                'upy' =>
+                    $request->upy[$i],
+
+                'l_upy' =>
+                    $request->l_upy[$i],
+
+                'lat' =>
+                    $request->lat[$i],
+
+                'long' =>
+                    $request->long[$i],
 
                 'status_verifikasi' =>
                     'menunggu',
@@ -165,12 +226,14 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
 
                 'verified_at' =>
                     null
+
             ]);
+
         }
 
         return redirect()
             ->route(
-                'laporan-kerusakan-tanaman-akibat-banjir.index'
+                'laporan-kerusakan-tanaman-akibat-kekeringan.index'
             )
             ->with(
                 'success',
@@ -189,6 +252,30 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+    public function detail($id)
+    {
+        $header =
+        LaporanKerusakanTanamanAkibatBanjir::findOrFail($id);
+
+        $detail =
+        DetLaporanKerusakanTanamanAkibatBanjir::with([
+            'desa',
+            'komoditas'
+        ])
+        ->where(
+            'id_laporan_kerusakan_tanaman_akibat_banjir',
+            $id
+        )
+        ->get();
+
+        return view(
+            'laporan_kerusakan_tanaman_akibat_banjir.detail',
+            compact(
+                'header',
+                'detail'
+            )
+        );
+    }
     public function edit(string $id)
     {
         //

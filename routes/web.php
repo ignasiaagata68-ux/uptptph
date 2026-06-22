@@ -22,6 +22,8 @@ use App\Http\Controllers\PengamatanPersemaianPadiController;
 use App\Http\Controllers\KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController;
 use App\Http\Controllers\KeadaanOptPadaPetakPengamatanTetapController;
 use App\Http\Controllers\LaporanKerusakanTanamanAkibatBanjirController;
+use App\Http\Controllers\LaporanKerusakanTanamanAkibatKekeringanController;
+use App\Http\Controllers\InformasiPerubahanKategoriKekeringanController;
 
 
 
@@ -151,6 +153,41 @@ Route::middleware([
     Route::get('/laporan-kerusakan-tanaman-akibat-banjir',[LaporanKerusakanTanamanAkibatBanjirController::class,'index'])->name('laporan-kerusakan-tanaman-akibat-banjir.index');
     Route::get('/laporan-kerusakan-tanaman-akibat-banjir/create/{id_data}',[LaporanKerusakanTanamanAkibatBanjirController::class,'create'])->name('laporan-kerusakan-tanaman-akibat-banjir.create');
     Route::post('/laporan-kerusakan-tanaman-akibat-banjir/store',[LaporanKerusakanTanamanAkibatBanjirController::class,'store'])->name('laporan-kerusakan-tanaman-akibat-banjir.store');
+    Route::get('/laporan-kerusakan-tanaman-akibat-banjir/detail/{id}',[LaporanKerusakanTanamanAkibatBanjirController::class,'detail'])->name('laporan-kerusakan-tanaman-akibat-banjir.detail');
+    Route::get('/laporan-kerusakan-tanaman-akibat-kekeringan',[LaporanKerusakanTanamanAkibatKekeringanController::class,'index'])->name('laporan-kerusakan-tanaman-akibat-kekeringan.index');
+    Route::get('/laporan-kerusakan-tanaman-akibat-kekeringan/create/{id_data}',[LaporanKerusakanTanamanAkibatKekeringanController::class,'create'])->name('laporan-kerusakan-tanaman-akibat-kekeringan.create');
+    Route::post('/laporan-kerusakan-tanaman-akibat-kekeringan/store',[LaporanKerusakanTanamanAkibatKekeringanController::class,'store'])->name('laporan-kerusakan-tanaman-akibat-kekeringan.store');
+
+
+    Route::get(
+        '/informasi-perubahan-kategori-kekeringan',
+        [InformasiPerubahanKategoriKekeringanController::class, 'index']
+    )->name('informasi-perubahan-kategori-kekeringan.index');
+
+    Route::get(
+        '/informasi-perubahan-kategori-kekeringan/create/{id_data}',
+        [InformasiPerubahanKategoriKekeringanController::class, 'create']
+    )->name('informasi-perubahan-kategori-kekeringan.create');
+
+    Route::post(
+        '/informasi-perubahan-kategori-kekeringan/store',
+        [InformasiPerubahanKategoriKekeringanController::class, 'store']
+    )->name('informasi-perubahan-kategori-kekeringan.store');
+
+    Route::get(
+        '/informasi-perubahan-kategori-kekeringan/detail/{id}',
+        [InformasiPerubahanKategoriKekeringanController::class, 'show']
+    )->name('informasi-perubahan-kategori-kekeringan.detail');
+
+    Route::get(
+        '/informasi-perubahan-kategori-kekeringan/edit/{id}',
+        [InformasiPerubahanKategoriKekeringanController::class, 'edit']
+    )->name('informasi-perubahan-kategori-kekeringan.edit');
+
+    Route::put(
+        '/informasi-perubahan-kategori-kekeringan/update/{id}',
+        [InformasiPerubahanKategoriKekeringanController::class, 'update']
+    )->name('informasi-perubahan-kategori-kekeringan.update');
 
 
 

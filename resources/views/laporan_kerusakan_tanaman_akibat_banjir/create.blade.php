@@ -343,20 +343,32 @@
 
         <!-- DES -->
         <td class="table-success">
-            <select name="id_desa[]" class="form-select">
-                <option value="">Pilih Desa</option>
+            <select
+                name="id_desa[]"
+                class="form-select"
+                style="min-width:200px;">
+
+                <option value="">
+                    Pilih Desa
+                </option>
 
                 @foreach($desa as $d)
-                    <option value="{{ $d->id_desa }}">
-                        {{ $d->nama_desa }}
-                    </option>
+
+                <option value="{{ $d->id_desa }}">
+                    {{ $d->nama_desa }}
+                </option>
+
                 @endforeach
+
             </select>
         </td>
 
         <!-- TAN -->
         <td class="table-success">
-            <select name="id_komoditas[]" class="form-select">
+            <select
+                name="id_komoditas[]"
+                class="form-select"
+                style="min-width:200px;">
 
                 <option value="">
                     Pilih Komoditas
@@ -372,19 +384,20 @@
 
             </select>
         </td>
-
         <!-- VAR -->
         <td>
             <input type="text"
                 name="var[]"
-                class="form-control">
+                class="form-control"
+                style="min-width:100px;">
         </td>
 
         <!-- UMR -->
         <td>
             <input type="text"
                 name="umur[]"
-                class="form-control">
+                class="form-control"
+                style="min-width:100px;">
         </td>
 
         <!-- LST -->
@@ -392,7 +405,8 @@
             <input type="number"
                 step="0.01"
                 name="luas_tanam[]"
-                class="form-control">
+                class="form-control"
+                style="min-width:100px;">
         </td>
 
         <!-- WAS -->
@@ -400,7 +414,8 @@
             <input type="number"
                 step="0.01"
                 name="luas_waspada[]"
-                class="form-control">
+                class="form-control"
+                style="min-width:100px;">
         </td>
 
         <!-- LSRT -->
@@ -408,14 +423,16 @@
             <input type="number"
                 step="0.01"
                 name="sps_surut_luas[]"
-                class="form-control">
+                class="form-control"
+                style="min-width:100px;">
         </td>
 
         <!-- K_S -->
         <td>
             <input type="text"
                 name="sps_surut_ket[]"
-                class="form-control">
+                class="form-control"
+                style="min-width:100px;">
         </td>
 
         <!-- LPSO -->
@@ -423,14 +440,16 @@
             <input type="number"
                 step="0.01"
                 name="sps_puso_luas[]"
-                class="form-control">
+                class="form-control"
+                style="min-width:100px;">
         </td>
 
         <!-- K_P -->
         <td>
             <input type="text"
                 name="sps_puso_ket[]"
-                class="form-control">
+                class="form-control"
+                style="min-width:100px;">
         </td>
 
         <!-- LT_T -->
@@ -438,7 +457,8 @@
             <input type="number"
                 step="0.01"
                 name="luas_tambah_terkena[]"
-                class="form-control lt_t">
+                class="form-control lt_t"
+                style="min-width:100px;">
         </td>
 
         <!-- LT_P -->
@@ -446,7 +466,8 @@
             <input type="number"
                 step="0.01"
                 name="luas_tambah_puso[]"
-                class="form-control lt_p">
+                class="form-control lt_p"
+                style="min-width:100px;">
         </td>
 
         <!-- LK_T -->
@@ -457,7 +478,8 @@
             name="luas_keadaan_terkena[]"
             value="0"
             class="form-control lk_t"
-            readonly>
+            readonly
+            style="min-width:100px;">
         </td>
 
 
@@ -469,14 +491,16 @@
             name="luas_keadaan_puso[]"
             value="0"
             class="form-control lk_p"
-            readonly>
+            readonly
+            style="min-width:100px;">
         </td>
 
         <!-- UPY -->
         <td>
             <input type="text"
                 name="penangan_upaya[]"
-                class="form-control">
+                class="form-control"
+                style="min-width:100px;">
         </td>
 
         <!-- J_UPY -->
@@ -484,7 +508,8 @@
             <input type="number"
                 step="0.01"
                 name="penangan_jumlah[]"
-                class="form-control">
+                class="form-control"
+                style="min-width:100px;">
         </td>
 
         <!-- LAT -->
@@ -492,7 +517,8 @@
             <input type="number"
                 step="0.000000"
                 name="koordinat_latitude[]"
-                class="form-control">
+                class="form-control"
+                style="min-width:100px;">
         </td>
 
         <!-- LONG -->
@@ -500,7 +526,8 @@
             <input type="number"
                 step="0.000000"
                 name="koordinat_longitude[]"
-                class="form-control">
+                class="form-control"
+                style="min-width:100px;">
         </td>
 
     </tr>
