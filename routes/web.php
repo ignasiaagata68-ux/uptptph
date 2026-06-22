@@ -21,6 +21,7 @@ use App\Http\Controllers\SpController;
 use App\Http\Controllers\PengamatanPersemaianPadiController;
 use App\Http\Controllers\KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController;
 use App\Http\Controllers\KeadaanOptPadaPetakPengamatanTetapController;
+use App\Http\Controllers\LaporanKerusakanTanamanAkibatBanjirController;
 
 
 
@@ -147,6 +148,10 @@ Route::middleware([
     Route::put('/keadaan-opt-pada-petak-pengamatan-tetap/update/{id}',[KeadaanOptPadaPetakPengamatanTetapController::class, 'update'])->name('keadaan-opt-pada-petak-pengamatan-tetap.update');
     Route::get('/keadaan-opt-pada-petak-pengamatan-tetap/verifikasi/{id}',[KeadaanOptPadaPetakPengamatanTetapController::class,'verifikasi'])->name('keadaan-opt-pada-petak-pengamatan-tetap.verifikasi');
     Route::post('/keadaan-opt-pada-petak-pengamatan-tetap/simpan-verifikasi/{id}',[KeadaanOptPadaPetakPengamatanTetapController::class,'simpanVerifikasi'])->name('keadaan-opt-pada-petak-pengamatan-tetap.simpan-verifikasi');
+    Route::get('/laporan-kerusakan-tanaman-akibat-banjir',[LaporanKerusakanTanamanAkibatBanjirController::class,'index'])->name('laporan-kerusakan-tanaman-akibat-banjir.index');
+    Route::get('/laporan-kerusakan-tanaman-akibat-banjir/create/{id_data}',[LaporanKerusakanTanamanAkibatBanjirController::class,'create'])->name('laporan-kerusakan-tanaman-akibat-banjir.create');
+    Route::post('/laporan-kerusakan-tanaman-akibat-banjir/store',[LaporanKerusakanTanamanAkibatBanjirController::class,'store'])->name('laporan-kerusakan-tanaman-akibat-banjir.store');
+
 
 
 
