@@ -16,6 +16,15 @@
         }
     </style>
     <div class="card mb-3">
+        @if(session('success'))
+
+        <div class="alert alert-success">
+
+            {{ session('success') }}
+
+        </div>
+
+        @endif
 
     <div class="card-header bg-primary text-white">
         Data Wilayah Pengamatan
@@ -98,6 +107,8 @@
                     <th>K_J</th>
 
                     <th>MT</th>
+                    <th>Status</th>
+                    <th>Verifikasi</th>
 
                 </tr>
 
@@ -145,6 +156,47 @@
                     <td>{{ $d->luas_keadaan_serangan_jumlah }}</td>
 
                     <td>{{ $d->mt }}</td>
+
+                    <td>
+
+                        @if($d->status_verifikasi == 'benar')
+
+                            <span class="badge bg-success">
+                                Benar
+                            </span>
+
+                        @elseif($d->status_verifikasi == 'salah')
+
+                            <span class="badge bg-danger">
+                                Salah
+                            </span>
+
+                        @else
+
+                            <span class="badge bg-warning">
+                                Menunggu
+                            </span>
+
+                        @endif
+
+                    </td>
+
+                    <td>
+
+                        <a href="{{ route(
+                            'keadaan-serangan-opt.verifikasi',
+                            [
+                                'id' => $d->id_det_keadaan_serangan_opt_dan_pengendalian_di_wilayah,
+                                'status' => 'benar'
+                            ]
+                        ) }}"
+                        class="btn btn-success btn-sm">
+
+                            Benar
+
+                        </a>
+
+                    </td>
 
                 </tr>
 

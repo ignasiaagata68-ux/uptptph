@@ -586,4 +586,30 @@ class KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController extends Con
             'Data berhasil disimpan'
         );
 }
+public function verifikasi($id, $status)
+    {
+        DB::table(
+            'det_keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan'
+        )
+        ->where(
+            'id_det_keadaan_serangan_opt_dan_pengendalian_di_wilayah',
+            $id
+        )
+        ->update([
+
+            'status_verifikasi' => $status,
+
+            'verified_by' =>
+                session('id_user'),
+
+            'verified_at' =>
+                now()
+
+        ]);
+
+        return back()->with(
+            'success',
+            'Data berhasil diverifikasi'
+        );
+    }
 }

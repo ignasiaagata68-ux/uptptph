@@ -266,7 +266,11 @@
         <tbody id="tbody-opt">
             @foreach($detail as $d)
             <tr>
-
+            <td>
+                <input type="hidden"
+                        name="id_detail[]"
+                        value="{{ $d->id_det_keadaan_serangan_opt_dan_pengendalian_di_wilayah }}">
+            </td>
             <!-- THN -->
             <td class="bg-pink">
                 {{ $d->id_tahun }}
@@ -582,7 +586,7 @@
     <button type="button"
             id="tambahBaris"
             class="btn btn-primary">
-        Tambah Baris
+            Tambah Baris
     </button>
 
     <button type="submit"
@@ -599,81 +603,81 @@
 </form>
 <script>
 
-document.addEventListener('input', function(e){
+        document.addEventListener('input', function(e){
 
-    let row = e.target.closest('tr');
+            let row = e.target.closest('tr');
 
-    if(!row) return;
+            if(!row) return;
 
-    let sr = parseFloat(row.querySelector('.sr')?.value || 0);
-    let ss = parseFloat(row.querySelector('.ss')?.value || 0);
-    let sb = parseFloat(row.querySelector('.sb')?.value || 0);
-    let sp = parseFloat(row.querySelector('.sp')?.value || 0);
+            let sr = parseFloat(row.querySelector('.sr')?.value || 0);
+            let ss = parseFloat(row.querySelector('.ss')?.value || 0);
+            let sb = parseFloat(row.querySelector('.sb')?.value || 0);
+            let sp = parseFloat(row.querySelector('.sp')?.value || 0);
 
-    let tr = parseFloat(row.querySelector('.tr')?.value || 0);
-    let ts = parseFloat(row.querySelector('.ts')?.value || 0);
-    let tb = parseFloat(row.querySelector('.tb')?.value || 0);
-    let tp = parseFloat(row.querySelector('.tp')?.value || 0);
+            let tr = parseFloat(row.querySelector('.tr')?.value || 0);
+            let ts = parseFloat(row.querySelector('.ts')?.value || 0);
+            let tb = parseFloat(row.querySelector('.tb')?.value || 0);
+            let tp = parseFloat(row.querySelector('.tp')?.value || 0);
 
-    let kim = parseFloat(row.querySelector('.kim')?.value || 0);
-    let hyt = parseFloat(row.querySelector('.hyt')?.value || 0);
-    let cl  = parseFloat(row.querySelector('.cl')?.value || 0);
+            let kim = parseFloat(row.querySelector('.kim')?.value || 0);
+            let hyt = parseFloat(row.querySelector('.hyt')?.value || 0);
+            let cl  = parseFloat(row.querySelector('.cl')?.value || 0);
 
-    row.querySelector('.sj').value =
-        sr + ss + sb + sp;
+            row.querySelector('.sj').value =
+                sr + ss + sb + sp;
 
-    row.querySelector('.tj').value =
-        tr + ts + tb + tp;
+            row.querySelector('.tj').value =
+                tr + ts + tb + tp;
 
-    row.querySelector('.jml').value =
-        kim + hyt + cl;
+            row.querySelector('.jml').value =
+                kim + hyt + cl;
 
-    row.querySelector('.kr').value =
-        sr + tr;
+            row.querySelector('.kr').value =
+                sr + tr;
 
-    row.querySelector('.ks').value =
-        ss + ts;
+            row.querySelector('.ks').value =
+                ss + ts;
 
-    row.querySelector('.kb').value =
-        sb + tb;
+            row.querySelector('.kb').value =
+                sb + tb;
 
-    row.querySelector('.kp').value =
-        sp + tp;
+            row.querySelector('.kp').value =
+                sp + tp;
 
-    row.querySelector('.kj').value =
-        (sr + tr) +
-        (ss + ts) +
-        (sb + tb) +
-        (sp + tp);
+            row.querySelector('.kj').value =
+                (sr + tr) +
+                (ss + ts) +
+                (sb + tb) +
+                (sp + tp);
 
-});
+        });
 
 </script>
 <script>
 
-    document.getElementById('tambahBaris').addEventListener('click', function(){
+document.getElementById('tambahBaris').addEventListener('click', function(){
 
-        let tbody = document.getElementById('tbody-opt');
+    let tbody = document.getElementById('tbody-opt');
 
-        let row = tbody.rows[0].cloneNode(true);
+    let row = tbody.lastElementChild.cloneNode(true);
 
-        row.querySelectorAll('input').forEach(function(input){
+    row.querySelectorAll('input').forEach(function(input){
 
-            if(input.type != 'hidden'){
-                input.value = '';
-            }
-
-        });
-
-        row.querySelectorAll('select').forEach(function(select){
-
-            select.selectedIndex = 0;
-
-        });
-
-        tbody.appendChild(row);
+        if(input.type !== 'hidden'){
+            input.value = '';
+        }
 
     });
+
+    row.querySelectorAll('select').forEach(function(select){
+
+        select.selectedIndex = 0;
+
+    });
+
+    tbody.appendChild(row);
+
+});
 
 </script>
 </body>

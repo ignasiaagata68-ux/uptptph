@@ -20,6 +20,9 @@ use App\Http\Controllers\DataController;
 use App\Http\Controllers\SpController;
 use App\Http\Controllers\PengamatanPersemaianPadiController;
 use App\Http\Controllers\KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController;
+use App\Http\Controllers\KeadaanOptPadaPetakPengamatanTetapController;
+
+
 
 Route::get('/', function () {
     return redirect('/login');
@@ -135,6 +138,15 @@ Route::middleware([
     Route::get('/keadaan-serangan-opt/show/{id}',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class,'show'])->name('keadaan-serangan-opt.show');
     Route::get('/keadaan-serangan-opt/edit/{id}',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class,'edit'])->name('keadaan-serangan-opt.edit');
     Route::post('/keadaan-serangan-opt/update/{id}',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class,'update'])->name('keadaan-serangan-opt.update');
+    Route::get('/keadaan-serangan-opt/verifikasi/{id}/{status}',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class,'verifikasi'])->name('keadaan-serangan-opt.verifikasi');
+    Route::get('/keadaan-opt-pada-petak-pengamatan-tetap',[KeadaanOptPadaPetakPengamatanTetapController::class, 'index'])->name('keadaan-opt-pada-petak-pengamatan-tetap.index');
+    Route::get('/keadaan-opt-pada-petak-pengamatan-tetap/create/{id_data}',[KeadaanOptPadaPetakPengamatanTetapController::class, 'create'])->name('keadaan-opt-pada-petak-pengamatan-tetap.create');
+    Route::post('/keadaan-opt-pada-petak-pengamatan-tetap/store',[KeadaanOptPadaPetakPengamatanTetapController::class, 'store'])->name('keadaan-opt-pada-petak-pengamatan-tetap.store');
+    Route::get('/keadaan-opt-pada-petak-pengamatan-tetap/detail/{id}',[KeadaanOptPadaPetakPengamatanTetapController::class, 'detail'])->name('keadaan-opt-pada-petak-pengamatan-tetap.detail');
+    Route::get('/keadaan-opt-pada-petak-pengamatan-tetap/edit/{id}',[KeadaanOptPadaPetakPengamatanTetapController::class, 'edit'])->name('keadaan-opt-pada-petak-pengamatan-tetap.edit');
+    Route::put('/keadaan-opt-pada-petak-pengamatan-tetap/update/{id}',[KeadaanOptPadaPetakPengamatanTetapController::class, 'update'])->name('keadaan-opt-pada-petak-pengamatan-tetap.update');
+    Route::get('/keadaan-opt-pada-petak-pengamatan-tetap/verifikasi/{id}',[KeadaanOptPadaPetakPengamatanTetapController::class,'verifikasi'])->name('keadaan-opt-pada-petak-pengamatan-tetap.verifikasi');
+    Route::post('/keadaan-opt-pada-petak-pengamatan-tetap/simpan-verifikasi/{id}',[KeadaanOptPadaPetakPengamatanTetapController::class,'simpanVerifikasi'])->name('keadaan-opt-pada-petak-pengamatan-tetap.simpan-verifikasi');
 
 
 
