@@ -4,22 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class InformasiPerubahanKategoriKekeringan extends Model
+class LaporanKerusakanTanamanAkibatFisiologis extends Model
 {
     protected $table =
-        'informasi_perubahan_kategori_kekeringan';
+        'laporan_kerusakan_tanaman_akibat_fisiologis';
 
     protected $primaryKey =
-        'id_informasi_perubahan_kategori_kekeringan';
+        'id_laporan_kerusakan_tanaman_akibat_fisiologis';
 
     public $timestamps = false;
 
     protected $fillable = [
-
         'id_kabupaten_kota',
         'id_kecamatan',
         'id_periode',
         'id_musim_tanam'
-
     ];
 }

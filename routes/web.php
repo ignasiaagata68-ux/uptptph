@@ -24,6 +24,7 @@ use App\Http\Controllers\KeadaanOptPadaPetakPengamatanTetapController;
 use App\Http\Controllers\LaporanKerusakanTanamanAkibatBanjirController;
 use App\Http\Controllers\LaporanKerusakanTanamanAkibatKekeringanController;
 use App\Http\Controllers\InformasiPerubahanKategoriKekeringanController;
+use App\Http\Controllers\LaporanKerusakanTanamanAkibatFisiologisController;
 
 
 
@@ -170,8 +171,8 @@ Route::middleware([
     )->name('informasi-perubahan-kategori-kekeringan.create');
 
     Route::post(
-        '/informasi-perubahan-kategori-kekeringan/store',
-        [InformasiPerubahanKategoriKekeringanController::class, 'store']
+    '/informasi-perubahan-kategori-kekeringan/store',
+    [InformasiPerubahanKategoriKekeringanController::class, 'store']
     )->name('informasi-perubahan-kategori-kekeringan.store');
 
     Route::get(
@@ -190,6 +191,29 @@ Route::middleware([
     )->name('informasi-perubahan-kategori-kekeringan.update');
 
 
+    Route::get(
+    '/laporan-kerusakan-tanaman-akibat-fisiologis',
+    [LaporanKerusakanTanamanAkibatFisiologisController::class, 'index']
+    )->name('laporan-kerusakan-tanaman-akibat-fisiologis.index');
+
+    Route::get(
+        '/laporan-kerusakan-tanaman-akibat-fisiologis/create/{id_data}',
+        [LaporanKerusakanTanamanAkibatFisiologisController::class, 'create']
+    )->name('laporan-kerusakan-tanaman-akibat-fisiologis.create');
+
+    Route::post(
+        '/laporan-kerusakan-tanaman-akibat-fisiologis/store',
+        [LaporanKerusakanTanamanAkibatFisiologisController::class, 'store']
+    )->name('laporan-kerusakan-tanaman-akibat-fisiologis.store');
+    Route::get(
+    '/laporan-kerusakan-tanaman-akibat-fisiologis/detail/{id}',
+    [LaporanKerusakanTanamanAkibatFisiologisController::class, 'show']
+    )->name('laporan-kerusakan-tanaman-akibat-fisiologis.detail');
+
+    Route::get(
+        '/laporan-kerusakan-tanaman-akibat-fisiologis/edit/{id}',
+        [LaporanKerusakanTanamanAkibatFisiologisController::class, 'edit']
+    )->name('laporan-kerusakan-tanaman-akibat-fisiologis.edit');
 
 
 

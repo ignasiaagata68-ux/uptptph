@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Data Informasi Perubahan Kategori Kekeringan</title>
+    <title>Laporan Kerusakan Tanaman Akibat Fisiologis</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
@@ -10,21 +10,25 @@
 
 <div class="container mt-4">
 
-    <h3>Data Informasi Perubahan Kategori Kekeringan</h3>
+    <h3>Laporan Kerusakan Tanaman Akibat Fisiologis</h3>
 
     @if(session('success'))
+
         <div class="alert alert-success">
+
             {{ session('success') }}
+
         </div>
+
     @endif
 
-    <table class="table table-bordered">
+    <table class="table table-bordered table-striped">
 
         <thead class="table-dark">
 
             <tr>
 
-                <th>ID</th>
+                <th>No</th>
                 <th>Kabupaten/Kota</th>
                 <th>Kecamatan</th>
                 <th>Periode</th>
@@ -42,7 +46,7 @@
             <tr>
 
                 <td>
-                    {{ $d->id_informasi_perubahan_kategori_kekeringan }}
+                    {{ $loop->iteration }}
                 </td>
 
                 <td>
@@ -54,18 +58,18 @@
                 </td>
 
                 <td>
-                    {{ $d->periode_pengamatan ?? '-' }}
+                    {{ $d->periode_pengamatan }}
                 </td>
 
                 <td>
-                    {{ $d->musim_tanam ?? '-' }}
+                    {{ $d->musim_tanam }}
                 </td>
 
                 <td>
 
                     <a href="{{ route(
-                        'informasi_perubahan_kategori_kekeringan.detail',
-                        $d->id_informasi_perubahan_kategori_kekeringan
+                        'laporan-kerusakan-tanaman-akibat-fisiologis.detail',
+                        $d->id_laporan_kerusakan_tanaman_akibat_fisiologis
                     ) }}"
                     class="btn btn-info btn-sm">
 
@@ -73,8 +77,11 @@
 
                     </a>
 
-                    <a href="#"
-                       class="btn btn-warning btn-sm">
+                    <a href="{{ route(
+                        'laporan-kerusakan-tanaman-akibat-fisiologis.edit',
+                        $d->id_laporan_kerusakan_tanaman_akibat_fisiologis
+                    ) }}"
+                    class="btn btn-warning btn-sm">
 
                         Edit
 
