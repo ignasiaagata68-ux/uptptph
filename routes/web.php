@@ -25,6 +25,9 @@ use App\Http\Controllers\LaporanKerusakanTanamanAkibatBanjirController;
 use App\Http\Controllers\LaporanKerusakanTanamanAkibatKekeringanController;
 use App\Http\Controllers\InformasiPerubahanKategoriKekeringanController;
 use App\Http\Controllers\LaporanKerusakanTanamanAkibatFisiologisController;
+use App\Http\Controllers\LaporanKerusakanTanamanAkibatBencanaAlamController;
+use App\Http\Controllers\TangkapanLampuPerangkapController;
+use App\Http\Controllers\KumulatifLuasTambahTanamPadiController;
 
 
 
@@ -215,6 +218,109 @@ Route::middleware([
         [LaporanKerusakanTanamanAkibatFisiologisController::class, 'edit']
     )->name('laporan-kerusakan-tanaman-akibat-fisiologis.edit');
 
+
+    Route::get(
+        '/laporan-kerusakan-tanaman-akibat-bencana-alam',
+        [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'index']
+    )->name('laporan-kerusakan-tanaman-akibat-bencana-alam.index');
+
+    Route::get(
+        '/laporan-kerusakan-tanaman-akibat-bencana-alam/create/{id_data}',
+        [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'create']
+    )->name('laporan-kerusakan-tanaman-akibat-bencana-alam.create');
+
+    Route::post(
+        '/laporan-kerusakan-tanaman-akibat-bencana-alam/store',
+        [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'store']
+    )->name('laporan-kerusakan-tanaman-akibat-bencana-alam.store');
+
+    Route::get(
+        '/laporan-kerusakan-tanaman-akibat-bencana-alam/detail/{id}',
+        [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'show']
+    )->name('laporan-kerusakan-tanaman-akibat-bencana-alam.detail');
+
+    Route::get(
+        '/laporan-kerusakan-tanaman-akibat-bencana-alam/edit/{id}',
+        [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'edit']
+    )->name('laporan-kerusakan-tanaman-akibat-bencana-alam.edit');
+
+    Route::put(
+        '/laporan-kerusakan-tanaman-akibat-bencana-alam/update/{id}',
+        [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'update']
+    )->name('laporan-kerusakan-tanaman-akibat-bencana-alam.update');
+
+    Route::delete(
+        '/laporan-kerusakan-tanaman-akibat-bencana-alam/delete/{id}',
+        [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'destroy']
+    )->name('laporan-kerusakan-tanaman-akibat-bencana-alam.destroy');
+
+
+
+    Route::get(
+        '/tangkapan-lampu-perangkap',
+        [TangkapanLampuPerangkapController::class, 'index']
+    )->name('tangkapan-lampu-perangkap.index');
+
+    Route::get(
+        '/tangkapan-lampu-perangkap/create/{id_data}',
+        [TangkapanLampuPerangkapController::class, 'create']
+    )->name('tangkapan-lampu-perangkap.create');
+
+    Route::post(
+        '/tangkapan-lampu-perangkap',
+        [TangkapanLampuPerangkapController::class, 'store']
+    )->name('tangkapan-lampu-perangkap.store');
+
+    Route::get(
+        '/tangkapan-lampu-perangkap/{id}',
+        [TangkapanLampuPerangkapController::class, 'show']
+    )->name('tangkapan-lampu-perangkap.detail');
+
+    Route::get(
+        '/tangkapan-lampu-perangkap/{id}/edit',
+        [TangkapanLampuPerangkapController::class, 'edit']
+    )->name('tangkapan-lampu-perangkap.edit');
+
+    Route::put(
+        '/tangkapan-lampu-perangkap/{id}',
+        [TangkapanLampuPerangkapController::class, 'update']
+    )->name('tangkapan-lampu-perangkap.update');
+
+    Route::delete(
+        '/tangkapan-lampu-perangkap/{id}',
+        [TangkapanLampuPerangkapController::class, 'destroy']
+    )->name('tangkapan-lampu-perangkap.destroy');
+
+
+    Route::get(
+    '/kumulatif-luas-tambah-tanam-padi',
+    [KumulatifLuasTambahTanamPadiController::class,'index']
+    )->name('kumulatif-luas-tambah-tanam-padi.index');
+
+    Route::get(
+        '/kumulatif-luas-tambah-tanam-padi/create/{id_data}',
+        [KumulatifLuasTambahTanamPadiController::class,'create']
+    )->name('kumulatif-luas-tambah-tanam-padi.create');
+
+    Route::post(
+        '/kumulatif-luas-tambah-tanam-padi',
+        [KumulatifLuasTambahTanamPadiController::class,'store']
+    )->name('kumulatif-luas-tambah-tanam-padi.store');
+
+    Route::get(
+        '/kumulatif-luas-tambah-tanam-padi/{id}/edit',
+        [KumulatifLuasTambahTanamPadiController::class,'edit']
+    )->name('kumulatif-luas-tambah-tanam-padi.edit');
+
+    Route::put(
+        '/kumulatif-luas-tambah-tanam-padi/{id}',
+        [KumulatifLuasTambahTanamPadiController::class,'update']
+    )->name('kumulatif-luas-tambah-tanam-padi.update');
+
+    Route::delete(
+        '/kumulatif-luas-tambah-tanam-padi/{id}',
+        [KumulatifLuasTambahTanamPadiController::class,'destroy']
+    )->name('kumulatif-luas-tambah-tanam-padi.destroy');
 
 
     //MANAJEMEN PENGGUNA

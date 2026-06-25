@@ -13,100 +13,155 @@
         (Padi/Jagung)
     </div>
     <style>
+        body{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:12px;
+}
 
-        .judul-form{ 
-            text-align:center; 
-            font-weight:bold; 
-            font-size:28px; }
+.judul-form{
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+    margin-bottom:5px;
+}
 
-        .subjudul{ 
-            text-align:center; 
-            font-size:18px; 
-            margin-bottom:15px; }
+.subjudul{
+    text-align:center;
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:20px;
+}
 
-        .bg-pink{ 
-            background:#e6c0c0; }
+.header-form{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
 
-        .bg-biru{
-            background:#D8E4F1 !important;
-            text-align:center;
-            vertical-align:middle;
-            }
+.tbl-info-kiri,
+.tbl-info-kanan{
+    border-collapse:collapse;
+}
 
-        .bg-hijau{ 
-            background:#dcecc5; }
+.tbl-info-kiri td,
+.tbl-info-kanan td{
+    border:1px solid #000;
+    padding:6px 10px;
+}
 
-        .bg-nomor{
-            background:#4F81BD !important;
-            color:white;
-            font-weight:bold;
-            text-align:center;
-        }
+.label{
+    background:#fff;
+    font-weight:bold;
+    width:170px;
+}
 
-        .bg-pink{
-            background:#D9A5A5 !important;
-            font-weight:bold;
-        }
+.nilai{
+    background:#E6B8B7;
+    min-width:220px;
+}
 
-        .bg-hijau{
-            background:#D8E4BC !important;
-        }
+.table-responsive{
+    overflow-x:auto;
+}
 
-        .bg-biru{ 
-            background:#b7d7f0; 
-        }
+table{
+    width:100%;
+    border-collapse:collapse !important;
+    table-layout:auto;
+    font-size:12px;
+}
 
-        table td, table th{ 
-            text-align:center; 
-            vertical-align:middle; 
-            padding:3px; 
-        }
+table th,
+table td{
+    border:1px solid #000 !important;
+    text-align:center;
+    vertical-align:middle;
+    padding:3px;
+}
 
-        .bg-biru{ 
-            background:#8db4e2 !important;
-        }
+thead th{
+    font-weight:bold;
+}
 
-        .header-form{ 
-            display:flex; 
-            justify-content:space-between; 
-            margin-bottom:15px; 
-        } .tbl-info-kiri, 
-        
-        .tbl-info-kanan{ 
-            border-collapse:collapse; 
-        } 
-        
-        .tbl-info-kiri td, 
-        .tbl-info-kanan td{ 
-            border:1px solid #000; 
-            padding:3px 8px; 
-            font-size:14px; }
-        
-        .label{ 
-            background:#ffffff; 
-            min-width:140px; 
-        } 
-        
-        .nilai{ 
-            background:#e6c0c0; 
-            font-weight:bold; 
-            min-width:180px; 
-        } 
-        
-        .tbl-info-kanan 
-        .nilai{ 
-            text-align:center; 
-        } 
-        
-        .bg-pink{ 
-            background:#e6c0c0; 
-        }
-        .bg-nomor{ 
-            background:#4F81BD; 
-            color:white; text-align:center; 
-        }
+.bg-biru{
+    background:#8DB4E2 !important;
+}
 
-</style>
+.bg-kuning{
+    background:#FFF200 !important;
+}
+
+.bg-hijau{
+    background:#D8E4BC !important;
+}
+
+.bg-pink{
+    background:#E6B8B7 !important;
+}
+
+.bg-nomor{
+    background:#4F81BD !important;
+    color:#fff !important;
+    font-weight:bold;
+}
+
+.garis-kanan{
+    border-right:3px solid #000 !important;
+}
+
+.garis-kiri{
+    border-left:3px solid #000 !important;
+}
+
+input.form-control,
+select.form-select{
+    border:none !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    background:transparent;
+    font-size:12px;
+    padding:2px;
+}
+
+input.form-control:focus,
+select.form-select:focus{
+    border:none !important;
+    box-shadow:none !important;
+}
+
+.bg-pink input{
+    background:#E6B8B7 !important;
+    font-weight:bold;
+}
+
+.bg-hijau select{
+    background:#D8E4BC !important;
+}
+
+.table{
+    margin-bottom:0;
+}
+
+th{
+    white-space:nowrap;
+}
+
+td{
+    min-width:70px;
+}
+
+td select{
+    min-width:180px;
+}
+
+td input{
+    min-width:70px;
+}
+
+.container{
+    max-width:1900px;
+}
+    </style>
 </head>
 <body>
 
@@ -158,274 +213,277 @@
       action="{{ route('informasi-perubahan-kategori-kekeringan.store') }}">
     @csrf
 
-        <table class="table table-bordered">
-        <thead>
+        <div class="table-responsive">
 
-<tr>
+        <table class="table table-bordered mb-0">
+            <thead>
 
-    <th rowspan="2" class="bg-biru">No</th>
-    <th rowspan="2" class="bg-biru">Kab/Kota</th>
-    <th rowspan="2" class="bg-biru">Kec</th>
-    <th rowspan="2" class="bg-biru">Desa</th>
-    <th rowspan="2" class="bg-biru">Komoditas</th>
+                <tr>
 
-    <th colspan="5" class="bg-biru">
-        Luas Terkena Bulan ..... Periode ..... (Ha)
-    </th>
+                    <th rowspan="2" class="bg-biru">No</th>
+                    <th rowspan="2" class="bg-biru">Kab/Kota</th>
+                    <th rowspan="2" class="bg-biru">Kec</th>
+                    <th rowspan="2" class="bg-biru">Desa</th>
+                    <th rowspan="2" class="bg-biru">Komoditas</th>
 
-    <th colspan="6" class="bg-biru">
-        Perubahan Kategori Terkena Bulan ..... Periode ..... (Ha)
-    </th>
+                    <th colspan="5" class="bg-biru">
+                        Luas Terkena Bulan ..... Periode ..... (Ha)
+                    </th>
 
-</tr>
+                    <th colspan="6" class="bg-biru">
+                        Perubahan Kategori Terkena Bulan ..... Periode ..... (Ha)
+                    </th>
 
-<tr>
+                </tr>
 
-    <th class="bg-biru">Ringan</th>
-    <th class="bg-biru">Sedang</th>
-    <th class="bg-biru">Berat</th>
-    <th class="bg-biru">Puso</th>
-    <th class="bg-biru">Jumlah</th>
+                <tr>
 
-    <th class="bg-biru">Ringan</th>
-    <th class="bg-biru">Sedang</th>
-    <th class="bg-biru">Berat</th>
-    <th class="bg-biru">Puso</th>
-    <th class="bg-biru">Jumlah</th>
-    <th class="bg-biru">Pulih</th>
+                    <th class="bg-biru">Ringan</th>
+                    <th class="bg-biru">Sedang</th>
+                    <th class="bg-biru">Berat</th>
+                    <th class="bg-biru">Puso</th>
+                    <th class="bg-biru">Jumlah</th>
 
-</tr>
+                    <th class="bg-biru">Ringan</th>
+                    <th class="bg-biru">Sedang</th>
+                    <th class="bg-biru">Berat</th>
+                    <th class="bg-biru">Puso</th>
+                    <th class="bg-biru">Jumlah</th>
+                    <th class="bg-biru">Pulih</th>
 
-<tr>
+                </tr>
 
-    <th class="bg-nomor">1</th>
-    <th class="bg-nomor">2</th>
-    <th class="bg-nomor">3</th>
-    <th class="bg-nomor">3</th>
-    <th class="bg-nomor">4</th>
+                <tr>
 
-    <th class="bg-nomor">5</th>
-    <th class="bg-nomor">6</th>
-    <th class="bg-nomor">7</th>
-    <th class="bg-nomor">8</th>
+                    <th class="bg-nomor">1</th>
+                    <th class="bg-nomor">2</th>
+                    <th class="bg-nomor">3</th>
+                    <th class="bg-nomor">3</th>
+                    <th class="bg-nomor">4</th>
 
-    <th class="bg-nomor">
-        9
-        <br>
-        (5+6+7+8)
-    </th>
+                    <th class="bg-nomor">5</th>
+                    <th class="bg-nomor">6</th>
+                    <th class="bg-nomor">7</th>
+                    <th class="bg-nomor">8</th>
 
-    <th class="bg-nomor">10</th>
-    <th class="bg-nomor">11</th>
-    <th class="bg-nomor">12</th>
-    <th class="bg-nomor">13</th>
+                    <th class="bg-nomor">
+                        9
+                        <br>
+                        (5+6+7+8)
+                    </th>
 
-    <th class="bg-nomor">
-        14
-        <br>
-        (10+11+12+13)
-    </th>
+                    <th class="bg-nomor">10</th>
+                    <th class="bg-nomor">11</th>
+                    <th class="bg-nomor">12</th>
+                    <th class="bg-nomor">13</th>
 
-    <th class="bg-nomor">15</th>
+                    <th class="bg-nomor">
+                        14
+                        <br>
+                        (10+11+12+13)
+                    </th>
 
-</tr>
+                    <th class="bg-nomor">15</th>
 
-</thead>
-    <tbody id="tbody-kekeringan">
+                </tr>
 
-    <input type="hidden"
-        name="id_periode[]"
-        value="{{ $data->id_periode }}">
+    </thead>
 
-    <tr class="baris-kekeringan">
+        <tbody id="tbody-kekeringan">
 
-        <!-- NO -->
-        <td class="table-danger">1</td>
+            <input type="hidden"
+                name="id_periode[]"
+                value="{{ $data->id_periode }}">
 
-        <!-- KAB -->
-        <td class="bg-hijau">
+            <tr class="baris-kekeringan">
 
-            {{ $data->petugas->kecamatan->kabupaten->nama_kabupaten_kota }}
+                <!-- NO -->
+                <td class="table-danger">1</td>
 
-            <input
-                type="hidden"
-                name="id_kabupaten_kota[]"
-                value="{{ $data->petugas->kecamatan->kabupaten->id_kabupaten_kota }}">
+                <!-- KAB -->
+                <td class="bg-hijau">
 
-        </td>
+                    {{ $data->petugas->kecamatan->kabupaten->nama_kabupaten_kota }}
 
-        <!-- KEC -->
-        <td class="bg-hijau">
+                    <input
+                        type="hidden"
+                        name="id_kabupaten_kota[]"
+                        value="{{ $data->petugas->kecamatan->kabupaten->id_kabupaten_kota }}">
 
-            {{ $data->petugas->kecamatan->nama_kecamatan }}
+                </td>
 
-            <input
-                type="hidden"
-                name="id_kecamatan[]"
-                value="{{ $data->petugas->id_kecamatan }}">
-
-        </td>
-
-        <!-- DESA -->
-        <td class="table-success">
-
-            <select
-                name="id_desa[]"
-                class="form-select"
-                style="min-width:200px;">
-
-                <option value="">Pilih Desa</option>
-
-                @foreach($desa as $d)
-
-                    <option value="{{ $d->id_desa }}">
-                        {{ $d->nama_desa }}
-                    </option>
-
-                @endforeach
-
-            </select>
-
-        </td>
-
-        <!-- KOMODITAS -->
-        <td class="table-success">
-
-            <select
-                name="id_komoditas[]"
-                class="form-select"
-                style="min-width:200px;">
-
-                <option value="">Pilih Komoditas</option>
-
-                @foreach($komoditas as $k)
-
-                    <option value="{{ $k->id_komoditas }}">
-                        {{ $k->komoditas }}
-                    </option>
-
-                @endforeach
-
-            </select>
-
-        </td>
-
-        <!-- LTB RINGAN -->
-        <td>
-            <input type="number"
-                step="0.01"
-                name="ltb_ringan[]"
-                class="form-control ltb_ringan"
-                style="min-width:200px;">
-        </td>
-
-        <!-- LTB SEDANG -->
-        <td>
-            <input type="number"
-                step="0.01"
-                name="ltb_sedang[]"
-                class="form-control ltb_sedang"
-                style="min-width:200px;">
-        </td>
-
-        <!-- LTB BERAT -->
-        <td>
-            <input type="number"
-                step="0.01"
-                name="ltb_berat[]"
-                class="form-control ltb_berat"
-                style="min-width:200px;">
-        </td>
-
-        <!-- LTB PUSO -->
-        <td>
-            <input type="number"
-                step="0.01"
-                name="ltb_puso[]"
-                class="form-control ltb_puso"
-                style="min-width:200px;">
-        </td>
-
-        <!-- LTB JUMLAH -->
-        <td class="bg-pink">
-
-            <input
-                type="number"
-                step="0.01"
-                name="ltb_jumlah[]"
-                value="0"
-                readonly
-                class="form-control ltb_jumlah"
-                style="min-width:200px;">
-
-        </td>
-
-        <!-- PKT RINGAN -->
-        <td>
-            <input type="number"
-                step="0.01"
-                name="pkt_ringan[]"
-                class="form-control pkt_ringan"
-                style="min-width:200px;">
-        </td>
-
-        <!-- PKT SEDANG -->
-        <td>
-            <input type="number"
-                step="0.01"
-                name="pkt_sedang[]"
-                class="form-control pkt_sedang"
-                style="min-width:200px;">
-        </td>
-
-        <!-- PKT BERAT -->
-        <td>
-            <input type="number"
-                step="0.01"
-                name="pkt_berat[]"
-                class="form-control pkt_berat"
-                style="min-width:200px;">
-        </td>
-
-        <!-- PKT PUSO -->
-        <td>
-            <input type="number"
-                step="0.01"
-                name="pkt_puso[]"
-                class="form-control pkt_puso"
-                style="min-width:200px;">
-        </td>
-
-        <!-- PKT JUMLAH -->
-        <td class="bg-pink">
-
-            <input
-                type="number"
-                step="0.01"
-                name="pkt_jumlah[]"
-                value="0"
-                readonly
-                class="form-control pkt_jumlah"
-                style="min-width:200px;">
-
-        </td>
-
-        <!-- PKT PULIH -->
-        <td>
-
-            <input
-                type="number"
-                step="0.01"
-                name="pkt_pulih[]"
-                class="form-control"
-                style="min-width:200px;">
-
-        </td>
-
-    </tr>
-
-</tbody>
-    </table>
+                <!-- KEC -->
+                <td class="bg-hijau">
+
+                    {{ $data->petugas->kecamatan->nama_kecamatan }}
+
+                    <input
+                        type="hidden"
+                        name="id_kecamatan[]"
+                        value="{{ $data->petugas->id_kecamatan }}">
+
+                </td>
+
+                <!-- DESA -->
+                <td class="table-success">
+
+                    <select
+                        name="id_desa[]"
+                        class="form-select"
+                        style="min-width:200px;">
+
+                        <option value="">Pilih Desa</option>
+
+                        @foreach($desa as $d)
+
+                            <option value="{{ $d->id_desa }}">
+                                {{ $d->nama_desa }}
+                            </option>
+
+                        @endforeach
+
+                    </select>
+
+                </td>
+
+                <!-- KOMODITAS -->
+                <td class="table-success">
+
+                    <select
+                        name="id_komoditas[]"
+                        class="form-select"
+                        style="min-width:200px;">
+
+                        <option value="">Pilih Komoditas</option>
+
+                        @foreach($komoditas as $k)
+
+                            <option value="{{ $k->id_komoditas }}">
+                                {{ $k->komoditas }}
+                            </option>
+
+                        @endforeach
+
+                    </select>
+
+                </td>
+
+                <!-- LTB RINGAN -->
+                <td>
+                    <input type="number"
+                        step="0.01"
+                        name="ltb_ringan[]"
+                        class="form-control ltb_ringan"
+                        style="min-width:200px;">
+                </td>
+
+                <!-- LTB SEDANG -->
+                <td>
+                    <input type="number"
+                        step="0.01"
+                        name="ltb_sedang[]"
+                        class="form-control ltb_sedang"
+                        style="min-width:200px;">
+                </td>
+
+                <!-- LTB BERAT -->
+                <td>
+                    <input type="number"
+                        step="0.01"
+                        name="ltb_berat[]"
+                        class="form-control ltb_berat"
+                        style="min-width:200px;">
+                </td>
+
+                <!-- LTB PUSO -->
+                <td>
+                    <input type="number"
+                        step="0.01"
+                        name="ltb_puso[]"
+                        class="form-control ltb_puso"
+                        style="min-width:200px;">
+                </td>
+
+                <!-- LTB JUMLAH -->
+                <td class="bg-pink">
+
+                    <input
+                        type="number"
+                        step="0.01"
+                        name="ltb_jumlah[]"
+                        value="0"
+                        readonly
+                        class="form-control ltb_jumlah"
+                        style="min-width:200px;">
+
+                </td>
+
+                <!-- PKT RINGAN -->
+                <td>
+                    <input type="number"
+                        step="0.01"
+                        name="pkt_ringan[]"
+                        class="form-control pkt_ringan"
+                        style="min-width:200px;">
+                </td>
+
+                <!-- PKT SEDANG -->
+                <td>
+                    <input type="number"
+                        step="0.01"
+                        name="pkt_sedang[]"
+                        class="form-control pkt_sedang"
+                        style="min-width:200px;">
+                </td>
+
+                <!-- PKT BERAT -->
+                <td>
+                    <input type="number"
+                        step="0.01"
+                        name="pkt_berat[]"
+                        class="form-control pkt_berat"
+                        style="min-width:200px;">
+                </td>
+
+                <!-- PKT PUSO -->
+                <td>
+                    <input type="number"
+                        step="0.01"
+                        name="pkt_puso[]"
+                        class="form-control pkt_puso"
+                        style="min-width:200px;">
+                </td>
+
+                <!-- PKT JUMLAH -->
+                <td class="bg-pink">
+
+                    <input
+                        type="number"
+                        step="0.01"
+                        name="pkt_jumlah[]"
+                        value="0"
+                        readonly
+                        class="form-control pkt_jumlah"
+                        style="min-width:200px;">
+
+                </td>
+
+                <!-- PKT PULIH -->
+                <td>
+
+                    <input
+                        type="number"
+                        step="0.01"
+                        name="pkt_pulih[]"
+                        class="form-control"
+                        style="min-width:200px;">
+
+                </td>
+
+            </tr>
+
+    </tbody>
+</table>
     <div class="row mt-5">
 
     <div class="col-md-6">
