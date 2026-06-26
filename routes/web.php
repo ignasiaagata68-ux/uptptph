@@ -31,7 +31,7 @@ use App\Http\Controllers\KumulatifLuasTambahTanamPadiController;
 use App\Http\Controllers\PenggunaanPestisidaController;
 use App\Http\Controllers\KeadaanCurahHujanController;
 use App\Http\Controllers\PengamatanPenyebaranDanPerkembanganSiputMurbeyController;
-
+use App\Http\Controllers\LaporanPeringatanDiniController;
 
 
 
@@ -403,58 +403,121 @@ Route::middleware([
     )->name('keadaan-curah-hujan.destroy');
 
 
+    Route::prefix('pengamatan-penyebaran-dan-perkembangan-siput-murbey')->group(function () {
 
-     Route::get(
+        Route::get(
+            '/',
+            [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'index']
+        )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.index');
+
+        // CREATE
+        Route::get(
+            '/create/{id_data}',
+            [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'create']
+        )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.create');
+
+        // STORE
+        Route::post(
+            '/store',
+            [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'store']
+        )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.store');
+
+        // DETAIL
+        Route::get(
+            '/detail/{id}',
+            [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'detail']
+        )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.detail');
+
+        // EDIT
+        Route::get(
+                '/edit/{id}',
+                [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'edit']
+            )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.edit');
+
+            // UPDATE
+            Route::put(
+                '/update/{id}',
+                [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'update']
+            )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.update');
+
+            // HAPUS
+            Route::delete(
+                '/destroy/{id}',
+                [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'destroy']
+            )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.destroy');
+
+            // VERIFIKASI
+            Route::get(
+                '/verifikasi/{id}',
+                [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'verifikasi']
+            )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.verifikasi');
+
+            Route::post(
+                '/verifikasi/{id}',
+                [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'prosesVerifikasi']
+            )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.proses-verifikasi');
+    });
+
+
+
+Route::prefix('laporan-peringatan-dini')->group(function () {
+
+    // INDEX
+    Route::get(
         '/',
-        [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'index']
-    )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.index');
+        [LaporanPeringatanDiniController::class, 'index']
+    )->name('laporan-peringatan-dini.index');
 
     // CREATE
     Route::get(
         '/create/{id_data}',
-        [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'create']
-    )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.create');
+        [LaporanPeringatanDiniController::class, 'create']
+    )->name('laporan-peringatan-dini.create');
 
     // STORE
     Route::post(
         '/store',
-        [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'store']
-    )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.store');
+        [LaporanPeringatanDiniController::class, 'store']
+    )->name('laporan-peringatan-dini.store');
 
     // DETAIL
     Route::get(
         '/detail/{id}',
-        [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'detail']
-    )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.detail');
+        [LaporanPeringatanDiniController::class, 'detail']
+    )->name('laporan-peringatan-dini.detail');
 
     // EDIT
     Route::get(
-            '/edit/{id}',
-            [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'edit']
-        )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.edit');
+        '/edit/{id}',
+        [LaporanPeringatanDiniController::class, 'edit']
+    )->name('laporan-peringatan-dini.edit');
 
-        // UPDATE
-        Route::put(
-            '/update/{id}',
-            [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'update']
-        )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.update');
+    // UPDATE
+    Route::put(
+        '/update/{id}',
+        [LaporanPeringatanDiniController::class, 'update']
+    )->name('laporan-peringatan-dini.update');
 
-        // HAPUS
-        Route::delete(
-            '/destroy/{id}',
-            [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'destroy']
-        )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.destroy');
+    // HAPUS
+    Route::delete(
+        '/destroy/{id}',
+        [LaporanPeringatanDiniController::class, 'destroy']
+    )->name('laporan-peringatan-dini.destroy');
 
-        // VERIFIKASI
-        Route::get(
-            '/verifikasi/{id}',
-            [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'verifikasi']
-        )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.verifikasi');
+    // VERIFIKASI
+    Route::get(
+        '/verifikasi/{id}',
+        [LaporanPeringatanDiniController::class, 'verifikasi']
+    )->name('laporan-peringatan-dini.verifikasi');
 
-        Route::post(
-            '/verifikasi/{id}',
-            [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'prosesVerifikasi']
-        )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.proses-verifikasi');
+    // PROSES VERIFIKASI
+    Route::post(
+        '/verifikasi/{id}',
+        [LaporanPeringatanDiniController::class, 'prosesVerifikasi']
+    )->name('laporan-peringatan-dini.proses-verifikasi');
+
+});
+
 
 
 

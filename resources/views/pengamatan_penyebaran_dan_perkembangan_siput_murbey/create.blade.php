@@ -387,7 +387,7 @@ Intensitas
         <input
             type="number"
             step="0.01"
-            name="kolam_telur[]"
+            name="kolom_telur[]"
             class="form-control">
 
     </td>
@@ -397,7 +397,7 @@ Intensitas
         <input
             type="number"
             step="0.01"
-            name="kolam_dewasa[]"
+            name="kolom_dewasa[]"
             class="form-control">
 
     </td>

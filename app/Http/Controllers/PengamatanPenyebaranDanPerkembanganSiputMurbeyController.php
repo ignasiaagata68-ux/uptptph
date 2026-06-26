@@ -66,9 +66,9 @@ class PengamatanPenyebaranDanPerkembanganSiputMurbeyController extends Controlle
 
                     'id_desa'=>$request->id_desa[$i],
 
-                    'kolom_telur'=>$request->kolom_telur[$i],
+                    'kolom_telur' =>$request->kolom_telur[$i],
 
-                    'kolom_dewasa'=>$request->kolom_dewasa[$i],
+                    'kolom_dewasa' =>$request->kolom_dewasa[$i],
 
                     'bak_permanen_telur'=>$request->bak_permanen_telur[$i],
 
