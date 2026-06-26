@@ -28,6 +28,11 @@ use App\Http\Controllers\LaporanKerusakanTanamanAkibatFisiologisController;
 use App\Http\Controllers\LaporanKerusakanTanamanAkibatBencanaAlamController;
 use App\Http\Controllers\TangkapanLampuPerangkapController;
 use App\Http\Controllers\KumulatifLuasTambahTanamPadiController;
+use App\Http\Controllers\PenggunaanPestisidaController;
+use App\Http\Controllers\KeadaanCurahHujanController;
+use App\Http\Controllers\PengamatanPenyebaranDanPerkembanganSiputMurbeyController;
+
+
 
 
 
@@ -321,6 +326,136 @@ Route::middleware([
         '/kumulatif-luas-tambah-tanam-padi/{id}',
         [KumulatifLuasTambahTanamPadiController::class,'destroy']
     )->name('kumulatif-luas-tambah-tanam-padi.destroy');
+
+
+
+
+    Route::get(
+    '/penggunaan-pestisida',
+    [PenggunaanPestisidaController::class,'index']
+    )->name('penggunaan-pestisida.index');
+
+    Route::get(
+        '/penggunaan-pestisida/create/{id_data}',
+        [PenggunaanPestisidaController::class,'create']
+    )->name('penggunaan-pestisida.create');
+
+    Route::post(
+        '/penggunaan-pestisida',
+        [PenggunaanPestisidaController::class,'store']
+    )->name('penggunaan-pestisida.store');
+
+    Route::get(
+        '/penggunaan-pestisida/{id}',
+        [PenggunaanPestisidaController::class,'show']
+    )->name('penggunaan-pestisida.show');
+
+    Route::get(
+        '/penggunaan-pestisida/{id}/edit',
+        [PenggunaanPestisidaController::class,'edit']
+    )->name('penggunaan-pestisida.edit');
+
+    Route::put(
+        '/penggunaan-pestisida/{id}',
+        [PenggunaanPestisidaController::class,'update']
+    )->name('penggunaan-pestisida.update');
+
+    Route::delete(
+        '/penggunaan-pestisida/{id}',
+        [PenggunaanPestisidaController::class,'destroy']
+    )->name('penggunaan-pestisida.destroy');
+
+
+
+    Route::get(
+    '/keadaan-curah-hujan',
+    [KeadaanCurahHujanController::class, 'index']
+    )->name('keadaan-curah-hujan.index');
+
+    Route::get(
+        '/keadaan-curah-hujan/create/{id_data}',
+        [KeadaanCurahHujanController::class, 'create']
+    )->name('keadaan-curah-hujan.create');
+
+    Route::post(
+        '/keadaan-curah-hujan/store',
+        [KeadaanCurahHujanController::class, 'store']
+    )->name('keadaan-curah-hujan.store');
+
+    Route::get(
+        '/keadaan-curah-hujan/{id}',
+        [KeadaanCurahHujanController::class, 'show']
+    )->name('keadaan-curah-hujan.show');
+
+    Route::get(
+        '/keadaan-curah-hujan/{id}/edit',
+        [KeadaanCurahHujanController::class, 'edit']
+    )->name('keadaan-curah-hujan.edit');
+
+    Route::put(
+        '/keadaan-curah-hujan/{id}',
+        [KeadaanCurahHujanController::class, 'update']
+    )->name('keadaan-curah-hujan.update');
+
+    Route::delete(
+        '/keadaan-curah-hujan/{id}',
+        [KeadaanCurahHujanController::class, 'destroy']
+    )->name('keadaan-curah-hujan.destroy');
+
+
+
+     Route::get(
+        '/',
+        [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'index']
+    )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.index');
+
+    // CREATE
+    Route::get(
+        '/create/{id_data}',
+        [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'create']
+    )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.create');
+
+    // STORE
+    Route::post(
+        '/store',
+        [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'store']
+    )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.store');
+
+    // DETAIL
+    Route::get(
+        '/detail/{id}',
+        [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'detail']
+    )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.detail');
+
+    // EDIT
+    Route::get(
+            '/edit/{id}',
+            [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'edit']
+        )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.edit');
+
+        // UPDATE
+        Route::put(
+            '/update/{id}',
+            [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'update']
+        )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.update');
+
+        // HAPUS
+        Route::delete(
+            '/destroy/{id}',
+            [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'destroy']
+        )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.destroy');
+
+        // VERIFIKASI
+        Route::get(
+            '/verifikasi/{id}',
+            [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'verifikasi']
+        )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.verifikasi');
+
+        Route::post(
+            '/verifikasi/{id}',
+            [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'prosesVerifikasi']
+        )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.proses-verifikasi');
+
 
 
     //MANAJEMEN PENGGUNA

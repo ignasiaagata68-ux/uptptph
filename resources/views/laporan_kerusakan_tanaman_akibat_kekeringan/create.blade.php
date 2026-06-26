@@ -496,7 +496,8 @@
             name="lk_r[]"
             class="form-control lk_r"
             readonly
-            value="0">
+            value="0"
+            style="min-width:120px;">
     </td>
 
     <!-- LK_S -->
@@ -505,7 +506,8 @@
             name="lk_s[]"
             class="form-control lk_s"
             readonly
-            value="0">
+            value="0"
+            style="min-width:120px;">
     </td>
 
     <!-- LK_B -->
@@ -514,7 +516,8 @@
             name="lk_b[]"
             class="form-control lk_b"
             readonly
-            value="0">
+            value="0"
+            style="min-width:120px;">
     </td>
 
     <!-- LK_P -->
@@ -523,7 +526,8 @@
             name="lk_p[]"
             class="form-control lk_p"
             readonly
-            value="0">
+            value="0"
+            style="min-width:120px;">
     </td>
 
     <!-- LK_J -->
@@ -532,7 +536,8 @@
             name="lk_j[]"
             class="form-control lk_j"
             readonly
-            value="0">
+            value="0"
+            style="min-width:120px;">
     </td>
 
     <!-- UPY -->
@@ -540,7 +545,7 @@
         <input type="text"
             name="upy[]"
             class="form-control"
-            style="min-width:100px;">
+            style="min-width:120px;">
     </td>
 
     <!-- L_UPY -->
@@ -676,17 +681,18 @@ document.addEventListener('input', function(e){
 
     let lk_j = sp_j + lt_j;
 
-    row.querySelector('.sp_j').value = sp_j;
-    row.querySelector('.lt_j').value = lt_j;
+    row.querySelector('.sp_j').value = sp_r + sp_s + sp_b + sp_ps + sp_pl;
+    row.querySelector('.lt_j').value = lt_r + lt_s + lt_b + lt_p;
 
-    row.querySelector('.lk_r').value = lk_r;
-    row.querySelector('.lk_s').value = lk_s;
-    row.querySelector('.lk_b').value = lk_b;
-    row.querySelector('.lk_p').value = lk_p;
+    row.querySelector('.lk_r').value = sp_r + tr_r;
+    row.querySelector('.lk_s').value = sp_s+ tr_s;
+    row.querySelector('.lk_b').value = sp_b + tr_b;
+    row.querySelector('.lk_p').value = sp_ps + lt_p;
 
-    row.querySelector('.lk_j').value = lk_j;
+    row.querySelector('.lk_j').value = lk_r + lk_s + lk_b + lk_p;
 
 });
+
 
 </script>
     <script>
