@@ -460,65 +460,56 @@ Route::middleware([
 
 
 
+   
+
 Route::prefix('laporan-peringatan-dini')->group(function () {
 
-    // INDEX
     Route::get(
         '/',
         [LaporanPeringatanDiniController::class, 'index']
     )->name('laporan-peringatan-dini.index');
 
-    // CREATE
     Route::get(
         '/create/{id_data}',
         [LaporanPeringatanDiniController::class, 'create']
     )->name('laporan-peringatan-dini.create');
 
-    // STORE
     Route::post(
-        '/store',
+        '/',
         [LaporanPeringatanDiniController::class, 'store']
     )->name('laporan-peringatan-dini.store');
 
-    // DETAIL
     Route::get(
         '/detail/{id}',
         [LaporanPeringatanDiniController::class, 'detail']
     )->name('laporan-peringatan-dini.detail');
 
-    // EDIT
     Route::get(
         '/edit/{id}',
         [LaporanPeringatanDiniController::class, 'edit']
     )->name('laporan-peringatan-dini.edit');
 
-    // UPDATE
     Route::put(
-        '/update/{id}',
+        '/{id}',
         [LaporanPeringatanDiniController::class, 'update']
     )->name('laporan-peringatan-dini.update');
 
-    // HAPUS
     Route::delete(
-        '/destroy/{id}',
+        '/{id}',
         [LaporanPeringatanDiniController::class, 'destroy']
     )->name('laporan-peringatan-dini.destroy');
 
-    // VERIFIKASI
     Route::get(
         '/verifikasi/{id}',
         [LaporanPeringatanDiniController::class, 'verifikasi']
     )->name('laporan-peringatan-dini.verifikasi');
 
-    // PROSES VERIFIKASI
     Route::post(
         '/verifikasi/{id}',
         [LaporanPeringatanDiniController::class, 'prosesVerifikasi']
     )->name('laporan-peringatan-dini.proses-verifikasi');
 
 });
-
-
 
 
     //MANAJEMEN PENGGUNA

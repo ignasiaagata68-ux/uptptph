@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class LaporanPeringatanDini extends Model
 {
-    protected $table = 'laporan_peringatan_dini';
+    protected $table =
+        'laporan_peringatan_dini';
 
-    protected $primaryKey = 'id_laporan_peringatan_dini';
+    protected $primaryKey =
+        'id_laporan_peringatan_dini';
 
     public $timestamps = false;
 
