@@ -619,7 +619,7 @@ value="{{ $data->id_musim_tanam }}">
     <!-- PERIODE -->
     <td class="bg-pink">
 
-        {{ $data->periode->periode }}
+        {{ $data->periode->periode_pengamatan }}
 
     </td>
 

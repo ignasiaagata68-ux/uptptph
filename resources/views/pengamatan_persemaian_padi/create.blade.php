@@ -6,6 +6,126 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
 </head>
+    <style>
+
+        body{
+
+            font-family:"Times New Roman";
+            font-size:12px;
+            background:#fff;
+
+        }
+
+        .container{
+
+            max-width:98%;
+
+        }
+
+        .judul{
+
+            font-size:28px;
+            font-weight:bold;
+            text-align:center;
+
+        }
+
+        .subjudul{
+
+            text-align:center;
+            margin-bottom:10px;
+
+        }
+
+        table{
+
+            width:100%;
+            border-collapse:collapse;
+
+        }
+
+        table th,
+        table td{
+
+            border:1px solid #000;
+            padding:2px;
+            text-align:center;
+            vertical-align:middle;
+
+        }
+
+        .bg-pink{
+
+            background:#e6b8b7;
+
+        }
+
+        .bg-hijau{
+
+            background:#d8e4bc;
+
+        }
+
+        .bg-biru{
+
+            background:#b8cce4;
+
+        }
+
+        .bg-kuning{
+
+            background:#ffff99;
+
+        }
+
+        input,
+        select{
+
+            width:100%;
+            border:none!important;
+            outline:none!important;
+            background:transparent!important;
+            box-shadow:none!important;
+            border-radius:0!important;
+            font-size:12px!important;
+            height:28px;
+            padding:2px;
+
+        }
+
+        input:focus,
+        select:focus{
+
+            box-shadow:none!important;
+
+        }
+
+        .number-input{
+
+            text-align:center;
+
+        }
+
+        .text-input{
+
+            text-align:left;
+
+        }
+
+        thead th{
+
+            background:#b8cce4;
+
+        }
+
+        tfoot td{
+
+            background:#d8e4bc;
+            font-weight:bold;
+
+        }
+
+    </style>
 
 <body>
 
@@ -20,6 +140,9 @@
         PENGAMATAN PERSEMAIAN PADI
     </h2>
 
+    <br>
+    <br>
+    
     <hr>
 
     <form action="{{ route('pengamatan-persemaian-padi.store') }}"
@@ -45,33 +168,39 @@
 
         <!-- HEADER -->
 
-        <table class="table table-bordered">
+        <table>
 
             <tr>
 
-                <td width="20%">Kabupaten/Kota</td>
+                <td width="170">
 
-                <td width="30%">
-                    {{ $data->petugas->kecamatan->kabupaten->nama_kabupaten_kota }}
+                    Kabupaten/Kota
+
                 </td>
 
-                <td width="20%">Kelompok Tani</td>
+                <td class="bg-pink">
 
-                <td width="30%">
+                    {{ $data->petugas->kecamatan->kabupaten->nama_kabupaten_kota }}
 
-                    <select name="id_kelompok_tani"
-                            class="form-select"
-                            required>
+                </td>
 
-                        <option value="">
-                            -- Pilih Kelompok Tani --
-                        </option>
+                <td width="170">
+
+                    Kelompok Tani
+
+                </td>
+
+                <td class="bg-hijau">
+                    <select
+                        name="id_kelompok_tani">
 
                         @foreach($kelompokTani as $kt)
 
-                            <option value="{{ $kt->id_kelompok_tani }}">
-                                {{ $kt->nama_kelompok }}
-                            </option>
+                        <option value="{{ $kt->id_kelompok_tani }}">
+
+                        {{ $kt->nama_kelompok }}
+
+                        </option>
 
                         @endforeach
 
@@ -83,20 +212,30 @@
 
             <tr>
 
-                <td>Kecamatan</td>
-
                 <td>
-                    {{ $data->petugas->kecamatan->nama_kecamatan }}
+
+                    Kecamatan
+
                 </td>
 
-                <td>Tanggal Pengamatan</td>
+                <td class="bg-pink">
+
+                    {{ $data->petugas->kecamatan->nama_kecamatan }}
+
+                </td>
 
                 <td>
 
-                    <input type="date"
-                           name="tgl_pengamatan"
-                           class="form-control"
-                           value="{{ date('Y-m-d') }}">
+                    Tanggal Pengamatan
+
+                </td>
+
+                <td>
+
+                    <input
+                    type="date"
+                    name="tgl_pengamatan"
+                    value="{{ date('Y-m-d') }}">
 
                 </td>
 
@@ -104,13 +243,19 @@
 
             <tr>
 
-                <td>Desa</td>
-
                 <td>
 
-                    <select name="id_desa"
-                            class="form-select"
-                            required>
+                    Desa
+
+                </td>
+
+                <td class="bg-hijau">
+
+                    <select
+                        name="id_desa"
+                        id="id_desa"
+                        class="form-select"
+                        required>
 
                         <option value="">
                             -- Pilih Desa --
@@ -119,7 +264,9 @@
                         @foreach($desa as $d)
 
                             <option value="{{ $d->id_desa }}">
+
                                 {{ $d->nama_desa }}
+
                             </option>
 
                         @endforeach
@@ -128,39 +275,49 @@
 
                 </td>
 
-                <td>Nama Petugas</td>
+                
+
+                </td>
 
                 <td>
+
+                    Nama Petugas
+
+                </td>
+
+                <td class="bg-pink">
+
                     {{ $data->petugas->nama }}
+
                 </td>
 
             </tr>
 
             <tr>
 
-                <td>Petak Pengamatan</td>
-
                 <td>
 
-                    <input type="text"
-                           name="petak_pengamatan"
-                           class="form-control"
-                           required>
+                    Petak Pengamatan
 
                 </td>
 
-                <td></td>
-                <td></td>
+                <td>
+
+                    <input
+                    type="text"
+                    name="petak_pengamatan">
+
+                </td>
 
             </tr>
 
-        </table>
+</table>
 
         <hr>
 
-        <table class="table table-bordered text-center align-middle">
+        <table>
 
-            <thead class="table-primary">
+            <thead>
 
                 <tr>
 
@@ -197,56 +354,72 @@
                 <tr>
 
                     <td>
-                        <input type="text"
-                               name="no_persemaian[]"
-                               class="form-control form-control-sm">
+                        <input
+                            type="text"
+                            name="no_persemaian[]"
+                            class="form-control form-control-sm text-input"
+                            placeholder="Teks"
+                            maxlength="20">
                     </td>
 
                     <td>
-                        <input type="number"
-                               name="luas[]"
-                               class="form-control">
+                        <input
+                            type="number"
+                            name="luas[]"
+                            class="form-control form-control-sm number-input"
+                            placeholder="0"
+                            min="0">
                     </td>
 
                     <td>
-                        <input type="text"
-                               name="umur[]"
-                               class="form-control">
+                        <input
+                            type="number"
+                            name="umur[]"
+                            class="form-control form-control-sm number-input"
+                            placeholder="HSS"
+                            min="0">
                     </td>
 
                     <td>
-                        <input type="text"
-                               name="varietas[]"
-                               class="form-control form-control-sm">
+                        <input
+                            type="text"
+                            name="varietas[]"
+                            class="form-control form-control-sm text-input"
+                            placeholder="Varietas">
                     </td>
 
                     <td>
-                        <input type="text"
-                               name="pop_ayunan_wbc[]"
-                               class="form-control form-control-sm">
+                        <input
+                            type="text"
+                            name="pop_ayunan_wbc[]"
+                            class="form-control form-control-sm text-input"
+                            placeholder="Teks"
+                            maxlength="20">
+                            
                     </td>
 
                     <td>
-                        <input type="text"
-                               name="wdh[]"
-                               class="form-control form-control-sm">
+                        <input
+                            type="number"
+                            name="wdh[]"
+                            class="form-control form-control-sm number-input"
+                            placeholder="0.00"
+                            step="0.01"
+                            min="0">
                     </td>
 
                     <td>
 
-                        <select name="id_ma[]"
-                                class="form-select form-select-sm">
+                        <select
+                            name="id_ma[]"
+                            class="form-control form-control-sm">
 
-                            <option value="">
-                                Pilih MA
-                            </option>
+                            <option value="">-- Pilih MA --</option>
 
-                            @foreach($ma as $m)
-
-                                <option value="{{ $m->id_ma }}">
-                                    {{ $m->nama_ma }}
+                            @foreach($ma as $item)
+                                <option value="{{ $item->id_ma }}">
+                                    {{ $item->nama_ma }}
                                 </option>
-
                             @endforeach
 
                         </select>
@@ -254,38 +427,53 @@
                     </td>
 
                     <td>
-                        <input type="number"
-                               step="0.01"
-                               name="pop_kt_pbp[]"
-                               class="form-control form-control-sm">
+                        <input
+                            type="number"
+                            name="pop_kt_pbp[]"
+                            class="form-control form-control-sm number-input"
+                            placeholder="0.00"
+                            step="0.01"
+                            min="0">
                     </td>
 
                     <td>
-                        <input type="number"
-                               step="0.01"
-                               name="tikus[]"
-                               class="form-control form-control-sm">
+                        <input
+                            type="number"
+                            name="tikus[]"
+                            class="form-control form-control-sm number-input"
+                            placeholder="0.00"
+                            step="0.01"
+                            min="0">
                     </td>
 
                     <td>
-                        <input type="number"
-                               step="0.01"
-                               name="pbp[]"
-                               class="form-control form-control-sm">
+                        <input
+                            type="number"
+                            name="pbp[]"
+                            class="form-control form-control-sm number-input"
+                            placeholder="0.00"
+                            step="0.01"
+                            min="0">
                     </td>
 
                     <td>
-                        <input type="number"
-                               step="0.01"
-                               name="penyakit[]"
-                               class="form-control form-control-sm">
+                        <input
+                            type="number"
+                            name="penyakit[]"
+                            class="form-control form-control-sm number-input"
+                            placeholder="0.00"
+                            step="0.01"
+                            min="0">
                     </td>
 
                     <td>
-                        <input type="number"
-                               step="0.01"
-                               name="wbc[]"
-                               class="form-control form-control-sm">
+                        <input
+                            type="number"
+                            name="wbc[]"
+                            class="form-control form-control-sm number-input"
+                            placeholder="0.00"
+                            step="0.01"
+                            min="0">
                     </td>
 
                 </tr>
@@ -350,17 +538,33 @@
             </tfoot>
 
         </table>
+        <div class="mt-3">
 
-        <div class="text-end">
+                <button
+                    type="button"
+                    id="tambahBaris"
+                    class="btn btn-primary">
 
-            <button type="submit"
+                    Tambah Baris
+
+                </button>
+
+                <button
+                    type="submit"
                     class="btn btn-success">
 
-                Simpan Semua Data
+                    Simpan
 
-            </button>
+                </button>
 
-        </div>
+                <a href="{{ route('laporan-kerusakan-tanaman-akibat-fisiologis.index') }}"
+                class="btn btn-secondary">
+
+                    Kembali
+
+                </a>
+
+            </div>
 
     </form>
 
@@ -401,89 +605,173 @@
 
             <br>
 
-            0
+            NIP :
+
+            {{ $data->petugas->NIP ?? '-' }}
 
         </div>
 
-    </div>
-
 </div>
-<script>
+    <script>
+        document.getElementById('tambahBaris').addEventListener('click', function(){
 
-function hitungTotal() {
+        let tbody = document.querySelector('tbody');
 
-    let luas = 0;
-    let wdh = 0;
-    let popkt = 0;
-    let tikus = 0;
-    let pbp = 0;
-    let penyakit = 0;
-    let wbc = 0;
+        let row = tbody.rows[tbody.rows.length - 1].cloneNode(true);
 
-    document.querySelectorAll('[name="luas[]"]').forEach(el=>{
-        luas += Number(el.value || 0);
-    });
+        row.querySelectorAll('input').forEach(function(input){
+            input.value = '';
+        });
 
-    document.querySelectorAll('[name="wdh[]"]').forEach(el=>{
-    wdh += Number(el.value || 0);
-    });
+        row.querySelectorAll('select').forEach(function(select){
+            select.selectedIndex = 0;
+        });
 
-    document.querySelectorAll('[name="pop_kt_pbp[]"]').forEach(el=>{
-        popkt += Number(el.value || 0);
-    });
+        tbody.appendChild(row);
 
-    document.querySelectorAll('[name="tikus[]"]').forEach(el=>{
-        tikus += Number(el.value || 0);
-    });
+        hitungTotal();
 
-    document.querySelectorAll('[name="pbp[]"]').forEach(el=>{
-        pbp += Number(el.value || 0);
-    });
+        });
+    </script>
+    <script>
 
-    document.querySelectorAll('[name="penyakit[]"]').forEach(el=>{
-        penyakit += Number(el.value || 0);
-    });
+        document.getElementById('id_desa').addEventListener('change', function () {
 
-    document.querySelectorAll('[name="wbc[]"]').forEach(el=>{
-        wbc += Number(el.value || 0);
-    });
+            let idDesa = this.value;
 
-    document.getElementById('jumlah_luas').innerHTML = luas;
-    document.getElementById('jumlah_wdh').innerHTML = wdh;
-    document.getElementById('jumlah_pop_kt_pbp').innerHTML = popkt;
-    document.getElementById('jumlah_tikus').innerHTML = tikus;
-    document.getElementById('jumlah_pbp').innerHTML = pbp;
-    document.getElementById('jumlah_penyakit').innerHTML = penyakit;
-    document.getElementById('jumlah_wbc').innerHTML = wbc;
+            let kelompok = document.getElementById('id_kelompok_tani');
 
-    let baris = 10;
+            kelompok.innerHTML =
+                '<option value="">-- Pilih Kelompok Tani --</option>';
 
-    document.getElementById('rerata_luas').innerHTML =
-        (luas / baris).toFixed(2);
-    
-    document.getElementById('rerata_wdh').innerHTML =
-        (luas / baris).toFixed(2);
+            if (idDesa == '') {
+                return;
+            }
 
+            fetch("{{ route('pengamatan-persemaian-padi.kelompok-tani', '') }}/" + idDesa)
+                .then(response => response.json())
+                .then(data => {
 
-    document.getElementById('rerata_pop_kt_pbp').innerHTML =
-        (popkt / baris).toFixed(2);
+                    data.forEach(function(item){
 
-    document.getElementById('rerata_tikus').innerHTML =
-        (tikus / baris).toFixed(2);
+                        kelompok.innerHTML +=
+                            `<option value="${item.id_kelompok_tani}">
+                                ${item.nama_kelompok}
+                            </option>`;
 
-    document.getElementById('rerata_pbp').innerHTML =
-        (pbp / baris).toFixed(2);
+                    });
 
-    document.getElementById('rerata_penyakit').innerHTML =
-        (penyakit / baris).toFixed(2);
+                });
 
-    document.getElementById('rerata_wbc').innerHTML =
-        (wbc / baris).toFixed(2);
-}
+        });
 
-document.addEventListener('input', hitungTotal);
+    </script>
+    <script>
 
-</script>
+        function hitungTotal() {
+
+            let luas = 0;
+            let wdh = 0;
+            let popkt = 0;
+            let tikus = 0;
+            let pbp = 0;
+            let penyakit = 0;
+            let wbc = 0;
+
+            // ===============================
+            // HITUNG TOTAL SETIAP KOLOM
+            // ===============================
+
+            document.querySelectorAll('[name="luas[]"]').forEach(function(el){
+                luas += parseFloat(el.value) || 0;
+            });
+
+            document.querySelectorAll('[name="wdh[]"]').forEach(function(el){
+                wdh += parseFloat(el.value) || 0;
+            });
+
+            document.querySelectorAll('[name="pop_kt_pbp[]"]').forEach(function(el){
+                popkt += parseFloat(el.value) || 0;
+            });
+
+            document.querySelectorAll('[name="tikus[]"]').forEach(function(el){
+                tikus += parseFloat(el.value) || 0;
+            });
+
+            document.querySelectorAll('[name="pbp[]"]').forEach(function(el){
+                pbp += parseFloat(el.value) || 0;
+            });
+
+            document.querySelectorAll('[name="penyakit[]"]').forEach(function(el){
+                penyakit += parseFloat(el.value) || 0;
+            });
+
+            document.querySelectorAll('[name="wbc[]"]').forEach(function(el){
+                wbc += parseFloat(el.value) || 0;
+            });
+
+            // ===============================
+            // TAMPILKAN JUMLAH
+            // ===============================
+
+            document.getElementById('jumlah_luas').innerHTML = luas.toFixed(2);
+            document.getElementById('jumlah_wdh').innerHTML = wdh.toFixed(2);
+            document.getElementById('jumlah_pop_kt_pbp').innerHTML = popkt.toFixed(2);
+            document.getElementById('jumlah_tikus').innerHTML = tikus.toFixed(2);
+            document.getElementById('jumlah_pbp').innerHTML = pbp.toFixed(2);
+            document.getElementById('jumlah_penyakit').innerHTML = penyakit.toFixed(2);
+            document.getElementById('jumlah_wbc').innerHTML = wbc.toFixed(2);
+
+            // ===============================
+            // HITUNG JUMLAH BARIS
+            // ===============================
+
+            let baris = document.querySelectorAll('[name="luas[]"]').length;
+
+            if (baris <= 0) {
+                baris = 1;
+            }
+
+            // ===============================
+            // TAMPILKAN RERATA
+            // ===============================
+
+            document.getElementById('rerata_luas').innerHTML = (luas / baris).toFixed(2);
+            document.getElementById('rerata_wdh').innerHTML = (wdh / baris).toFixed(2);
+            document.getElementById('rerata_pop_kt_pbp').innerHTML = (popkt / baris).toFixed(2);
+            document.getElementById('rerata_tikus').innerHTML = (tikus / baris).toFixed(2);
+            document.getElementById('rerata_pbp').innerHTML = (pbp / baris).toFixed(2);
+            document.getElementById('rerata_penyakit').innerHTML = (penyakit / baris).toFixed(2);
+            document.getElementById('rerata_wbc').innerHTML = (wbc / baris).toFixed(2);
+
+        }
+
+        // ===============================
+        // OTOMATIS HITUNG SAAT INPUT BERUBAH
+        // ===============================
+
+        document.addEventListener('input', function(e){
+
+            if(
+                e.target.name === 'luas[]' ||
+                e.target.name === 'wdh[]' ||
+                e.target.name === 'pop_kt_pbp[]' ||
+                e.target.name === 'tikus[]' ||
+                e.target.name === 'pbp[]' ||
+                e.target.name === 'penyakit[]' ||
+                e.target.name === 'wbc[]'
+            ){
+                hitungTotal();
+            }
+
+        });
+
+        // Hitung saat halaman pertama kali dibuka
+        document.addEventListener('DOMContentLoaded', function(){
+            hitungTotal();
+        });
+
+    </script>
 </body>
 </html>
 

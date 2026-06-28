@@ -26,11 +26,13 @@ class PengamatanPersemaianPadiController extends Controller
         $desa = Desa::where(
             'id_kecamatan',
             $data->petugas->id_kecamatan
-        )->get();
+        )->orderBy('nama_desa')->get();
 
-        $kelompokTani = KelompokTani::all();
+        $kelompokTani = collect();
 
-        $ma = Ma::all();
+        $ma = Ma::orderBy('nama_ma')->get();
+
+        $kelompokTani = KelompokTani::orderBy('nama_kelompok')->get();
 
         return view(
             'pengamatan_persemaian_padi.create',
@@ -42,6 +44,20 @@ class PengamatanPersemaianPadiController extends Controller
             )
         );
     }
+    public function getKelompokTani($id_desa)
+{
+    $kelompok = KelompokTani::where(
+        'id_desa',
+        $id_desa
+    )
+    ->orderBy('nama_kelompok')
+    ->get([
+        'id_kelompok_tani',
+        'nama_kelompok'
+    ]);
+
+    return response()->json($kelompok);
+}
    public function index()
     {
         $data = PengamatanPersemaianPadi::leftJoin(

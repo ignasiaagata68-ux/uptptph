@@ -138,12 +138,70 @@ Route::middleware([
     //DATA PENGAMATAN
     Route::resource('data', DataController::class);
     Route::get('/sp/{id_data}',[SpController::class, 'create'])->name('sp.create');
-    Route::get('/pengamatan-persemaian-padi/{id_data}',[PengamatanPersemaianPadiController::class,'create'])->name('pengamatan-persemaian-padi.create');
-    Route::post('/pengamatan-persemaian-padi/store',[PengamatanPersemaianPadiController::class, 'store'])->name('pengamatan-persemaian-padi.store');
-    Route::get('/pengamatan-persemaian-padi',[PengamatanPersemaianPadiController::class, 'index'])->name('pengamatan-persemaian-padi.index');
-    Route::get('/pengamatan-persemaian-padi/show/{id}',[PengamatanPersemaianPadiController::class, 'show'])->name('pengamatan-persemaian-padi.show');
-    Route::get('/pengamatan-persemaian-padi/edit/{id}',[PengamatanPersemaianPadiController::class, 'edit'])->name('pengamatan-persemaian-padi.edit');
-    Route::post('/pengamatan-persemaian-padi/update/{id}',[PengamatanPersemaianPadiController::class, 'update'])->name('pengamatan-persemaian-padi.update');
+    
+    
+
+    Route::prefix('pengamatan-persemaian-padi')->group(function () {
+
+        // INDEX
+        Route::get(
+            '/',
+            [PengamatanPersemaianPadiController::class, 'index']
+        )->name('pengamatan-persemaian-padi.index');
+
+        // CREATE
+        Route::get(
+            '/create/{id_data}',
+            [PengamatanPersemaianPadiController::class, 'create']
+        )->name('pengamatan-persemaian-padi.create');
+
+        // STORE
+        Route::post(
+            '/store',
+            [PengamatanPersemaianPadiController::class, 'store']
+        )->name('pengamatan-persemaian-padi.store');
+
+        // DETAIL
+        Route::get(
+            '/show/{id}',
+            [PengamatanPersemaianPadiController::class, 'show']
+        )->name('pengamatan-persemaian-padi.show');
+
+        // EDIT
+        Route::get(
+            '/edit/{id}',
+            [PengamatanPersemaianPadiController::class, 'edit']
+        )->name('pengamatan-persemaian-padi.edit');
+
+        // UPDATE
+        Route::post(
+            '/update/{id}',
+            [PengamatanPersemaianPadiController::class, 'update']
+        )->name('pengamatan-persemaian-padi.update');
+
+        // DELETE
+        Route::delete(
+            '/destroy/{id}',
+            [PengamatanPersemaianPadiController::class, 'destroy']
+        )->name('pengamatan-persemaian-padi.destroy');
+
+        // VERIFIKASI
+        Route::get(
+            '/verifikasi/{id}',
+            [PengamatanPersemaianPadiController::class, 'verifikasi']
+        )->name('pengamatan-persemaian-padi.verifikasi');
+
+        Route::post(
+            '/verifikasi/{id}',
+            [PengamatanPersemaianPadiController::class, 'prosesVerifikasi']
+        )->name('pengamatan-persemaian-padi.proses-verifikasi');
+        
+        Route::get(
+        '/kelompok-tani/{id_desa}',
+        [PengamatanPersemaianPadiController::class, 'getKelompokTani']
+        )->name('pengamatan-persemaian-padi.kelompok-tani');
+    });  
+    
     Route::get('/keadaan-serangan-opt/{id_data}',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class,'create'])->name('keadaan-serangan-opt.create');
     Route::post('/keadaan-serangan-opt/store',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class,'store'])->name('keadaan-serangan-opt.store');
     Route::get('/keadaan-serangan-opt',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class,'index'])->name('keadaan-serangan-opt.index');
