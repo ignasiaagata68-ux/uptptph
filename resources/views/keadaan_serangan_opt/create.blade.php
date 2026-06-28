@@ -619,8 +619,9 @@ document.addEventListener('input', function(e){
 
 </script>
 <script>
+    document.getElementById('tambahBaris').addEventListener('click', function(){
 
-document.getElementById('tambahBaris').addEventListener('click', function(){
+    console.log("TOMBOL DIKLIK");
 
     let tbody = document.getElementById('tbody-opt');
 
@@ -642,8 +643,7 @@ document.getElementById('tambahBaris').addEventListener('click', function(){
 
     tbody.appendChild(row);
 
-});
-
+    });
 </script>
 </body>
 </head>

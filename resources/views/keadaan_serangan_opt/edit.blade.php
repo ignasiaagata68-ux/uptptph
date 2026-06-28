@@ -659,15 +659,23 @@ document.getElementById('tambahBaris').addEventListener('click', function(){
 
     let tbody = document.getElementById('tbody-opt');
 
+    console.log(tbody);
+    console.log(tbody.lastElementChild);
     let row = tbody.lastElementChild.cloneNode(true);
 
     row.querySelectorAll('input').forEach(function(input){
 
-        if(input.type !== 'hidden'){
-            input.value = '';
-        }
+    if(input.type !== 'hidden'){
+        input.value = '';
+    }
 
     });
+
+    let idDetail = row.querySelector('input[name="id_detail[]"]');
+
+    if (idDetail) {
+        idDetail.remove();
+    }
 
     row.querySelectorAll('select').forEach(function(select){
 

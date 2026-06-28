@@ -145,8 +145,8 @@
     
     <hr>
 
-    <form action="{{ route('pengamatan-persemaian-padi.store') }}"
-          method="POST">
+    <form action="{{ route('pengamatan-persemaian-padi.store') }}" 
+        method="POST">
 
         @csrf
 
@@ -192,15 +192,22 @@
 
                 <td class="bg-hijau">
                     <select
-                        name="id_kelompok_tani">
+                        name="id_kelompok_tani"
+                        id="id_kelompok_tani"
+                        class="form-select"
+                        required>
+
+                        <option value="">
+                            -- Pilih Kelompok Tani --
+                        </option>
 
                         @foreach($kelompokTani as $kt)
 
-                        <option value="{{ $kt->id_kelompok_tani }}">
+                            <option value="{{ $kt->id_kelompok_tani }}">
 
-                        {{ $kt->nama_kelompok }}
+                                {{ $kt->nama_kelompok }}
 
-                        </option>
+                            </option>
 
                         @endforeach
 
@@ -304,8 +311,11 @@
                 <td>
 
                     <input
-                    type="text"
-                    name="petak_pengamatan">
+                        type="text"
+                        name="petak_pengamatan"
+                        class="form-control"
+                        required
+                        placeholder="Masukkan Petak Pengamatan">
 
                 </td>
 
@@ -347,9 +357,9 @@
 
             </thead>
 
-            <tbody>
+            <tbody id="tbodyData">
 
-            @for($i=0;$i<10;$i++)
+            @for($i=0;$i<10;$i++)>
 
                 <tr>
 
@@ -359,6 +369,7 @@
                             name="no_persemaian[]"
                             class="form-control form-control-sm text-input"
                             placeholder="Teks"
+                            class="angka"
                             maxlength="20">
                     </td>
 
@@ -368,6 +379,7 @@
                             name="luas[]"
                             class="form-control form-control-sm number-input"
                             placeholder="0"
+                            class="angka"
                             min="0">
                     </td>
 
@@ -377,6 +389,7 @@
                             name="umur[]"
                             class="form-control form-control-sm number-input"
                             placeholder="HSS"
+                            class="angka"
                             min="0">
                     </td>
 
@@ -405,6 +418,7 @@
                             class="form-control form-control-sm number-input"
                             placeholder="0.00"
                             step="0.01"
+                            class="angka"
                             min="0">
                     </td>
 
@@ -433,6 +447,7 @@
                             class="form-control form-control-sm number-input"
                             placeholder="0.00"
                             step="0.01"
+                            class="angka"
                             min="0">
                     </td>
 
@@ -443,6 +458,7 @@
                             class="form-control form-control-sm number-input"
                             placeholder="0.00"
                             step="0.01"
+                            class="angka"
                             min="0">
                     </td>
 
@@ -453,6 +469,7 @@
                             class="form-control form-control-sm number-input"
                             placeholder="0.00"
                             step="0.01"
+                            class="angka"
                             min="0">
                     </td>
 
@@ -463,6 +480,7 @@
                             class="form-control form-control-sm number-input"
                             placeholder="0.00"
                             step="0.01"
+                            class="angka"
                             min="0">
                     </td>
 
@@ -473,6 +491,7 @@
                             class="form-control form-control-sm number-input"
                             placeholder="0.00"
                             step="0.01"
+                            class="angka"
                             min="0">
                     </td>
 
@@ -557,11 +576,9 @@
 
                 </button>
 
-                <a href="{{ route('laporan-kerusakan-tanaman-akibat-fisiologis.index') }}"
-                class="btn btn-secondary">
-
+                <a href="{{ route('pengamatan-persemaian-padi.index') }}"
+                    class="btn btn-secondary">
                     Kembali
-
                 </a>
 
             </div>
@@ -613,23 +630,32 @@
 
 </div>
     <script>
-        document.getElementById('tambahBaris').addEventListener('click', function(){
+        document.getElementById('tambahBaris').addEventListener('click', function () {
 
-        let tbody = document.querySelector('tbody');
+            let tbody = document.getElementById('tbodyData');
 
-        let row = tbody.rows[tbody.rows.length - 1].cloneNode(true);
+            // Clone baris terakhir
+            let row = tbody.rows[tbody.rows.length - 1].cloneNode(true);
 
-        row.querySelectorAll('input').forEach(function(input){
-            input.value = '';
-        });
+            // Kosongkan semua input
+            row.querySelectorAll('input').forEach(function(input){
 
-        row.querySelectorAll('select').forEach(function(select){
-            select.selectedIndex = 0;
-        });
+                input.value = '';
 
-        tbody.appendChild(row);
+            });
 
-        hitungTotal();
+            // Reset semua dropdown
+            row.querySelectorAll('select').forEach(function(select){
+
+                select.selectedIndex = 0;
+
+            });
+
+            // Tambahkan ke tabel
+            tbody.appendChild(row);
+
+            // Hitung ulang
+            hitungTotal();
 
         });
     </script>
@@ -637,31 +663,15 @@
 
         document.getElementById('id_desa').addEventListener('change', function () {
 
-            let idDesa = this.value;
+        });
 
-            let kelompok = document.getElementById('id_kelompok_tani');
+        document.querySelectorAll('.angka').forEach(function(input){
 
-            kelompok.innerHTML =
-                '<option value="">-- Pilih Kelompok Tani --</option>';
+            input.addEventListener('input', function(){
 
-            if (idDesa == '') {
-                return;
-            }
+                this.value = this.value.replace(',', '.');
 
-            fetch("{{ route('pengamatan-persemaian-padi.kelompok-tani', '') }}/" + idDesa)
-                .then(response => response.json())
-                .then(data => {
-
-                    data.forEach(function(item){
-
-                        kelompok.innerHTML +=
-                            `<option value="${item.id_kelompok_tani}">
-                                ${item.nama_kelompok}
-                            </option>`;
-
-                    });
-
-                });
+            });
 
         });
 
@@ -714,36 +724,57 @@
             // TAMPILKAN JUMLAH
             // ===============================
 
-            document.getElementById('jumlah_luas').innerHTML = luas.toFixed(2);
-            document.getElementById('jumlah_wdh').innerHTML = wdh.toFixed(2);
-            document.getElementById('jumlah_pop_kt_pbp').innerHTML = popkt.toFixed(2);
-            document.getElementById('jumlah_tikus').innerHTML = tikus.toFixed(2);
-            document.getElementById('jumlah_pbp').innerHTML = pbp.toFixed(2);
-            document.getElementById('jumlah_penyakit').innerHTML = penyakit.toFixed(2);
-            document.getElementById('jumlah_wbc').innerHTML = wbc.toFixed(2);
-
+            document.getElementById('jumlah_luas').textContent = luas.toFixed(2);
+            document.getElementById('jumlah_wdh').textContent = wdh.toFixed(2);
+            document.getElementById('jumlah_pop_kt_pbp').textContent = popkt.toFixed(2);
+            document.getElementById('jumlah_tikus').textContent = tikus.toFixed(2);
+            document.getElementById('jumlah_pbp').textContent = pbp.toFixed(2);
+            document.getElementById('jumlah_penyakit').textContent = penyakit.toFixed(2);
+            document.getElementById('jumlah_wbc').textContent = wbc.toFixed(2);
             // ===============================
             // HITUNG JUMLAH BARIS
             // ===============================
 
-            let baris = document.querySelectorAll('[name="luas[]"]').length;
+            let baris = 0;
 
-            if (baris <= 0) {
-                baris = 1;
+            document.querySelectorAll('[name="luas[]"]').forEach(function(el){
+
+                if(el.value !== ''){
+                    baris++;
+                }
+
+            });
+
+            if(baris==0){
+
+                baris=1;
+
             }
 
             // ===============================
             // TAMPILKAN RERATA
             // ===============================
 
-            document.getElementById('rerata_luas').innerHTML = (luas / baris).toFixed(2);
-            document.getElementById('rerata_wdh').innerHTML = (wdh / baris).toFixed(2);
-            document.getElementById('rerata_pop_kt_pbp').innerHTML = (popkt / baris).toFixed(2);
-            document.getElementById('rerata_tikus').innerHTML = (tikus / baris).toFixed(2);
-            document.getElementById('rerata_pbp').innerHTML = (pbp / baris).toFixed(2);
-            document.getElementById('rerata_penyakit').innerHTML = (penyakit / baris).toFixed(2);
-            document.getElementById('rerata_wbc').innerHTML = (wbc / baris).toFixed(2);
+           document.getElementById('rerata_luas').textContent =
+                (luas / baris).toFixed(2);
 
+            document.getElementById('rerata_wdh').textContent =
+                (wdh / baris).toFixed(2);
+
+            document.getElementById('rerata_pop_kt_pbp').textContent =
+                (popkt / baris).toFixed(2);
+
+            document.getElementById('rerata_tikus').textContent =
+                (tikus / baris).toFixed(2);
+
+            document.getElementById('rerata_pbp').textContent =
+                (pbp / baris).toFixed(2);
+
+            document.getElementById('rerata_penyakit').textContent =
+                (penyakit / baris).toFixed(2);
+
+            document.getElementById('rerata_wbc').textContent =
+                (wbc / baris).toFixed(2);
         }
 
         // ===============================

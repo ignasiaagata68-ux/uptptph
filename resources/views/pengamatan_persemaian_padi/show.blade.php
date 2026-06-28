@@ -59,9 +59,9 @@
                 <td>{{ $d->varietas }}</td>
                 <td>{{ $d->pop_ayunan_wbc }}</td>
                 <td>{{ $d->wdh }}</td>
-                <td>{{ $d->ma->nama_ma ?? '-' }}</td>
+                <td>{{ $d->nama_ma ?? '-' }}</td>
                 <td>{{ $d->tikus }}</td>
-                <td>{{ $d->pbp }}</td>
+                <td>{{ $d->pop_kt_pbp }}</td>
                 <td>{{ $d->penyakit }}</td>
                 <td>{{ $d->wbc }}</td>
                 <td>{{ $d->status_verifikasi ?? 'menunggu' }}</td>

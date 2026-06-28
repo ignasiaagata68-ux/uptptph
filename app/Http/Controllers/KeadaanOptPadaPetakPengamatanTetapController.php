@@ -65,6 +65,15 @@ class KeadaanOptPadaPetakPengamatanTetapController extends Controller
                 'd.keterangan_verifikasi'
             )
 
+            ->groupBy(
+                'k.id_keadaan_opt_pada_petak_pengamatan_tetap',
+                'kab.nama_kabupaten_kota',
+                'kec.nama_kecamatan',
+                'p.periode_pengamatan',
+                'd.status_verifikasi',
+                'd.keterangan_verifikasi'
+            )
+
             ->latest(
                 'k.id_keadaan_opt_pada_petak_pengamatan_tetap'
             )

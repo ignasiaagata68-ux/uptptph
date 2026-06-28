@@ -202,25 +202,145 @@ Route::middleware([
         )->name('pengamatan-persemaian-padi.kelompok-tani');
     });  
     
-    Route::get('/keadaan-serangan-opt/{id_data}',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class,'create'])->name('keadaan-serangan-opt.create');
-    Route::post('/keadaan-serangan-opt/store',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class,'store'])->name('keadaan-serangan-opt.store');
-    Route::get('/keadaan-serangan-opt',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class,'index'])->name('keadaan-serangan-opt.index');
-    Route::get('/keadaan-serangan-opt/show/{id}',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class,'show'])->name('keadaan-serangan-opt.show');
-    Route::get('/keadaan-serangan-opt/edit/{id}',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class,'edit'])->name('keadaan-serangan-opt.edit');
-    Route::post('/keadaan-serangan-opt/update/{id}',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class,'update'])->name('keadaan-serangan-opt.update');
-    Route::get('/keadaan-serangan-opt/verifikasi/{id}/{status}',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class,'verifikasi'])->name('keadaan-serangan-opt.verifikasi');
-    Route::get('/keadaan-opt-pada-petak-pengamatan-tetap',[KeadaanOptPadaPetakPengamatanTetapController::class, 'index'])->name('keadaan-opt-pada-petak-pengamatan-tetap.index');
-    Route::get('/keadaan-opt-pada-petak-pengamatan-tetap/create/{id_data}',[KeadaanOptPadaPetakPengamatanTetapController::class, 'create'])->name('keadaan-opt-pada-petak-pengamatan-tetap.create');
-    Route::post('/keadaan-opt-pada-petak-pengamatan-tetap/store',[KeadaanOptPadaPetakPengamatanTetapController::class, 'store'])->name('keadaan-opt-pada-petak-pengamatan-tetap.store');
-    Route::get('/keadaan-opt-pada-petak-pengamatan-tetap/detail/{id}',[KeadaanOptPadaPetakPengamatanTetapController::class, 'detail'])->name('keadaan-opt-pada-petak-pengamatan-tetap.detail');
-    Route::get('/keadaan-opt-pada-petak-pengamatan-tetap/edit/{id}',[KeadaanOptPadaPetakPengamatanTetapController::class, 'edit'])->name('keadaan-opt-pada-petak-pengamatan-tetap.edit');
-    Route::put('/keadaan-opt-pada-petak-pengamatan-tetap/update/{id}',[KeadaanOptPadaPetakPengamatanTetapController::class, 'update'])->name('keadaan-opt-pada-petak-pengamatan-tetap.update');
-    Route::get('/keadaan-opt-pada-petak-pengamatan-tetap/verifikasi/{id}',[KeadaanOptPadaPetakPengamatanTetapController::class,'verifikasi'])->name('keadaan-opt-pada-petak-pengamatan-tetap.verifikasi');
-    Route::post('/keadaan-opt-pada-petak-pengamatan-tetap/simpan-verifikasi/{id}',[KeadaanOptPadaPetakPengamatanTetapController::class,'simpanVerifikasi'])->name('keadaan-opt-pada-petak-pengamatan-tetap.simpan-verifikasi');
-    Route::get('/laporan-kerusakan-tanaman-akibat-banjir',[LaporanKerusakanTanamanAkibatBanjirController::class,'index'])->name('laporan-kerusakan-tanaman-akibat-banjir.index');
-    Route::get('/laporan-kerusakan-tanaman-akibat-banjir/create/{id_data}',[LaporanKerusakanTanamanAkibatBanjirController::class,'create'])->name('laporan-kerusakan-tanaman-akibat-banjir.create');
-    Route::post('/laporan-kerusakan-tanaman-akibat-banjir/store',[LaporanKerusakanTanamanAkibatBanjirController::class,'store'])->name('laporan-kerusakan-tanaman-akibat-banjir.store');
-    Route::get('/laporan-kerusakan-tanaman-akibat-banjir/detail/{id}',[LaporanKerusakanTanamanAkibatBanjirController::class,'detail'])->name('laporan-kerusakan-tanaman-akibat-banjir.detail');
+    
+    Route::prefix('keadaan-serangan-opt')->group(function () {
+
+    Route::get(
+        '/',
+        [KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'index']
+    )->name('keadaan-serangan-opt.index');
+
+    Route::get(
+        '/create/{id_data}',
+        [KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'create']
+    )->name('keadaan-serangan-opt.create');
+
+    Route::post(
+        '/store',
+        [KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'store']
+    )->name('keadaan-serangan-opt.store');
+
+    Route::get(
+        '/show/{id}',
+        [KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'show']
+    )->name('keadaan-serangan-opt.show');
+
+    Route::get(
+        '/edit/{id}',
+        [KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'edit']
+    )->name('keadaan-serangan-opt.edit');
+
+    Route::post(
+        '/update/{id}',
+        [KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'update']
+    )->name('keadaan-serangan-opt.update');
+
+    Route::get(
+        '/verifikasi/{id}/{status}',
+        [KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'verifikasi']
+    )->name('keadaan-serangan-opt.verifikasi');
+
+});
+    
+    Route::prefix('keadaan-opt-pada-petak-pengamatan-tetap')->group(function () {
+
+    // INDEX
+    Route::get(
+        '/',
+        [KeadaanOptPadaPetakPengamatanTetapController::class, 'index']
+    )->name('keadaan-opt-pada-petak-pengamatan-tetap.index');
+
+    // CREATE
+    Route::get(
+        '/create/{id_data}',
+        [KeadaanOptPadaPetakPengamatanTetapController::class, 'create']
+    )->name('keadaan-opt-pada-petak-pengamatan-tetap.create');
+
+    // STORE
+    Route::post(
+        '/store',
+        [KeadaanOptPadaPetakPengamatanTetapController::class, 'store']
+    )->name('keadaan-opt-pada-petak-pengamatan-tetap.store');
+
+    // DETAIL
+    Route::get(
+        '/detail/{id}',
+        [KeadaanOptPadaPetakPengamatanTetapController::class, 'detail']
+    )->name('keadaan-opt-pada-petak-pengamatan-tetap.detail');
+
+    // EDIT
+    Route::get(
+        '/edit/{id}',
+        [KeadaanOptPadaPetakPengamatanTetapController::class, 'edit']
+    )->name('keadaan-opt-pada-petak-pengamatan-tetap.edit');
+
+    // UPDATE
+    Route::put(
+        '/update/{id}',
+        [KeadaanOptPadaPetakPengamatanTetapController::class, 'update']
+    )->name('keadaan-opt-pada-petak-pengamatan-tetap.update');
+
+    // VERIFIKASI
+    Route::get(
+        '/verifikasi/{id}',
+        [KeadaanOptPadaPetakPengamatanTetapController::class, 'verifikasi']
+    )->name('keadaan-opt-pada-petak-pengamatan-tetap.verifikasi');
+
+    Route::post(
+        '/simpan-verifikasi/{id}',
+        [KeadaanOptPadaPetakPengamatanTetapController::class, 'simpanVerifikasi']
+    )->name('keadaan-opt-pada-petak-pengamatan-tetap.simpan-verifikasi');
+
+}); 
+    
+
+    Route::prefix('laporan-kerusakan-tanaman-akibat-banjir')
+    ->name('laporan-kerusakan-tanaman-akibat-banjir.')
+    ->group(function () {
+
+        Route::get(
+            '/',
+            [LaporanKerusakanTanamanAkibatBanjirController::class, 'index']
+        )->name('index');
+
+        Route::get(
+            '/create/{id_data}',
+            [LaporanKerusakanTanamanAkibatBanjirController::class, 'create']
+        )->name('create');
+
+        Route::post(
+            '/store',
+            [LaporanKerusakanTanamanAkibatBanjirController::class, 'store']
+        )->name('store');
+
+        Route::get(
+            '/detail/{id}',
+            [LaporanKerusakanTanamanAkibatBanjirController::class, 'detail']
+        )->name('detail');
+
+        Route::get(
+            '/edit/{id}',
+            [LaporanKerusakanTanamanAkibatBanjirController::class, 'edit']
+        )->name('edit');
+
+        Route::post(
+            '/update/{id}',
+            [LaporanKerusakanTanamanAkibatBanjirController::class, 'update']
+        )->name('update');
+
+        Route::get(
+            '/verifikasi/{id}/{status}',
+            [LaporanKerusakanTanamanAkibatBanjirController::class, 'verifikasi']
+        )->name('verifikasi');
+
+    });
+
+
+   
+
+
+
+
     Route::get('/laporan-kerusakan-tanaman-akibat-kekeringan',[LaporanKerusakanTanamanAkibatKekeringanController::class,'index'])->name('laporan-kerusakan-tanaman-akibat-kekeringan.index');
     Route::get('/laporan-kerusakan-tanaman-akibat-kekeringan/create/{id_data}',[LaporanKerusakanTanamanAkibatKekeringanController::class,'create'])->name('laporan-kerusakan-tanaman-akibat-kekeringan.create');
     Route::post('/laporan-kerusakan-tanaman-akibat-kekeringan/store',[LaporanKerusakanTanamanAkibatKekeringanController::class,'store'])->name('laporan-kerusakan-tanaman-akibat-kekeringan.store');

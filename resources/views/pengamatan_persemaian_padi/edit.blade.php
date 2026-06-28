@@ -57,6 +57,7 @@
                     <th>MA</th>
                     <th>Tikus</th>
                     <th>Pop KT PBP</th>
+                    <th>PBP</th>
                     <th>Penyakit</th>
                     <th>WBC</th>
                 </tr>
@@ -64,7 +65,6 @@
             </thead>
 
             <tbody>
-
                 @foreach($detail as $d)
 
                 <tr>
@@ -123,14 +123,9 @@
                     </td>
 
                     <td>
-
                         <select
                             name="id_ma[]"
                             class="form-select">
-
-                            <option value="">
-                                -- Pilih MA --
-                            </option>
 
                             @foreach($ma as $m)
 
@@ -146,8 +141,6 @@
 
                         </select>
 
-                    </td>
-
                     <td>
                         <input
                             type="text"
@@ -162,6 +155,13 @@
                             name="pop_kt_pbp[]"
                             class="form-control"
                             value="{{ $d->pop_kt_pbp }}">
+                    </td>
+                    <td>
+                        <input
+                            type="text"
+                            name="pbp[]"
+                            class="form-control"
+                            value="{{ $d->pbp }}">
                     </td>
 
                     <td>

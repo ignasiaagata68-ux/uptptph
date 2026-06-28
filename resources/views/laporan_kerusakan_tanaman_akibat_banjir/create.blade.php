@@ -602,9 +602,7 @@
         </a>
 
     </div>
-    <pre>
-    {{ print_r($komoditas->toArray(), true) }}
-    </pre>
+
 
 </form>
 
