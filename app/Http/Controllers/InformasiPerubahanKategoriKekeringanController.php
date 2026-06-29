@@ -179,18 +179,215 @@ class InformasiPerubahanKategoriKekeringanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
+   public function edit($id)
+{
+    $header = DB::table(
+        'informasi_perubahan_kategori_kekeringan as h'
+    )
+
+    ->leftJoin(
+        'kabupaten_kota as kab',
+        'h.id_kabupaten_kota',
+        '=',
+        'kab.id_kabupaten_kota'
+    )
+
+    ->leftJoin(
+        'kecamatan as kec',
+        'h.id_kecamatan',
+        '=',
+        'kec.id_kecamatan'
+    )
+
+    ->leftJoin(
+        'periode as p',
+        'h.id_periode',
+        '=',
+        'p.id_periode'
+    )
+
+    ->leftJoin(
+        'musim_tanam as mt',
+        'h.id_musim_tanam',
+        '=',
+        'mt.id_musim_tanam'
+    )
+
+    ->where(
+        'h.id_informasi_perubahan_kategori_kekeringan',
+        $id
+    )
+
+    ->select(
+        'h.*',
+        'kab.nama_kabupaten_kota',
+        'kec.nama_kecamatan',
+        'p.periode_pengamatan',
+        'mt.musim_tanam'
+    )
+
+    ->first();
+
+    $detail = DetInformasiPerubahanKategoriKekeringan::with([
+        'desa',
+        'komoditas'
+    ])
+
+    ->where(
+        'id_informasi_perubahan_kategori_kekeringan',
+        $id
+    )
+
+    ->get();
+
+    $desa = Desa::all();
+
+    $komoditas = Komoditas::all();
+
+    return view(
+        'informasi_perubahan_kategori_kekeringan.edit',
+        compact(
+            'header',
+            'detail',
+            'desa',
+            'komoditas'
+        )
+    );
+}
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function update(Request $request, $id)
+{
+
+    InformasiPerubahanKategoriKekeringan::where(
+        'id_informasi_perubahan_kategori_kekeringan',
+        $id
+    )->update([
+
+        'id_periode' =>
+            $request->id_periode[0],
+
+        'id_kabupaten_kota' =>
+            $request->id_kabupaten_kota[0],
+
+        'id_kecamatan' =>
+            $request->id_kecamatan[0]
+
+    ]);
+
+    for ($i = 0; $i < count($request->id_detail); $i++) {
+
+DetInformasiPerubahanKategoriKekeringan::where(
+    'id_det_informasi_perubahan_kategori_kekeringan',
+    $request->id_detail[$i]
+)->update([
+
+    'id_desa' => $request->id_desa[$i],
+    'id_komoditas' => $request->id_komoditas[$i],
+
+    'ltb_ringan' => $request->ltb_ringan[$i],
+    'ltb_sedang' => $request->ltb_sedang[$i],
+    'ltb_berat' => $request->ltb_berat[$i],
+    'ltb_puso' => $request->ltb_puso[$i],
+    'ltb_jumlah' => $request->ltb_jumlah[$i],
+    'pkt_ringan' => $request->pkt_ringan[$i],
+    'pkt_sedang' => $request->pkt_sedang[$i],
+    'pkt_berat' => $request->pkt_berat[$i],
+    'pkt_puso' => $request->pkt_puso[$i],
+    'pkt_jumlah' => $request->pkt_jumlah[$i],
+    'pkt_pulih' => $request->pkt_pulih[$i],
+
+]);
+
+$model = DetInformasiPerubahanKategoriKekeringan::find(
+    $request->id_detail[$i]
+);
+
+dd($model->toArray());
+
     }
+
+    return redirect()
+        ->route(
+            'informasi-perubahan-kategori-kekeringan.index'
+        )
+        ->with(
+            'success',
+            'Data berhasil diubah'
+        );
+}
+    public function detail($id)
+{
+    $header = DB::table(
+        'informasi_perubahan_kategori_kekeringan as h'
+    )
+
+    ->leftJoin(
+        'kabupaten_kota as kab',
+        'h.id_kabupaten_kota',
+        '=',
+        'kab.id_kabupaten_kota'
+    )
+
+    ->leftJoin(
+        'kecamatan as kec',
+        'h.id_kecamatan',
+        '=',
+        'kec.id_kecamatan'
+    )
+
+    ->leftJoin(
+        'periode as p',
+        'h.id_periode',
+        '=',
+        'p.id_periode'
+    )
+
+    ->leftJoin(
+        'musim_tanam as mt',
+        'h.id_musim_tanam',
+        '=',
+        'mt.id_musim_tanam'
+    )
+
+    ->where(
+        'h.id_informasi_perubahan_kategori_kekeringan',
+        $id
+    )
+
+    ->select(
+        'h.*',
+        'kab.nama_kabupaten_kota',
+        'kec.nama_kecamatan',
+        'p.periode_pengamatan',
+        'mt.musim_tanam'
+    )
+
+    ->first();
+
+    $detail =
+        DetInformasiPerubahanKategoriKekeringan::with([
+            'desa',
+            'komoditas'
+        ])
+
+        ->where(
+            'id_informasi_perubahan_kategori_kekeringan',
+            $id
+        )
+
+        ->get();
+
+    return view(
+        'informasi_perubahan_kategori_kekeringan.detail',
+        compact(
+            'header',
+            'detail'
+        )
+    );
+}
 
     /**
      * Remove the specified resource from storage.

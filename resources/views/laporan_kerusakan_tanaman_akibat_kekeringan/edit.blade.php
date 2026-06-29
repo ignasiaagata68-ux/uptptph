@@ -142,9 +142,11 @@
 
 </div>
 
-<form method="POST"
-    action="{{ route('laporan-kerusakan-tanaman-akibat-kekeringan.update',$header->id_laporan_kerusakan_tanaman_akibat_kekeringan) }}">
-        @csrf
+<form action="{{ route('laporan-kerusakan-tanaman-akibat-kekeringan.update', $header->id_laporan_kerusakan_tanaman_akibat_kekeringan) }}"
+      method="POST">
+      
+    @csrf
+    @method('PUT')
 
         <table class="table table-bordered">
         <thead>
@@ -258,9 +260,14 @@
             </tr>
 
         </thead>
-            <tbody id="tbody-kekeringan">
-                @foreach($detail as $d)
 
+            <tbody id="tbody-kekeringan">
+
+            @foreach($detail as $d)
+                <input
+                    type="hidden"
+                    name="id_detail[]"
+                    value="{{ $d->id_det_laporan_kerusakan_tanaman_akibat_kekeringan }}">
                 <input type="hidden"
                     name="id_tahun[]"
                     value="{{ $d->id_tahun }}">
@@ -272,6 +279,11 @@
                 <input type="hidden"
                     name="id_periode[]"
                     value="{{ $d->id_periode }}">
+
+                <input
+                    type="hidden"
+                    name="id_musim_tanam"
+                    value="{{ $header->id_musim_tanam }}">
 
                 <tr class="baris-kekeringan">
 
@@ -541,7 +553,7 @@
                             name="lk_b[]"
                             class="form-control lk_b"
                             readonly
-                            value="0"
+                            value="{{ $d->lk_b }}"
                             style="min-width:120px;">
                     </td>
 
@@ -588,7 +600,8 @@
 
                     <!-- LAT -->
                     <td>
-                        <input type="text"
+                        <input type="number"
+                            step="0.000001"
                             name="lat[]"
                             class="form-control"
                             value="{{ $d->lat }}"
@@ -597,7 +610,8 @@
 
                     <!-- LONG -->
                     <td>
-                        <input type="text"
+                        <input type="number"
+                            step="0.000001"
                             name="long[]"
                             class="form-control"
                             value="{{ $d->long }}"
@@ -605,7 +619,9 @@
                     </td>
 
                 </tr>
+
                 @endforeach
+
             </tbody>
       
         </table>
@@ -617,49 +633,9 @@
 
         <div class="col-md-6 text-center">
 
-            <div class="bg-pink p-2">
-
-                <strong>
-                    {{ $data->petugas->kecamatan->nama_kecamatan }},
-                    {{ now()->translatedFormat('d F Y') }}
-                </strong>
-
-                <br>
-
-                POPT Kec.
-                {{ $data->petugas->kecamatan->nama_kecamatan }}
-
-            </div>
-
-            <br><br><br>
-
-            <div class="bg-pink p-2">
-
-                <strong>
-                    {{ $data->petugas->nama }}
-                </strong>
-
-                <br>
-
-                NIP :
-                {{ $data->petugas->NIP ?? '-' }}
-
-            </div>
-
         </div>
 
-    </div>
-
         <div class="mt-3">
-
-        <button
-            type="button"
-            id="tambahBaris"
-            class="btn btn-primary">
-
-            Tambah Baris
-
-        </button>
 
         <button
             type="submit"
@@ -724,62 +700,6 @@ document.addEventListener('input', function(e){
 
 });
 
-
-</script>
-    <script>
-
-document.getElementById('tambahBaris')
-.addEventListener('click', function(){
-
-    let tbody =
-        document.getElementById('tbody-kekeringan');
-
-    let contohBaris =
-        document.querySelector('.baris-kekeringan');
-
-    let barisBaru =
-        contohBaris.cloneNode(true);
-
-    barisBaru.querySelectorAll('input')
-    .forEach(function(input){
-
-        if(input.type === 'hidden'){
-            return;
-        }
-
-        if(
-            input.classList.contains('sp_j')
-            ||
-            input.classList.contains('lt_j')
-            ||
-            input.classList.contains('lk_r')
-            ||
-            input.classList.contains('lk_s')
-            ||
-            input.classList.contains('lk_b')
-            ||
-            input.classList.contains('lk_p')
-            ||
-            input.classList.contains('lk_j')
-        ){
-            input.value = 0;
-        }
-        else{
-            input.value = '';
-        }
-
-    });
-
-    barisBaru.querySelectorAll('select')
-    .forEach(function(select){
-
-        select.selectedIndex = 0;
-
-    });
-
-    tbody.appendChild(barisBaru);
-
-});
 
 </script>
 </div>

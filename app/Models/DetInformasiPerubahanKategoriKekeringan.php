@@ -39,4 +39,22 @@ class DetInformasiPerubahanKategoriKekeringan extends Model
         'verified_by',
         'verified_at'
     ];
+
+    public function desa()
+    {
+        return $this->belongsTo(
+            Desa::class,
+            'id_desa',
+            'id_desa'
+        );
+    }
+
+    public function komoditas()
+    {
+        return $this->belongsTo(
+            Komoditas::class,
+            'id_komoditas',
+            'id_komoditas'
+        );
+    }
 }

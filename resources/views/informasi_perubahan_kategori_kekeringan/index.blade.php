@@ -64,7 +64,7 @@
                 <td>
 
                     <a href="{{ route(
-                        'informasi_perubahan_kategori_kekeringan.detail',
+                        'informasi-perubahan-kategori-kekeringan.detail',
                         $d->id_informasi_perubahan_kategori_kekeringan
                     ) }}"
                     class="btn btn-info btn-sm">
@@ -73,8 +73,11 @@
 
                     </a>
 
-                    <a href="#"
-                       class="btn btn-warning btn-sm">
+                    <a href="{{ route(
+                        'informasi-perubahan-kategori-kekeringan.edit',
+                        $d->id_informasi_perubahan_kategori_kekeringan
+                    ) }}"
+                    class="btn btn-warning btn-sm">
 
                         Edit
 

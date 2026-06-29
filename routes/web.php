@@ -336,7 +336,7 @@ Route::middleware([
     });
 
 
-    Route::prefix('laporan-kerusakan-tanaman-akibat-kekeringan')
+   Route::prefix('laporan-kerusakan-tanaman-akibat-kekeringan')
     ->name('laporan-kerusakan-tanaman-akibat-kekeringan.')
     ->group(function () {
 
@@ -365,7 +365,7 @@ Route::middleware([
             [LaporanKerusakanTanamanAkibatKekeringanController::class, 'edit']
         )->name('edit');
 
-        Route::post(
+        Route::put(
             '/update/{id}',
             [LaporanKerusakanTanamanAkibatKekeringanController::class, 'update']
         )->name('update');
@@ -378,41 +378,35 @@ Route::middleware([
     });
 
 
+
+    Route::prefix('informasi-perubahan-kategori-kekeringan')
+    ->name('informasi-perubahan-kategori-kekeringan.')
+    ->group(function () {
+
+        Route::get('/', [InformasiPerubahanKategoriKekeringanController::class, 'index'])
+            ->name('index');
+
+        Route::get('/create/{id_data}', [InformasiPerubahanKategoriKekeringanController::class, 'create'])
+            ->name('create');
+
+        Route::post('/store', [InformasiPerubahanKategoriKekeringanController::class, 'store'])
+            ->name('store');
+
+        Route::get('/detail/{id}', [InformasiPerubahanKategoriKekeringanController::class, 'detail'])
+            ->name('detail');
+
+        Route::get('/edit/{id}', [InformasiPerubahanKategoriKekeringanController::class, 'edit'])
+            ->name('edit');
+
+        Route::put('/update/{id}', [InformasiPerubahanKategoriKekeringanController::class, 'update'])
+            ->name('update');
+    });
    
 
 
 
 
-    Route::get(
-        '/informasi-perubahan-kategori-kekeringan',
-        [InformasiPerubahanKategoriKekeringanController::class, 'index']
-    )->name('informasi-perubahan-kategori-kekeringan.index');
-
-    Route::get(
-        '/informasi-perubahan-kategori-kekeringan/create/{id_data}',
-        [InformasiPerubahanKategoriKekeringanController::class, 'create']
-    )->name('informasi-perubahan-kategori-kekeringan.create');
-
-    Route::post(
-    '/informasi-perubahan-kategori-kekeringan/store',
-    [InformasiPerubahanKategoriKekeringanController::class, 'store']
-    )->name('informasi-perubahan-kategori-kekeringan.store');
-
-    Route::get(
-        '/informasi-perubahan-kategori-kekeringan/detail/{id}',
-        [InformasiPerubahanKategoriKekeringanController::class, 'show']
-    )->name('informasi-perubahan-kategori-kekeringan.detail');
-
-    Route::get(
-        '/informasi-perubahan-kategori-kekeringan/edit/{id}',
-        [InformasiPerubahanKategoriKekeringanController::class, 'edit']
-    )->name('informasi-perubahan-kategori-kekeringan.edit');
-
-    Route::put(
-        '/informasi-perubahan-kategori-kekeringan/update/{id}',
-        [InformasiPerubahanKategoriKekeringanController::class, 'update']
-    )->name('informasi-perubahan-kategori-kekeringan.update');
-
+    
 
     Route::get(
     '/laporan-kerusakan-tanaman-akibat-fisiologis',
