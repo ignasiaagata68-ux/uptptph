@@ -150,70 +150,70 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
                     $request->umr[$i],
 
                 'lst' =>
-                    $request->lst[$i],
+                    $this->decimal($request->lst[$i]),
 
                 'was' =>
-                    $request->was[$i],
+                    $this->decimal($request->was[$i]),
 
                 'sp_r' =>
-                    $request->sp_r[$i],
+                    $this->decimal($request->sp_r[$i]),
 
                 'sp_s' =>
-                    $request->sp_s[$i],
+                    $this->decimal($request->sp_s[$i]),
 
                 'sp_b' =>
-                    $request->sp_b[$i],
+                    $this->decimal($request->sp_b[$i]),
 
                 'sp_ps' =>
-                    $request->sp_ps[$i],
+                    $this->decimal($request->sp_ps[$i]),
 
                 'sp_pl' =>
-                    $request->sp_pl[$i],
+                    $this->decimal($request->sp_pl[$i]),
 
                 'sp_j' =>
-                    $request->sp_j[$i],
+                    $this->decimal($request->sp_j[$i]),
 
                 'lt_r' =>
-                    $request->lt_r[$i],
+                    $this->decimal($request->lt_r[$i]),
 
                 'lt_s' =>
-                    $request->lt_s[$i],
+                    $this->decimal($request->lt_s[$i]),
 
                 'lt_b' =>
-                    $request->lt_b[$i],
+                    $this->decimal($request->lt_b[$i]),
 
                 'lt_p' =>
-                    $request->lt_p[$i],
+                    $this->decimal($request->lt_p[$i]),
 
                 'lt_j' =>
-                    $request->lt_j[$i],
+                    $this->decimal($request->lt_j[$i]),
 
                 'lk_r' =>
-                    $request->lk_r[$i],
+                    $this->decimal($request->lk_r[$i]),
 
                 'lk_s' =>
-                    $request->lk_s[$i],
+                    $this->decimal($request->lk_s[$i]),
 
                 'lk_b' =>
-                    $request->lk_b[$i],
+                    $this->decimal($request->lk_b[$i]),
 
                 'lk_p' =>
-                    $request->lk_p[$i],
+                    $this->decimal($request->lk_p[$i]),
 
                 'lk_j' =>
-                    $request->lk_j[$i],
+                    $this->decimal($request->lk_j[$i]),
 
                 'upy' =>
-                    $request->upy[$i],
+                    $this->decimal($request->upy[$i]),
 
                 'l_upy' =>
-                    $request->l_upy[$i],
+                    $this->decimal($request->l_upy[$i]),
 
                 'lat' =>
-                    $request->lat[$i],
+                    $this->decimal($request->lat[$i]),
 
                 'long' =>
-                    $request->long[$i],
+                    $this->decimal($request->long[$i]),
 
                 'status_verifikasi' =>
                     'menunggu',
@@ -254,11 +254,54 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
      */
     public function detail($id)
     {
-        $header =
-        LaporanKerusakanTanamanAkibatBanjir::findOrFail($id);
+        $header = DB::table(
+            'laporan_kerusakan_tanaman_akibat_banjir as l'
+        )
 
-        $detail =
-        DetLaporanKerusakanTanamanAkibatBanjir::with([
+        ->leftJoin(
+            'kabupaten_kota as kab',
+            'l.id_kabupaten_kota',
+            '=',
+            'kab.id_kabupaten_kota'
+        )
+
+        ->leftJoin(
+            'kecamatan as kec',
+            'l.id_kecamatan',
+            '=',
+            'kec.id_kecamatan'
+        )
+
+        ->leftJoin(
+            'periode as p',
+            'l.id_periode',
+            '=',
+            'p.id_periode'
+        )
+
+        ->leftJoin(
+            'musim_tanam as mt',
+            'l.id_musim_tanam',
+            '=',
+            'mt.id_musim_tanam'
+        )
+
+        ->where(
+            'l.id_laporan_kerusakan_tanaman_akibat_banjir',
+            $id
+        )
+
+        ->select(
+            'l.*',
+            'kab.nama_kabupaten_kota',
+            'kec.nama_kecamatan',
+            'p.periode_pengamatan',
+            'mt.musim_tanam'
+        )
+
+        ->first();
+
+        $detail = DetLaporanKerusakanTanamanAkibatBanjir::with([
             'desa',
             'komoditas'
         ])
@@ -351,11 +394,105 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    public function update(Request $request, $id)
+{
+    DB::beginTransaction();
 
+    try {
+
+        $header = LaporanKerusakanTanamanAkibatBanjir::findOrFail($id);
+
+        $header->update([
+
+            'id_periode'        => $request->id_periode[0],
+            'id_kabupaten_kota' => $request->id_kabupaten_kota[0],
+            'id_kecamatan'      => $request->id_kecamatan[0],
+
+            // gunakan nilai lama karena tidak diubah dari form
+            'id_musim_tanam'    => $header->id_musim_tanam
+
+        ]);
+
+        DB::table(
+            'det_laporan_kerusakan_tanaman_akibat_banjir'
+        )
+        ->where(
+            'id_laporan_kerusakan_tanaman_akibat_banjir',
+            $id
+        )
+        ->delete();
+
+        for ($i = 0; $i < count($request->id_desa); $i++) {
+
+            if (
+                empty($request->id_desa[$i]) &&
+                empty($request->id_komoditas[$i])
+            ) {
+                continue;
+            }
+            DetLaporanKerusakanTanamanAkibatBanjir::create([
+
+                'id_laporan_kerusakan_tanaman_akibat_banjir' => $id,
+
+                'id_tahun'          => $request->id_tahun[$i],
+                'id_bulan'          => $request->id_bulan[$i],
+                'id_periode'        => $request->id_periode[$i],
+                'id_kabupaten_kota' => $request->id_kabupaten_kota[$i],
+                'id_kecamatan'      => $request->id_kecamatan[$i],
+                'id_desa'           => $request->id_desa[$i],
+                'id_komoditas'      => $request->id_komoditas[$i],
+
+                'var'               => $request->var[$i],
+                'umur'              => $request->umur[$i],
+                'luas_tanam'        => $request->luas_tanam[$i],
+                'luas_waspada'      => $request->luas_waspada[$i],
+
+                'sps_surut_luas'    => $request->sps_surut_luas[$i],
+                'sps_surut_ket'     => $request->sps_surut_ket[$i],
+                'sps_puso_luas'     => $request->sps_puso_luas[$i],
+                'sps_puso_ket'      => $request->sps_puso_ket[$i],
+
+                'luas_tambah_terkena'  => $request->luas_tambah_terkena[$i],
+                'luas_tambah_puso'     => $request->luas_tambah_puso[$i],
+                'luas_keadaan_terkena' => $request->luas_keadaan_terkena[$i],
+                'luas_keadaan_puso'    => $request->luas_keadaan_puso[$i],
+
+                'penangan_upaya'   => $request->penangan_upaya[$i],
+                'penangan_jumlah'  => $request->penangan_jumlah[$i],
+
+                'koordinat_latitude'  => $request->koordinat_latitude[$i],
+                'koordinat_longitude' => $request->koordinat_longitude[$i],
+
+                'status_verifikasi'      => 'menunggu',
+                'keterangan_verifikasi'  => null,
+                'verified_by'            => null,
+                'verified_at'            => null
+
+            ]);
+        }
+
+        DB::commit();
+
+        return redirect()
+            ->route('laporan-kerusakan-tanaman-akibat-banjir.index')
+            ->with('success', 'Data berhasil diupdate');
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        dd($e->getMessage());
+    }
+}
+
+    private function decimal($value)
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        return str_replace(',', '.', $value);
+    }
     /**
      * Remove the specified resource from storage.
      */

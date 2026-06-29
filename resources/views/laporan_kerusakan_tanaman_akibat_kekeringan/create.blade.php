@@ -279,6 +279,11 @@
 <input type="hidden"
     name="id_periode[]"
     value="{{ $data->id_periode }}">
+    
+<input
+    type="hidden"
+    name="id_musim_tanam"
+    value="{{ $data->id_musim_tanam }}">
 
 <tr class="baris-kekeringan">
 
@@ -542,7 +547,9 @@
 
     <!-- UPY -->
     <td>
-        <input type="text"
+        <input
+            type="number"
+            step="0.01"
             name="upy[]"
             class="form-control"
             style="min-width:120px;">
@@ -681,15 +688,15 @@ document.addEventListener('input', function(e){
 
     let lk_j = sp_j + lt_j;
 
-    row.querySelector('.sp_j').value = sp_r + sp_s + sp_b + sp_ps + sp_pl;
-    row.querySelector('.lt_j').value = lt_r + lt_s + lt_b + lt_p;
+    row.querySelector('.sp_j').value = sp_j;
+    row.querySelector('.lt_j').value = lt_j;
 
-    row.querySelector('.lk_r').value = sp_r + tr_r;
-    row.querySelector('.lk_s').value = sp_s+ tr_s;
-    row.querySelector('.lk_b').value = sp_b + tr_b;
+    row.querySelector('.lk_r').value = sp_r + lt_r;
+    row.querySelector('.lk_s').value = sp_s + lt_s;
+    row.querySelector('.lk_b').value = sp_b + lt_b;
     row.querySelector('.lk_p').value = sp_ps + lt_p;
 
-    row.querySelector('.lk_j').value = lk_r + lk_s + lk_b + lk_p;
+    row.querySelector('.lk_j').value = lk_j;
 
 });
 

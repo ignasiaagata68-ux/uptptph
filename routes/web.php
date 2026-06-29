@@ -325,7 +325,7 @@ Route::middleware([
 
         Route::post(
             '/update/{id}',
-            [LaporanKerusakanTanamanAkibatBanjirController::class, 'update']
+            [LaporanKerusakanTanamanAkibatBanjirController::class,'update']
         )->name('update');
 
         Route::get(
@@ -336,14 +336,51 @@ Route::middleware([
     });
 
 
+    Route::prefix('laporan-kerusakan-tanaman-akibat-kekeringan')
+    ->name('laporan-kerusakan-tanaman-akibat-kekeringan.')
+    ->group(function () {
+
+        Route::get(
+            '/',
+            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'index']
+        )->name('index');
+
+        Route::get(
+            '/create/{id_data}',
+            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'create']
+        )->name('create');
+
+        Route::post(
+            '/store',
+            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'store']
+        )->name('store');
+
+        Route::get(
+            '/detail/{id}',
+            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'detail']
+        )->name('detail');
+
+        Route::get(
+            '/edit/{id}',
+            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'edit']
+        )->name('edit');
+
+        Route::post(
+            '/update/{id}',
+            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'update']
+        )->name('update');
+
+        Route::get(
+            '/verifikasi/{id}/{status}',
+            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'verifikasi']
+        )->name('verifikasi');
+
+    });
+
+
    
 
 
-
-
-    Route::get('/laporan-kerusakan-tanaman-akibat-kekeringan',[LaporanKerusakanTanamanAkibatKekeringanController::class,'index'])->name('laporan-kerusakan-tanaman-akibat-kekeringan.index');
-    Route::get('/laporan-kerusakan-tanaman-akibat-kekeringan/create/{id_data}',[LaporanKerusakanTanamanAkibatKekeringanController::class,'create'])->name('laporan-kerusakan-tanaman-akibat-kekeringan.create');
-    Route::post('/laporan-kerusakan-tanaman-akibat-kekeringan/store',[LaporanKerusakanTanamanAkibatKekeringanController::class,'store'])->name('laporan-kerusakan-tanaman-akibat-kekeringan.store');
 
 
     Route::get(

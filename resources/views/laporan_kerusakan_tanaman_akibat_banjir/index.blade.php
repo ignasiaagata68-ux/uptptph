@@ -64,11 +64,12 @@
                         Detail
                     </a>
 
-                    <a href="#"
-                       class="btn btn-warning btn-sm">
-
+                    <a href="{{ route(
+                        'laporan-kerusakan-tanaman-akibat-banjir.edit',
+                        $d->id_laporan_kerusakan_tanaman_akibat_banjir
+                    ) }}"
+                    class="btn btn-warning btn-sm">
                         Edit
-
                     </a>
 
                 </td>

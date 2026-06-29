@@ -106,14 +106,14 @@
         <tr>
             <td class="label">Kabupaten/Kota</td>
             <td class="nilai">
-                {{ $data->petugas->kecamatan->kabupaten->nama_kabupaten_kota }}
+               {{ $header->nama_kabupaten_kota }}
             </td>
         </tr>
 
         <tr>
             <td class="label">Kecamatan</td>
             <td class="nilai">
-                {{ $data->petugas->kecamatan->nama_kecamatan }}
+                {{ $header->nama_kecamatan }}
             </td>
         </tr>
     </table>
@@ -125,7 +125,7 @@
             </td>
 
             <td class="nilai">
-                {{ $data->periode->periode_pengamatan }}
+                {{ $header->periode_pengamatan }}
             </td>
         </tr>
 
@@ -135,19 +135,16 @@
             </td>
 
             <td class="nilai">
-                {{ $data->musimTanam->musim_tanam }}
+                {{ $header->musim_tanam }}
             </td>
         </tr>
     </table>
 
 </div>
 
-<form action="{{ route('laporan-kerusakan-tanaman-akibat-banjir.update',
-        $header->id_laporan_kerusakan_tanaman_akibat_banjir) }}"
-      method="POST">
-
+<form action="{{ route('laporan-kerusakan-tanaman-akibat-banjir.update',$header->id_laporan_kerusakan_tanaman_akibat_banjir) }}" method="POST">
     @csrf
-    @method('PUT')
+
 
         <table class="table table-bordered">
         <thead>
@@ -297,15 +294,20 @@
 
                 <input type="hidden"
                     name="id_tahun[]"
-                    value="{{ $data->id_tahun }}">
+                    value="{{ $d->id_tahun }}">
 
                 <input type="hidden"
                     name="id_bulan[]"
-                    value="{{ $data->id_bulan }}">
+                    value="{{ $d->id_bulan }}">
 
                 <input type="hidden"
                     name="id_periode[]"
-                    value="{{ $data->id_periode }}">
+                    value="{{ $d->id_periode }}">
+                
+                <input
+                    type="hidden"
+                    name="id_musim_tanam"
+                    value="{{ $header->id_musim_tanam }}">
         
             <tr class="baris-banjir">
                 <input
@@ -314,37 +316,37 @@
                     value="{{ $d->id_det_laporan_kerusakan_tanaman_akibat_banjir }}">
 
                 <td class="table-danger">
-                    {{ $data->tahun->tahun }}
+                    {{ $d->id_tahun }}
                 </td>
 
                 <td class="table-danger">
-                    {{ $data->bulan->bulan }}
+                    {{ $d->id_bulan }}
                 </td>
 
                 <td class="table-danger">
-                    {{ $data->periode->id_periode }}
+                    {{ $d->id_periode }}
                 </td>
                 <!-- KAB -->
                 <td class="bg-hijau">
 
-                {{ $data->petugas->kecamatan->kabupaten->nama_kabupaten_kota }}
+                {{ $header->nama_kabupaten_kota }}
 
                 <input
                     type="hidden"
                     name="id_kabupaten_kota[]"
-                    value="{{ $data->petugas->kecamatan->kabupaten->id_kabupaten_kota }}">
+                    value="{{ $header->id_kabupaten_kota }}">
 
                 </td>
 
                 <!-- KEC -->
                 <td class="bg-hijau">
 
-                {{ $data->petugas->kecamatan->nama_kecamatan }}
+                {{ $header->nama_kecamatan }}
 
                 <input
                     type="hidden"
                     name="id_kecamatan[]"
-                    value="{{ $data->petugas->id_kecamatan }}">
+                    value="{{ $header->id_kecamatan }}">
 
                 </td>
 
@@ -575,14 +577,14 @@
         <div class="bg-pink p-2">
 
             <strong>
-                {{ $data->petugas->kecamatan->nama_kecamatan }},
+                {{ $header->nama_kecamatan }},
                 {{ now()->translatedFormat('d F Y') }}
             </strong>
 
             <br>
 
             POPT Kec.
-            {{ $data->petugas->kecamatan->nama_kecamatan }}
+            {{ $header->nama_kecamatan }}
 
         </div>
 
@@ -591,18 +593,16 @@
         <div class="bg-pink p-2">
 
             <strong>
-                {{ $data->petugas->nama }}
+                ................................
             </strong>
 
             <br>
 
             NIP :
-            {{ $data->petugas->NIP ?? '-' }}
+            ................................
 
         </div>
-
     </div>
-
 </div>
 
         <div class="mt-3">
