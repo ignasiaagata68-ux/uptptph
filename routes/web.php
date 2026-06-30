@@ -445,46 +445,48 @@ Route::middleware([
     });
 
 
+    Route::prefix('laporan-kerusakan-tanaman-akibat-bencana-alam')
+    ->name('laporan-kerusakan-tanaman-akibat-bencana-alam.')
+    ->group(function () {
+
+        Route::get(
+            '/',
+            [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'index']
+        )->name('index');
+
+        Route::get(
+            '/create/{id_data}',
+            [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'create']
+        )->name('create');
+
+        Route::post(
+            '/store',
+            [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'store']
+        )->name('store');
+
+        Route::get(
+            '/detail/{id}',
+            [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'show']
+        )->name('detail');
+
+        Route::get(
+            '/edit/{id}',
+            [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'edit']
+        )->name('edit');
+
+        Route::put(
+            '/update/{id}',
+            [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'update']
+        )->name('update');
+
+        Route::delete(
+            '/delete/{id}',
+            [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'destroy']
+        )->name('destroy');
+
+    });
 
     
-
-    Route::get(
-        '/laporan-kerusakan-tanaman-akibat-bencana-alam',
-        [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'index']
-    )->name('laporan-kerusakan-tanaman-akibat-bencana-alam.index');
-
-    Route::get(
-        '/laporan-kerusakan-tanaman-akibat-bencana-alam/create/{id_data}',
-        [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'create']
-    )->name('laporan-kerusakan-tanaman-akibat-bencana-alam.create');
-
-    Route::post(
-        '/laporan-kerusakan-tanaman-akibat-bencana-alam/store',
-        [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'store']
-    )->name('laporan-kerusakan-tanaman-akibat-bencana-alam.store');
-
-    Route::get(
-        '/laporan-kerusakan-tanaman-akibat-bencana-alam/detail/{id}',
-        [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'show']
-    )->name('laporan-kerusakan-tanaman-akibat-bencana-alam.detail');
-
-    Route::get(
-        '/laporan-kerusakan-tanaman-akibat-bencana-alam/edit/{id}',
-        [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'edit']
-    )->name('laporan-kerusakan-tanaman-akibat-bencana-alam.edit');
-
-    Route::put(
-        '/laporan-kerusakan-tanaman-akibat-bencana-alam/update/{id}',
-        [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'update']
-    )->name('laporan-kerusakan-tanaman-akibat-bencana-alam.update');
-
-    Route::delete(
-        '/laporan-kerusakan-tanaman-akibat-bencana-alam/delete/{id}',
-        [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'destroy']
-    )->name('laporan-kerusakan-tanaman-akibat-bencana-alam.destroy');
-
-
-
     Route::get(
         '/tangkapan-lampu-perangkap',
         [TangkapanLampuPerangkapController::class, 'index']

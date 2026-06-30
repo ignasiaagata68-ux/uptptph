@@ -577,12 +577,12 @@
                     value="{{ $header->id_periode }}">
                 <!-- THN -->
                 <td class="bg-pink">
-                    {{ $d->tahun }}
+                    {{ $header->tahun ?? $d->id_tahun }}
                 </td>
 
                 <!-- BLN -->
                 <td class="bg-pink">
-                    {{ $d->bulan }}
+                    {{ $header->bulan ?? $d->id_bulan }}
                 </td>
 
                 <!-- PRD -->
@@ -591,7 +591,7 @@
                 </td>
                 <!-- KAB -->
                 <td class="bg-hijau">
-                    {{ $d->nama_kabupaten_kota }}
+                    {{ $header->nama_kabupaten_kota }}
 
                     <input type="hidden"
                         name="id_kabupaten_kota[]"
@@ -601,7 +601,7 @@
                 <!-- KEC -->
                 <td class="bg-hijau">
 
-                    {{ $d->nama_kecamatan }}
+                    {{ $header->nama_kecamatan }}
 
                     <input
                         type="hidden"
@@ -655,7 +655,7 @@
                 </select>
 
                 </td>
-            <tr>
+            
                 <!-- VAR -->
                 <td>
                     <input type="text"

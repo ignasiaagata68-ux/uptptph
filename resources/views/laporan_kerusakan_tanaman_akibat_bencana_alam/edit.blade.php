@@ -159,8 +159,7 @@
 
             <td class="bg-pink">
 
-                {{ $data->petugas->kecamatan->kabupaten->nama_kabupaten_kota }}
-
+               {{ $header->nama_kabupaten_kota }}
             </td>
 
         </tr>
@@ -171,7 +170,7 @@
 
             <td class="bg-pink">
 
-                {{ $data->petugas->kecamatan->nama_kecamatan }}
+                {{ $header->nama_kecamatan }}
 
             </td>
 
@@ -187,7 +186,7 @@
 
             <td class="bg-pink">
 
-                {{ $data->periode->periode_pengamatan }}
+                {{ $header->periode_pengamatan }}
 
             </td>
 
@@ -199,7 +198,7 @@
 
             <td class="bg-pink">
 
-                {{ $data->musimTanam->musim_tanam }}
+                {{ $header->musim_tanam }}
 
             </td>
 
@@ -208,10 +207,12 @@
     </table>
 
 </div>
-<form method="POST"
-      action="{{ route('laporan-kerusakan-tanaman-akibat-bencana-alam.store') }}">
 
-    @csrf
+<form
+    method="POST"
+    action="{{ route('laporan-kerusakan-tanaman-akibat-bencana-alam.update', $header->id_laporan_kerusakan_tanaman_akibat_bencana_alam) }}">
+@csrf
+    @method('PUT')
 
     <div class="table-responsive">
 
@@ -366,114 +367,102 @@
 </tr>
 
 </thead>
-    <tbody id="tbody-bencana">
+   <tbody id="tbody-bencana">
 
-<input type="hidden"
-    name="id_tahun[]"
-    value="{{ $data->id_tahun }}">
-
-<input type="hidden"
-    name="id_bulan[]"
-    value="{{ $data->id_bulan }}">
-
-<input type="hidden"
-    name="id_periode[]"
-    value="{{ $data->id_periode }}">
-
-<input
-    type="hidden"
-    name="id_musim_tanam"
-    value="{{ $data->musimTanam->id_musim_tanam }}">
+@foreach($detail as $i => $d)
 
 <tr class="baris-bencana">
 
+    <input type="hidden"
+        name="id_detail[]"
+        value="{{ $d->id_det_laporan_kerusakan_tanaman_akibat_bencana_alam }}">
+
+    <input type="hidden"
+        name="id_tahun[]"
+        value="{{ $d->id_tahun }}">
+
+    <input type="hidden"
+        name="id_bulan[]"
+        value="{{ $d->id_bulan }}">
+
+    <input type="hidden"
+        name="id_periode[]"
+        value="{{ $d->id_periode }}">
+    
+    <input type="hidden"
+        name="id_periode[]"
+        value="{{ $d->id_periode }}">
+
+    <input type="hidden"
+        name="id_kabupaten_kota[]"
+        value="{{ $d->id_kabupaten_kota }}">
+
+    <input type="hidden"
+        name="id_kecamatan[]"
+        value="{{ $d->id_kecamatan }}">
+
     <!-- THN -->
     <td class="bg-pink">
-        {{ $data->tahun->tahun }}
+        {{ $d->id_tahun }}
     </td>
 
     <!-- BLN -->
     <td class="bg-pink">
-        {{ $data->bulan->bulan }}
+        {{ $d->id_bulan }}
     </td>
 
     <!-- PRD -->
-    <td class="bg-pink garis-kanan">
-        {{ $data->periode->id_periode }}
+    <td class="bg-pink">
+        {{ $d->id_periode }}
     </td>
 
     <!-- KAB -->
     <td class="bg-hijau">
-
-        {{ $data->petugas->kecamatan->kabupaten->nama_kabupaten_kota }}
-
-        <input
-            type="hidden"
-            name="id_kabupaten_kota[]"
-            value="{{ $data->petugas->kecamatan->kabupaten->id_kabupaten_kota }}">
-
+        {{ $header->nama_kabupaten_kota }}
     </td>
 
     <!-- KEC -->
     <td class="bg-hijau">
-
-        {{ $data->petugas->kecamatan->nama_kecamatan }}
-
-        <input
-            type="hidden"
-            name="id_kecamatan[]"
-            value="{{ $data->petugas->id_kecamatan }}">
-
+        {{ $header->nama_kecamatan }}
     </td>
 
-    <!-- DES -->
+    <!-- DESA -->
     <td class="bg-hijau">
+        <select name="id_desa[]" class="form-select">
 
-        <select
-            name="id_desa[]"
-            class="form-select"
-            style="min-width:180px;">
+            @foreach($desa as $ds)
 
-            <option value="">Pilih Desa</option>
-
-            @foreach($desa as $d)
-
-            <option value="{{ $d->id_desa }}">
-                {{ $d->nama_desa }}
+            <option value="{{ $ds->id_desa }}"
+                {{ $d->id_desa == $ds->id_desa ? 'selected' : '' }}>
+                {{ $ds->nama_desa }}
             </option>
 
             @endforeach
 
         </select>
-
     </td>
 
-    <!-- TAN -->
+    <!-- KOMODITAS -->
     <td class="bg-hijau">
-
-        <select
-            name="id_komoditas[]"
-            class="form-select"
-            style="min-width:180px;">
-
-            <option value="">Pilih Komoditas</option>
+        <select name="id_komoditas[]" class="form-select">
 
             @foreach($komoditas as $k)
 
-            <option value="{{ $k->id_komoditas }}">
+            <option value="{{ $k->id_komoditas }}"
+                {{ $d->id_komoditas == $k->id_komoditas ? 'selected' : '' }}>
                 {{ $k->komoditas }}
             </option>
 
             @endforeach
 
         </select>
-
     </td>
 
     <!-- VAR -->
     <td>
         <input type="text"
             name="var[]"
+            value="{{ $d->var }}"
             class="form-control">
     </td>
 
@@ -481,6 +470,7 @@
     <td>
         <input type="text"
             name="umr[]"
+            value="{{ $d->umr }}"
             class="form-control">
     </td>
 
@@ -489,6 +479,7 @@
         <input type="number"
             step="0.01"
             name="lst[]"
+            value="{{ $d->lst }}"
             class="form-control">
     </td>
 
@@ -497,6 +488,7 @@
         <input type="number"
             step="0.01"
             name="was[]"
+            value="{{ $d->was }}"
             class="form-control">
     </td>
 
@@ -505,6 +497,7 @@
         <input type="number"
             step="0.01"
             name="lsrt[]"
+            value="{{ $d->lsrt }}"
             class="form-control lsrt">
     </td>
 
@@ -512,6 +505,7 @@
     <td>
         <input type="text"
             name="k_s[]"
+            value="{{ $d->k_s }}"
             class="form-control">
     </td>
 
@@ -520,6 +514,7 @@
         <input type="number"
             step="0.01"
             name="lpso[]"
+            value="{{ $d->lpso }}"
             class="form-control lpso">
     </td>
 
@@ -527,6 +522,7 @@
     <td class="garis-kanan">
         <input type="text"
             name="k_p[]"
+            value="{{ $d->k_p }}"
             class="form-control">
     </td>
 
@@ -535,6 +531,7 @@
         <input type="number"
             step="0.01"
             name="lt_t[]"
+            value="{{ $d->lt_t }}"
             class="form-control lt_t">
     </td>
 
@@ -543,6 +540,7 @@
         <input type="number"
             step="0.01"
             name="lt_p[]"
+            value="{{ $d->lt_p }}"
             class="form-control lt_p">
     </td>
 
@@ -552,7 +550,7 @@
             type="number"
             step="0.01"
             name="lk_t[]"
-            value="0"
+            value="{{ $d->lk_t }}"
             readonly
             class="form-control lk_t">
     </td>
@@ -563,7 +561,7 @@
             type="number"
             step="0.01"
             name="lk_p[]"
-            value="0"
+            value="{{ $d->lk_p }}"
             readonly
             class="form-control lk_p">
     </td>
@@ -572,6 +570,7 @@
     <td>
         <input type="text"
             name="upy[]"
+            value="{{ $d->upy }}"
             class="form-control">
     </td>
 
@@ -580,6 +579,7 @@
         <input type="number"
             step="0.01"
             name="j_upy[]"
+            value="{{ $d->j_upy }}"
             class="form-control">
     </td>
 
@@ -588,6 +588,7 @@
         <input type="number"
             step="0.000000"
             name="lat[]"
+            value="{{ $d->lat }}"
             class="form-control">
     </td>
 
@@ -596,11 +597,12 @@
         <input type="number"
             step="0.000000"
             name="long[]"
+            value="{{ $d->long }}"
             class="form-control">
     </td>
-
+    
 </tr>
-
+@endforeach
 </tbody>
 </table>
 
@@ -615,38 +617,33 @@
 
         <div class="bg-pink p-2">
 
-            <strong>
+                    <strong>
+                        {{ $header->nama_kecamatan }},
+                        {{ now()->translatedFormat('d F Y') }}
+                    </strong>
 
-                {{ $data->petugas->kecamatan->nama_kecamatan }},
-                {{ now()->translatedFormat('d F Y') }}
+                    <br>
 
-            </strong>
+                    POPT Kec.
+                    {{ $header->nama_kecamatan }}
 
-            <br>
+                </div>
 
-            POPT Kec.
-            {{ $data->petugas->kecamatan->nama_kecamatan }}
+                <br><br><br>
 
-        </div>
+                <div class="bg-pink p-2">
 
-        <br><br><br>
+                    <strong>
+                        ..
+                    </strong>
 
-        <div class="bg-pink p-2">
+                    <br>
 
-            <strong>
+                    NIP :
+                    ..
 
-                {{ $data->petugas->nama }}
+                </div>
 
-            </strong>
-
-            <br>
-
-            NIP :
-            {{ $data->petugas->NIP ?? '-' }}
-
-        </div>
-
-    </div>
 
 </div>
 <div class="mt-3">

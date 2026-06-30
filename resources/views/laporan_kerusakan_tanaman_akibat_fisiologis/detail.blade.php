@@ -548,7 +548,7 @@
     <tr>
 
         <td class="table-danger">
-                    {{ $d->id_tahun }}
+                    {{ $d->tahun }}
                 </td>
 
                 <td class="table-danger">
