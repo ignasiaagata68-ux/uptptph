@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Data;
 use App\Models\Desa;
 use App\Models\Komoditas;
+use App\Models\Kecamatan;
 use App\Models\LaporanKerusakanTanamanAkibatFisiologis;
 use App\Models\DetLaporanKerusakanTanamanAkibatFisiologis;
 
@@ -18,30 +19,35 @@ class LaporanKerusakanTanamanAkibatFisiologisController extends Controller
     public function index()
     {
         $data = DB::table('laporan_kerusakan_tanaman_akibat_fisiologis as h')
+
             ->join(
                 'kabupaten_kota as k',
                 'h.id_kabupaten_kota',
                 '=',
                 'k.id_kabupaten_kota'
             )
+
             ->join(
                 'kecamatan as kc',
                 'h.id_kecamatan',
                 '=',
                 'kc.id_kecamatan'
             )
+
             ->join(
                 'periode as p',
                 'h.id_periode',
                 '=',
-                'p.periode_pengamatan'
+                'p.id_periode'
             )
+
             ->leftJoin(
                 'musim_tanam as mt',
                 'h.id_musim_tanam',
                 '=',
                 'mt.id_musim_tanam'
             )
+
             ->select(
                 'h.*',
                 'k.nama_kabupaten_kota',
@@ -49,6 +55,7 @@ class LaporanKerusakanTanamanAkibatFisiologisController extends Controller
                 'p.periode_pengamatan',
                 'mt.musim_tanam'
             )
+
             ->get();
 
         return view(
@@ -101,8 +108,8 @@ class LaporanKerusakanTanamanAkibatFisiologisController extends Controller
             'id_kecamatan' =>
                 $request->id_kecamatan[0],
 
-            'id_musim_tanam' =>
-                1
+            'id_musim_tanam' => 
+                $request->id_musim_tanam
 
         ]);
 
@@ -142,70 +149,70 @@ class LaporanKerusakanTanamanAkibatFisiologisController extends Controller
                     $request->umur[$i],
 
                 'luas_tanam' =>
-                    $request->luas_tanam[$i],
+                    $this->decimal($request->luas_tanam[$i]),
 
                 'luas_waspada' =>
-                    $request->luas_waspada[$i],
+                    $this->decimal($request->luas_waspada[$i]),
 
                 'sps_ringan' =>
-                    $request->sps_ringan[$i] ?? 0,
+                    $this->decimal($request->sps_ringan[$i]),
 
                 'sps_sedang' =>
-                    $request->sps_sedang[$i] ?? 0,
+                    $this->decimal($request->sps_sedang[$i]),
 
                 'sps_berat' =>
-                    $request->sps_berat[$i] ?? 0,
+                    $this->decimal($request->sps_berat[$i]),
 
                 'sps_puso' =>
-                    $request->sps_puso[$i] ?? 0,
+                    $this->decimal($request->sps_puso[$i]),
 
                 'sps_pulih' =>
-                    $request->sps_pulih[$i] ?? 0,
+                    $this->decimal($request->sps_pulih[$i]),
 
                 'sps_jumlah' =>
-                    $request->sps_jumlah[$i] ?? 0,
+                    $this->decimal($request->sps_jumlah[$i]),
 
                 'luas_tambah_ringan' =>
-                    $request->luas_tambah_ringan[$i] ?? 0,
+                    $this->decimal($request->luas_tambah_ringan[$i]),
 
                 'luas_tambah_sedang' =>
-                    $request->luas_tambah_sedang[$i] ?? 0,
+                    $this->decimal($request->luas_tambah_sedang[$i]),
 
                 'luas_tambah_berat' =>
-                    $request->luas_tambah_berat[$i] ?? 0,
+                    $this->decimal($request->luas_tambah_berat[$i]),
 
                 'luas_tambah_puso' =>
-                    $request->luas_tambah_puso[$i] ?? 0,
+                    $this->decimal($request->luas_tambah_puso[$i]),
 
                 'luas_tambah_jumlah' =>
-                    $request->luas_tambah_jumlah[$i] ?? 0,
+                    $this->decimal($request->luas_tambah_jumlah[$i]),
 
                 'luas_keadaan_ringan' =>
-                    $request->luas_keadaan_ringan[$i] ?? 0,
+                    $this->decimal($request->luas_keadaan_ringan[$i]),
 
                 'luas_keadaan_sedang' =>
-                    $request->luas_keadaan_sedang[$i] ?? 0,
+                    $this->decimal($request->luas_keadaan_sedang[$i]),
 
                 'luas_keadaan_berat' =>
-                    $request->luas_keadaan_berat[$i] ?? 0,
+                    $this->decimal($request->luas_keadaan_berat[$i]),
 
                 'luas_keadaan_puso' =>
-                    $request->luas_keadaan_puso[$i] ?? 0,
+                    $this->decimal($request->luas_keadaan_puso[$i]),
 
                 'luas_keadaan_jumlah' =>
-                    $request->luas_keadaan_jumlah[$i] ?? 0,
+                    $this->decimal($request->luas_keadaan_jumlah[$i]),
 
                 'penanganan_upaya' =>
-                    $request->penanganan_upaya[$i],
+                    $this->decimal($request->penanganan_upaya[$i]),
 
                 'penanganan_luas' =>
-                    $request->penanganan_luas[$i],
+                    $this->decimal($request->penanganan_luas[$i]),
 
                 'latitude' =>
-                    $request->latitude[$i],
+                    $this->decimal($request->latitude[$i]),
 
                 'longitude' =>
-                    $request->longitude[$i],
+                    $this->decimal($request->longitude[$i]),
 
                 'status_verifikasi' =>
                     'menunggu',
@@ -236,25 +243,287 @@ class LaporanKerusakanTanamanAkibatFisiologisController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $header = DB::table(
+            'laporan_kerusakan_tanaman_akibat_fisiologis as h'
+        )
+
+        ->leftJoin(
+            'kabupaten_kota as kab',
+            'h.id_kabupaten_kota',
+            '=',
+            'kab.id_kabupaten_kota'
+        )
+
+        ->leftJoin(
+            'kecamatan as kec',
+            'h.id_kecamatan',
+            '=',
+            'kec.id_kecamatan'
+        )
+
+        ->leftJoin(
+            'periode as p',
+            'h.id_periode',
+            '=',
+            'p.id_periode'
+        )
+
+        ->leftJoin(
+            'musim_tanam as mt',
+            'h.id_musim_tanam',
+            '=',
+            'mt.id_musim_tanam'
+        )
+
+        ->where(
+            'h.id_laporan_kerusakan_tanaman_akibat_fisiologis',
+            $id
+        )
+
+        ->select(
+            'h.*',
+            'kab.nama_kabupaten_kota',
+            'kec.nama_kecamatan',
+            'p.periode_pengamatan',
+            'mt.musim_tanam'
+        )
+
+        ->first();
+
+        $detail =
+            DetLaporanKerusakanTanamanAkibatFisiologis::with([
+                'desa',
+                'komoditas'
+            ])
+
+            ->where(
+                'id_laporan_kerusakan_tanaman_akibat_fisiologis',
+                $id
+            )
+
+            ->get();
+
+        return view(
+            'laporan_kerusakan_tanaman_akibat_fisiologis.detail',
+            compact(
+                'header',
+                'detail'
+            )
+        );
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $header = DB::table(
+            'laporan_kerusakan_tanaman_akibat_fisiologis as h'
+        )
+
+        ->leftJoin(
+            'kabupaten_kota as kab',
+            'h.id_kabupaten_kota',
+            '=',
+            'kab.id_kabupaten_kota'
+        )
+
+        ->leftJoin(
+            'kecamatan as kec',
+            'h.id_kecamatan',
+            '=',
+            'kec.id_kecamatan'
+        )
+
+        ->leftJoin(
+            'periode as p',
+            'h.id_periode',
+            '=',
+            'p.id_periode'
+        )
+
+        ->leftJoin(
+            'musim_tanam as mt',
+            'h.id_musim_tanam',
+            '=',
+            'mt.id_musim_tanam'
+        )
+
+        ->where(
+            'h.id_laporan_kerusakan_tanaman_akibat_fisiologis',
+            $id
+        )
+
+        ->select(
+            'h.*',
+            'kab.nama_kabupaten_kota',
+            'kec.nama_kecamatan',
+            'p.periode_pengamatan',
+            'mt.musim_tanam'
+        )
+
+        ->first();
+
+        $detail = DetLaporanKerusakanTanamanAkibatFisiologis::with([
+            'desa',
+            'komoditas'
+        ])
+
+        ->where(
+            'id_laporan_kerusakan_tanaman_akibat_fisiologis',
+            $id
+        )
+
+        ->get();
+        $desa = Desa::all();
+
+        $komoditas = Komoditas::all();
+
+        $kecamatan = Kecamatan::all();
+
+        return view(
+            'laporan_kerusakan_tanaman_akibat_fisiologis.edit',
+            compact(
+                'header',
+                'detail',
+                'kecamatan',
+                'desa',
+                'komoditas'
+            )
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
+{
+    LaporanKerusakanTanamanAkibatFisiologis::where(
+        'id_laporan_kerusakan_tanaman_akibat_fisiologis',
+        $id
+    )->update([
+
+        'id_periode' =>
+            $request->id_periode[0],
+
+        'id_kabupaten_kota' =>
+            $request->id_kabupaten_kota[0],
+
+        'id_kecamatan' =>
+            $request->id_kecamatan[0],
+
+        'id_musim_tanam' =>
+            $request->id_musim_tanam
+
+    ]);
+
+    for ($i = 0; $i < count($request->id_detail); $i++) {
+
+        DetLaporanKerusakanTanamanAkibatFisiologis::where(
+            'id_det_laporan_kerusakan_tanaman_akibat_fisiologis',
+            $request->id_detail[$i]
+        )->update([
+
+            'id_desa' =>
+                $request->id_desa[$i],
+
+            'id_komoditas' =>
+                $request->id_komoditas[$i],
+
+            'varietas' =>
+                $request->varietas[$i],
+
+            'umur' =>
+                $request->umur[$i],
+
+            'luas_tanam' =>
+                $this->decimal($request->luas_tanam[$i]),
+
+            'luas_waspada' =>
+                $this->decimal($request->luas_waspada[$i]),
+
+            'sps_ringan' =>
+                $this->decimal($request->sps_ringan[$i]),
+
+            'sps_sedang' =>
+                $this->decimal($request->sps_sedang[$i]),
+
+            'sps_berat' =>
+                $this->decimal($request->sps_berat[$i]),
+
+            'sps_puso' =>
+                $this->decimal($request->sps_puso[$i]),
+
+            'sps_pulih' =>
+                $this->decimal($request->sps_pulih[$i]),
+
+            'sps_jumlah' =>
+                $this->decimal($request->sps_jumlah[$i]),
+
+            'luas_tambah_ringan' =>
+                $this->decimal($request->luas_tambah_ringan[$i]),
+
+            'luas_tambah_sedang' =>
+                $this->decimal($request->luas_tambah_sedang[$i]),
+
+            'luas_tambah_berat' =>
+                $this->decimal($request->luas_tambah_berat[$i]),
+
+            'luas_tambah_puso' =>
+                $this->decimal($request->luas_tambah_puso[$i]),
+
+            'luas_tambah_jumlah' =>
+                $this->decimal($request->luas_tambah_jumlah[$i]),
+
+            'luas_keadaan_ringan' =>
+                $this->decimal($request->luas_keadaan_ringan[$i]),
+
+            'luas_keadaan_sedang' =>
+                $this->decimal($request->luas_keadaan_sedang[$i]),
+
+            'luas_keadaan_berat' =>
+                $this->decimal($request->luas_keadaan_berat[$i]),
+
+            'luas_keadaan_puso' =>
+                $this->decimal($request->luas_keadaan_puso[$i]),
+
+            'luas_keadaan_jumlah' =>
+                $this->decimal($request->luas_keadaan_jumlah[$i]),
+
+            'penanganan_upaya' =>
+                $request->penanganan_upaya[$i],
+
+            'penanganan_luas' =>
+                $this->decimal($request->penanganan_luas[$i]),
+
+            'latitude' =>
+                $this->decimal($request->latitude[$i]),
+
+            'longitude' =>
+                $this->decimal($request->longitude[$i])
+
+        ]);
+    }
+
+    return redirect()
+        ->route(
+            'laporan-kerusakan-tanaman-akibat-fisiologis.index'
+        )
+        ->with(
+            'success',
+            'Data berhasil diubah'
+        );
+}
+
+    private function decimal($value)
     {
-        //
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        return str_replace(',', '.', $value);
     }
 
     /**

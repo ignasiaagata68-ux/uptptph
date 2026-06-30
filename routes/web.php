@@ -403,35 +403,50 @@ Route::middleware([
     });
    
 
+    Route::prefix('laporan-kerusakan-tanaman-akibat-fisiologis')
+    ->name('laporan-kerusakan-tanaman-akibat-fisiologis.')
+    ->group(function () {
+
+        Route::get(
+            '/',
+            [LaporanKerusakanTanamanAkibatFisiologisController::class, 'index']
+        )->name('index');
+
+        Route::get(
+            '/create/{id_data}',
+            [LaporanKerusakanTanamanAkibatFisiologisController::class, 'create']
+        )->name('create');
+
+        Route::post(
+            '/store',
+            [LaporanKerusakanTanamanAkibatFisiologisController::class, 'store']
+        )->name('store');
+
+        Route::get(
+            '/detail/{id}',
+            [LaporanKerusakanTanamanAkibatFisiologisController::class, 'show']
+        )->name('detail');
+
+        Route::get(
+            '/edit/{id}',
+            [LaporanKerusakanTanamanAkibatFisiologisController::class, 'edit']
+        )->name('edit');
+
+        Route::put(
+            '/update/{id}',
+            [LaporanKerusakanTanamanAkibatFisiologisController::class, 'update']
+        )->name('update');
+
+        Route::get(
+            '/verifikasi/{id}/{status}',
+            [LaporanKerusakanTanamanAkibatFisiologisController::class, 'verifikasi']
+        )->name('verifikasi');
+
+    });
 
 
 
     
-
-    Route::get(
-    '/laporan-kerusakan-tanaman-akibat-fisiologis',
-    [LaporanKerusakanTanamanAkibatFisiologisController::class, 'index']
-    )->name('laporan-kerusakan-tanaman-akibat-fisiologis.index');
-
-    Route::get(
-        '/laporan-kerusakan-tanaman-akibat-fisiologis/create/{id_data}',
-        [LaporanKerusakanTanamanAkibatFisiologisController::class, 'create']
-    )->name('laporan-kerusakan-tanaman-akibat-fisiologis.create');
-
-    Route::post(
-        '/laporan-kerusakan-tanaman-akibat-fisiologis/store',
-        [LaporanKerusakanTanamanAkibatFisiologisController::class, 'store']
-    )->name('laporan-kerusakan-tanaman-akibat-fisiologis.store');
-    Route::get(
-    '/laporan-kerusakan-tanaman-akibat-fisiologis/detail/{id}',
-    [LaporanKerusakanTanamanAkibatFisiologisController::class, 'show']
-    )->name('laporan-kerusakan-tanaman-akibat-fisiologis.detail');
-
-    Route::get(
-        '/laporan-kerusakan-tanaman-akibat-fisiologis/edit/{id}',
-        [LaporanKerusakanTanamanAkibatFisiologisController::class, 'edit']
-    )->name('laporan-kerusakan-tanaman-akibat-fisiologis.edit');
-
 
     Route::get(
         '/laporan-kerusakan-tanaman-akibat-bencana-alam',

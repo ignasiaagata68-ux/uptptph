@@ -301,12 +301,6 @@ DetInformasiPerubahanKategoriKekeringan::where(
 
 ]);
 
-$model = DetInformasiPerubahanKategoriKekeringan::find(
-    $request->id_detail[$i]
-);
-
-dd($model->toArray());
-
     }
 
     return redirect()
@@ -318,6 +312,8 @@ dd($model->toArray());
             'Data berhasil diubah'
         );
 }
+
+
     public function detail($id)
 {
     $header = DB::table(

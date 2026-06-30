@@ -551,6 +551,7 @@
             <input type="hidden" name="id_tahun[]" value="{{ $data->id_tahun }}">
             <input type="hidden" name="id_bulan[]" value="{{ $data->id_bulan }}">
             <input type="hidden" name="id_periode[]" value="{{ $data->id_periode }}">
+            <input type="hidden" name="id_musim_tanam" value="{{ $data->musimTanam->id_musim_tanam }}">
 
             <tr class="baris-fisiologis">
 
@@ -590,32 +591,27 @@
                 <!-- DESA -->
                 <td class="bg-hijau">
                     <select name="id_desa[]" class="form-select">
-
-                        <option value="">
-                            Pilih Desa
-                        </option>
+                        <option value="">Pilih Desa</option>
 
                         @foreach($desa as $d)
-                        <option value="{{ $d->id_desa }}">
-                            {{ $d->nama_desa }}
-                        </option>
+                            <option value="{{ $d->id_desa }}">
+                                {{ $d->nama_desa }}
+                            </option>
                         @endforeach
 
                     </select>
                 </td>
 
-                <!-- TANAMAN -->
+                 <!-- TANAMAN -->
                 <td class="bg-hijau">
                     <select name="id_komoditas[]" class="form-select">
 
-                        <option value="">
-                            Pilih Komoditas
-                        </option>
+                        <option value="">Pilih Komoditas</option>
 
                         @foreach($komoditas as $k)
-                        <option value="{{ $k->id_komoditas }}">
-                            {{ $k->komoditas }}
-                        </option>
+                            <option value="{{ $k->id_komoditas }}">
+                                {{ $k->komoditas }}
+                            </option>
                         @endforeach
 
                     </select>
@@ -628,14 +624,14 @@
                         class="form-control">
                 </td>
 
-                <!-- UMR -->
+                 <!-- UMR -->
                 <td>
                     <input type="text"
                         name="umur[]"
                         class="form-control">
                 </td>
 
-                <!-- LST -->
+                <!-- LUAS TANAM -->
                 <td>
                     <input type="number"
                         step="0.01"
@@ -643,8 +639,8 @@
                         class="form-control">
                 </td>
 
-                <!-- WAS -->
-                <<td class="garis-kanan">
+                <!-- LUAS WASPADA -->
+                <td class="garis-kanan">
                     <input type="number"
                         step="0.01"
                         name="luas_waspada[]"
@@ -666,7 +662,7 @@
                         class="form-control sp_s">
                 </td>
 
-                <td>
+                 <td>
                     <input type="number"
                         step="0.01"
                         name="sps_berat[]"
@@ -695,35 +691,34 @@
                         value="0"
                         readonly
                         class="form-control sp_j">
-
                 </td>
 
-                <!-- LT -->
+                 <!-- LUAS TAMBAH -->
                 <td>
                     <input type="number"
                         step="0.01"
-                        name="lt_ringan[]"
+                        name="luas_tambah_ringan[]"
                         class="form-control lt_r">
                 </td>
 
                 <td>
                     <input type="number"
                         step="0.01"
-                        name="lt_sedang[]"
+                        name="luas_tambah_sedang[]"
                         class="form-control lt_s">
                 </td>
 
                 <td>
                     <input type="number"
                         step="0.01"
-                        name="lt_berat[]"
+                        name="luas_tambah_berat[]"
                         class="form-control lt_b">
                 </td>
 
                 <td>
                     <input type="number"
                         step="0.01"
-                        name="lt_puso[]"
+                        name="luas_tambah_puso[]"
                         class="form-control lt_p">
                 </td>
 
@@ -731,19 +726,18 @@
                     <input
                         type="number"
                         step="0.01"
-                        name="lt_jumlah[]"
+                        name="luas_tambah_jumlah[]"
                         value="0"
                         readonly
                         class="form-control lt_j">
-
                 </td>
 
-                <!-- LK -->
+                 <!-- LUAS KEADAAN -->
                 <td class="bg-pink">
                     <input
                         type="number"
                         step="0.01"
-                        name="lk_ringan[]"
+                        name="luas_keadaan_ringan[]"
                         value="0"
                         readonly
                         class="form-control lk_r">
@@ -753,7 +747,7 @@
                     <input
                         type="number"
                         step="0.01"
-                        name="lk_sedang[]"
+                        name="luas_keadaan_sedang[]"
                         value="0"
                         readonly
                         class="form-control lk_s">
@@ -763,7 +757,7 @@
                     <input
                         type="number"
                         step="0.01"
-                        name="lk_berat[]"
+                        name="luas_keadaan_berat[]"
                         value="0"
                         readonly
                         class="form-control lk_b">
@@ -773,34 +767,30 @@
                     <input
                         type="number"
                         step="0.01"
-                        name="lk_puso[]"
+                        name="luas_keadaan_puso[]"
                         value="0"
                         readonly
                         class="form-control lk_p">
                 </td>
 
                 <td class="bg-pink garis-kanan">
-
                     <input
-                    type="number"
-                    step="0.01"
-                    name="lk_jumlah[]"
-                    value="0"
-                    readonly
-                    class="form-control lk_j">
-
+                        type="number"
+                        step="0.01"
+                        name="luas_keadaan_jumlah[]"
+                        value="0"
+                        readonly
+                        class="form-control lk_j">
                 </td>
 
-                </td>
-
-                <!-- UPY -->
+                <!-- UPAYA -->
                 <td>
                     <input type="text"
                         name="penanganan_upaya[]"
                         class="form-control">
                 </td>
 
-                <!-- L UPY -->
+                <!-- LUAS UPAYA -->
                 <td>
                     <input type="number"
                         step="0.01"
@@ -808,14 +798,14 @@
                         class="form-control">
                 </td>
 
-                <!-- LAT -->
+                <!-- LATITUDE -->
                 <td>
                     <input type="text"
                         name="latitude[]"
                         class="form-control">
                 </td>
 
-                <!-- LONG -->
+                <!-- LONGITUDE -->
                 <td>
                     <input type="text"
                         name="longitude[]"

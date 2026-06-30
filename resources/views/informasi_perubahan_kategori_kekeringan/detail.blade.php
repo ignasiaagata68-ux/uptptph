@@ -234,6 +234,13 @@ td input{
                         Perubahan Kategori Terkena Bulan ..... Periode ..... (Ha)
                     </th>
 
+                    <th colspan="6" class="bg-biru">
+                        
+                    </th>
+                    <th colspan="6" class="bg-biru">
+                        
+                    </th>
+
                 </tr>
 
                 <tr>
@@ -250,6 +257,8 @@ td input{
                     <th class="bg-biru">Puso</th>
                     <th class="bg-biru">Jumlah</th>
                     <th class="bg-biru">Pulih</th>
+                    <th class="bg-biru"></th>
+                    <th class="bg-biru"></th>
 
                 </tr>
 
