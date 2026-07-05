@@ -598,4 +598,14 @@ class KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController extends Con
                 'Data berhasil diverifikasi'
             );
         }
+
+    private function decimal($value)
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        return str_replace(',', '.', $value);
+    }
+
 }

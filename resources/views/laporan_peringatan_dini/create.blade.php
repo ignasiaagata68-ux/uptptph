@@ -11,987 +11,996 @@
 
 <style>
 
-body{
+        body{
 
-    font-family:"Times New Roman";
-    font-size:12px;
-    margin:8px;
-    color:#000;
+            font-family:"Times New Roman";
+            font-size:12px;
+            margin:8px;
+            color:#000;
 
-}
+        }
 
-table{
+        table{
 
-    border-collapse:collapse;
+            border-collapse:collapse;
 
-}
+        }
 
-table td,
-table th{
+        table td,
+        table th{
 
-    border:1px solid #000;
-    padding:0;
-    text-align:center;
-    vertical-align:middle;
+            border:1px solid #000;
+            padding:0;
+            text-align:center;
+            vertical-align:middle;
 
-}
+        }
 
-input,
-select{
+        input,
+        select{
 
-    width:100%;
-    height:22px;
+            width:100%;
+            height:22px;
 
-    border:none!important;
-    outline:none!important;
+            border:none!important;
+            outline:none!important;
 
-    background:transparent;
+            background:transparent;
 
-    box-shadow:none!important;
+            box-shadow:none!important;
 
-    border-radius:0!important;
+            border-radius:0!important;
 
-    font-size:11px;
+            font-size:11px;
 
-    padding-left:2px;
+            padding-left:2px;
 
-}
+        }
 
-input:focus,
-select:focus{
+        input:focus,
+        select:focus{
 
-    box-shadow:none!important;
-    outline:none!important;
+            box-shadow:none!important;
+            outline:none!important;
 
-}
+        }
 
-.bg-biru{
+        .bg-biru{
 
-    background:#b8cce4;
+            background:#b8cce4;
 
-}
+        }
 
-.bg-pink{
+        .bg-pink{
 
-    background:#e6b8b7;
+            background:#e6b8b7;
 
-}
+        }
 
-.bg-hijau{
+        .bg-hijau{
 
-    background:#c4d79b;
+            background:#c4d79b;
 
-}
+        }
 
-.bg-kuning{
+        .bg-kuning{
 
-    background:#ffff00;
+            background:#ffff00;
 
-}
+        }
 
-.judul{
+        .judul{
 
-    text-align:center;
-    font-size:20px;
-    font-weight:bold;
+            text-align:center;
+            font-size:20px;
+            font-weight:bold;
 
-}
+        }
 
-.subjudul{
+        .subjudul{
 
-    text-align:center;
-    font-size:12px;
+            text-align:center;
+            font-size:12px;
 
-}
+        }
 
-.header{
+        .header{
 
-    display:flex;
+            display:flex;
 
-    justify-content:space-between;
+            justify-content:space-between;
 
-    align-items:flex-start;
+            align-items:flex-start;
 
-    margin-top:8px;
+            margin-top:8px;
 
-    margin-bottom:8px;
+            margin-bottom:8px;
 
-}
+        }
 
-.kiri{
+        .kiri{
 
-    width:320px;
+            width:320px;
 
-}
+        }
 
-.kanan{
+        .kanan{
 
-    width:330px;
+            width:330px;
 
-}
+        }
 
-.tbl-kiri{
+        .tbl-kiri{
 
-    width:320px;
+            width:320px;
 
-}
+        }
 
-.tbl-kanan{
+        .tbl-kanan{
 
-    width:330px;
+            width:330px;
 
-}
+        }
 
-.tbl-utama{
+        .tbl-utama{
 
-    table-layout:fixed;
+            min-width:2200px;
+            table-layout:auto;
 
-}
+        }
 
-</style>
+    </style>
 
 </head>
 
 <body>
 
+@if(session('error'))
+<div class="alert alert-danger">
+    {{ session('error') }}
+</div>
+@endif
+
 <form method="POST"
-action="{{ route('laporan-peringatan-dini.store') }}">
+    action="{{ route('laporan-peringatan-dini.store') }}">
 
-@csrf
+    @csrf
 
+    <table style="width:850px;">
 
-<table style="width:850px;">
+        <tr>
 
-<tr>
+            <td width="80">
 
-<td width="80">
+                Formulir 17.
 
-Formulir 17.
+            </td>
 
-</td>
+            <td style="text-align:left;padding-left:5px;">
 
-<td style="text-align:left;padding-left:5px;">
+                Laporan Serangan OPT oleh POPT kepada Koordinator POPT/LPHP (Insidentil)
 
-Laporan Serangan OPT oleh POPT kepada Koordinator POPT/LPHP (Insidentil)
+            </td>
 
-</td>
+        </tr>
 
-</tr>
+    </table>
 
-</table>
+    <br>
 
-<br>
+        <div class="judul">
 
-<div class="judul">
+            LAPORAN PERINGATAN DINI
 
-LAPORAN PERINGATAN DINI
+        </div>
 
-</div>
+        <div class="subjudul">
 
-<div class="subjudul">
+            (Padi/Jagung)
 
-(Padi/Jagung/Kedelai/Kacang Tanah/Kacang Hijau/Ubi Kayu/Ubi Jalar)
+        </div>
 
-</div>
+        <div class="header">
 
-<div class="header">
+        <div class="kiri">
 
-<div class="kiri">
+        <table class="tbl-kiri">
 
-<table class="tbl-kiri">
+            <tr>
 
-<tr>
+                <td width="120" style="text-align:left;padding-left:4px;">
 
-<td width="120" style="text-align:left;padding-left:4px;">
+                    Kabupaten/Kota
 
-Kabupaten/Kota
+                </td>
 
-</td>
+                <td class="bg-pink" style="text-align:left;padding-left:4px;">
 
-<td class="bg-pink" style="text-align:left;padding-left:4px;">
+                    {{ $data->petugas->kecamatan->kabupaten->nama_kabupaten_kota }}
 
-{{ $data->petugas->kecamatan->kabupaten->nama_kabupaten_kota }}
+                <input
+                        type="hidden"
+                            name="id_kabupaten_kota"
+                            value="{{ $kabupaten->first()->id_kabupaten_kota }}">
+                </td>
 
-<input
-type="hidden"
-name="id_kabupaten_kota[]"
-value="{{ $data->petugas->kecamatan->kabupaten->id_kabupaten_kota }}">
+            </tr>
 
-</td>
+            <tr>
 
-</tr>
+                <td style="text-align:left;padding-left:4px;">
 
-<tr>
+                    Kecamatan
 
-<td style="text-align:left;padding-left:4px;">
+                </td>
 
-Kecamatan
+                <td class="bg-pink" style="text-align:left;padding-left:4px;">
 
-</td>
+                    {{ $data->petugas->kecamatan->nama_kecamatan }}
 
-<td class="bg-pink" style="text-align:left;padding-left:4px;">
+                <input
+                    type="hidden"
+                    name="id_kecamatan"
+                    value="{{ $kecamatan->first()->id_kecamatan }}">
 
-{{ $data->petugas->kecamatan->nama_kecamatan }}
+                </td>
 
-<input
-type="hidden"
-name="id_kecamatan[]"
-value="{{ $data->petugas->id_kecamatan }}">
+            </tr>
 
-</td>
+        </table>
 
-</tr>
-
-</table>
-
-</div>
+    </div>
 
 <div class="kanan">
 
 <table class="tbl-kanan">
 
-<tr>
+    <tr>
 
-<td width="150" style="text-align:left;padding-left:4px;">
+        <td width="150" style="text-align:left;padding-left:4px;">
 
-Periode Pengamatan
+            Periode Pengamatan
 
-</td>
+        </td>
 
-<td class="bg-pink" style="text-align:left;padding-left:4px;">
+        <td class="bg-pink" style="text-align:left;padding-left:4px;">
 
-{{ $data->periode->periode_pengamatan }}
+            {{ $data->periode->periode_pengamatan }}
 
-<input
-type="hidden"
-name="id_periode[]"
-value="{{ $data->id_periode }}">
+        <input
+            type="hidden"
+            name="id_periode[]"
+            value="{{ $data->id_periode }}">
 
-</td>
+        </td>
 
-</tr>
+    </tr>
 
-<tr>
+    <tr>
 
-<td style="text-align:left;padding-left:4px;">
+        <td style="text-align:left;padding-left:4px;">
 
-Musim Tanam
+            Musim Tanam
 
-</td>
+        </td>
 
-<td class="bg-pink" style="text-align:left;padding-left:4px;">
+        <td class="bg-pink" style="text-align:left;padding-left:4px;">
 
-{{ $data->musimTanam->musim_tanam }}
+            {{ $data->musimTanam->musim_tanam }}
 
-<input
-type="hidden"
-name="id_musim_tanam[]"
-value="{{ $data->id_musim_tanam }}">
+        <input
+            type="hidden"
+            name="id_musim_tanam[]"
+            value="{{ $data->id_musim_tanam }}">
 
-</td>
+        </td>
 
-</tr>
+    </tr>
 
 </table>
 
 </div>
 
 </div>
-<table class="tbl-utama">
 
-<thead>
+   <div style="overflow-x:auto; width:100%;">
+    <table class="tbl-utama">
 
-<tr class="bg-biru">
+        <thead>
 
-    <th rowspan="2" width="45">
+    <tr class="bg-biru">
 
-        Tahun
+        <th rowspan="2" width="45">
 
-    </th>
+            Tahun
 
-    <th rowspan="2" width="45">
+        </th>
 
-        Bulan
+        <th rowspan="2" width="45">
 
-    </th>
+            Bulan
 
-    <th rowspan="2" width="50">
+        </th>
 
-        Periode
+        <th rowspan="2" width="50">
 
-    </th>
+            Periode
 
-    <th rowspan="2" width="70">
+        </th>
 
-        Kab/Kota
+        <th rowspan="2" width="70">
 
-    </th>
+            Kab/Kota
 
-    <th rowspan="2" width="90">
+        </th>
 
-        Kecamatan
+        <th rowspan="2" width="90">
 
-    </th>
+            Kecamatan
 
-    <th rowspan="2" width="95">
+        </th>
 
-        Desa
+        <th rowspan="2" width="95">
 
-    </th>
+            Desa
 
-    <th rowspan="2" width="95">
+        </th>
 
-        Poktan
+        <th rowspan="2" width="95">
 
-    </th>
+            Poktan
 
-    <th colspan="2" width="120">
+        </th>
 
-        Titik Koordinat
+        <th colspan="2" width="120">
 
-    </th>
+            Titik Koordinat
 
-    <th rowspan="2" width="75">
+        </th>
 
-        Komoditas<br>
+        <th rowspan="2" width="75">
 
-        Tanaman
+            Komoditas<br>
 
-    </th>
+            Tanaman
 
-    <th rowspan="2" width="65">
+        </th>
 
-        Varietas
+        <th rowspan="2" width="65">
 
-    </th>
+            Varietas
 
-    <th rowspan="2" width="70">
+        </th>
 
-        Stadia /
+        <th rowspan="2" width="70">
 
-        <br>
+            Stadia /
 
-        Umur Tan
+            <br>
 
-        <br>
+            Umur Tan
 
-        (hst)
+            <br>
 
-    </th>
+            (hst)
 
-    <th rowspan="2" width="75">
+        </th>
 
-        Jenis
+        <th rowspan="2" width="75">
 
-        <br>
+            Jenis
 
-        OPT
+            <br>
 
-    </th>
+            OPT
 
-    <th rowspan="2" width="70">
+        </th>
 
-        Luas
+        <th rowspan="2" width="70">
 
-        <br>
+            Luas
 
-        Terserang
+            <br>
 
-        <br>
+            Terserang
 
-        (Ha)
+            <br>
 
-    </th>
+            (Ha)
 
-    <th rowspan="2" width="70">
+        </th>
 
-        Intens
+        <th rowspan="2" width="70">
 
-        <br>
+            Intens
 
-        (%)
+            <br>
 
-    </th>
+            (%)
 
-    <th rowspan="2" width="70">
+        </th>
 
-        Kepadatan
+        <th rowspan="2" width="70">
 
-        <br>
+            Kepadatan
 
-        Populasi
+            <br>
 
-    </th>
+            Populasi
 
-    <th rowspan="2" width="70">
+        </th>
 
-        Luas
+        <th rowspan="2" width="70">
 
-        <br>
+            Luas
 
-        Waspada
+            <br>
 
-        <br>
+            Waspada
 
-        (Ha)
+            <br>
 
-    </th>
+            (Ha)
 
-    <th rowspan="2" width="90">
+        </th>
 
-        Tgl
+        <th rowspan="2" width="90">
 
-        <br>
+            Tgl
 
-        Pengamatan
+            <br>
 
-    </th>
+            Pengamatan
 
-</tr>
+        </th>
 
-<tr class="bg-biru">
+    </tr>
 
-    <th width="60">
+    <tr class="bg-biru">
 
-        Longitude
+        <th width="60">
 
-    </th>
+            Longitude
 
-    <th width="60">
+        </th>
 
-        Latitude
+        <th width="60">
 
-    </th>
+            Latitude
 
-</tr>
+        </th>
 
-<tr class="bg-kuning">
+    </tr>
 
-    <th>
+    <tr class="bg-kuning">
 
-        Thn
+        <th>
 
-    </th>
+            Thn
 
-    <th>
+        </th>
 
-        Bln
+        <th>
 
-    </th>
+            Bln
 
-    <th>
+        </th>
 
-        Periode
+        <th>
 
-    </th>
+            Periode
 
-    <th>
+        </th>
 
-        Kab
+        <th>
 
-    </th>
+            Kab
 
-    <th>
+        </th>
 
-        Kec
+        <th>
 
-    </th>
+            Kec
 
-    <th>
+        </th>
 
-        Desa
+        <th>
 
-    </th>
+            Desa
 
-    <th>
+        </th>
 
-        Poktan
+        <th>
 
-    </th>
+            Poktan
 
-    <th>
+        </th>
 
-        Long
+        <th>
 
-    </th>
+            Long
 
-    <th>
+        </th>
 
-        Lat
+        <th>
 
-    </th>
+            Lat
 
-    <th>
+        </th>
 
-        Tan
+        <th>
 
-    </th>
+            Tan
 
-    <th>
+        </th>
 
-        Var
+        <th>
 
-    </th>
+            Var
 
-    <th>
+        </th>
 
-        Umur
+        <th>
 
-    </th>
+            Umur
 
-    <th>
+        </th>
 
-        OPT
+        <th>
 
-    </th>
+            OPT
 
-    <th>
+        </th>
 
-        Luas
+        <th>
 
-    </th>
+            Luas
 
-    <th>
+        </th>
 
-        Int (%)
+        <th>
 
-    </th>
+            Int (%)
 
-    <th>
+        </th>
 
-        Pop
+        <th>
 
-    </th>
+            Pop
 
-    <th>
+        </th>
 
-        Was
+        <th>
 
-    </th>
+            Was
 
-    <th>
+        </th>
 
-        Tgl
+        <th>
 
-    </th>
+            Tgl
 
-</tr>
+        </th>
+
+    </tr>
 
 </thead>
 
-<tbody id="tbody-peringatan">
-    <input
-type="hidden"
-name="id_tahun[]"
-value="{{ $data->id_tahun }}">
-
-<input
-type="hidden"
-name="id_bulan[]"
-value="{{ $data->id_bulan }}">
-
-<input
-type="hidden"
-name="id_periode[]"
-value="{{ $data->id_periode }}">
-
-<input
-type="hidden"
-name="id_musim_tanam[]"
-value="{{ $data->id_musim_tanam }}">
-
-<tr class="baris-peringatan">
-
-    <!-- TAHUN -->
-    <td class="bg-pink">
-
-        {{ $data->tahun->tahun }}
-
-    </td>
-
-    <!-- BULAN -->
-    <td class="bg-pink">
-
-        {{ $data->bulan->bulan }}
-
-    </td>
-
-    <!-- PERIODE -->
-    <td class="bg-pink">
-
-        {{ $data->periode->periode_pengamatan }}
-
-    </td>
-
-    <!-- KABUPATEN -->
-    <td class="bg-hijau">
-
-        <select
-        name="id_kabupaten_kota[]">
-
-            @foreach($kabupaten as $kab)
-
-            <option
-            value="{{ $kab->id_kabupaten_kota }}">
-
-                {{ $kab->nama_kabupaten_kota }}
-
-            </option>
-
-            @endforeach
-
-        </select>
-
-    </td>
-
-    <!-- KECAMATAN -->
-
-    <td class="bg-hijau">
-
-        <select
-        name="id_kecamatan[]">
-
-            @foreach($kecamatan as $kec)
-
-            <option
-            value="{{ $kec->id_kecamatan }}">
-
-                {{ $kec->nama_kecamatan }}
-
-            </option>
-
-            @endforeach
-
-        </select>
-
-    </td>
-
-    <!-- DESA -->
-
-    <td class="bg-hijau">
-
-        <select
-        name="id_desa[]">
-
-            <option value="">
-
-                -- Pilih --
-
-            </option>
-
-            @foreach($desa as $d)
-
-            <option
-            value="{{ $d->id_desa }}">
-
-                {{ $d->nama_desa }}
-
-            </option>
-
-            @endforeach
-
-        </select>
-
-    </td>
-
-    <!-- POKTAN -->
-
-    <td>
+    <tbody id="tbody-peringatan">
+        <input
+            type="hidden"
+            name="id_tahun"
+            value="{{ $data->id_tahun }}">
 
         <input
-        type="text"
-        name="poktan[]">
-
-    </td>
-
-    <!-- LONGITUDE -->
-
-    <td>
+            type="hidden"
+            name="id_bulan"
+            value="{{ $data->id_bulan }}">
 
         <input
-        type="text"
-        name="longitude[]">
-
-    </td>
-
-    <!-- LATITUDE -->
-
-    <td>
+            type="hidden"
+            name="id_periode"
+            value="{{ $data->id_periode }}">
 
         <input
-        type="text"
-        name="latitude[]">
+            type="hidden"
+            name="id_musim_tanam"
+            value="{{ $data->id_musim_tanam }}">
+
+    <tr class="baris-peringatan">
+
+        <!-- TAHUN -->
+        <td class="bg-pink">
+
+            {{ $data->tahun->tahun }}
+
+        </td>
+
+        <!-- BULAN -->
+        <td class="bg-pink">
+
+            {{ $data->bulan->bulan }}
+
+        </td>
+
+        <!-- PERIODE -->
+        <td class="bg-pink">
+
+            {{ $data->periode->periode_pengamatan }}
+
+        </td>
+
+        <!-- KABUPATEN -->
+        <td class="bg-hijau">
+            {{ $kabupaten->first()->nama_kabupaten_kota }}
+        </td>
+
+        <!-- KECAMATAN -->
+
+        <td class="bg-hijau">
+            {{ $kecamatan->first()->nama_kecamatan }}
+        </td>
+
+        <!-- DESA -->
+
+        <td class="bg-hijau">
+
+            <select
+            name="id_desa[]">
+
+                <option value="">
+
+                    -- Pilih --
+
+                </option>
+
+                @foreach($desa as $d)
+
+                <option
+                value="{{ $d->id_desa }}">
+
+                    {{ $d->nama_desa }}
+
+                </option>
+
+                @endforeach
+
+            </select>
+
+        </td>
+
+        <!-- POKTAN -->
+
+        <td>
+
+            <input
+            type="text"
+            name="poktan[]">
+
+        </td>
+
+        <!-- LONGITUDE -->
+
+        <td>
+
+            <input
+            type="text"
+            name="longitude[]">
+
+        </td>
+
+        <!-- LATITUDE -->
+
+        <td>
+
+            <input
+            type="text"
+            name="latitude[]">
+
+        </td>
+
+        <!-- KOMODITAS -->
+
+        <td class="bg-hijau">
+
+            <select
+                name="id_komoditas[]"
+                class="komoditas">
+
+                <option value="">
+                    -- Pilih --
+                </option>
+
+                @foreach($komoditas as $kom)
+
+                <option value="{{ $kom->id_komoditas }}">
+                    {{ $kom->komoditas }}
+                </option>
+
+                @endforeach
+
+            </select>
+
+        </td>
+            <!-- VARIETAS -->
+
+        <td>
+
+            <input
+            type="text"
+            name="varietas[]">
+
+        </td>
+
+        <!-- STADIA / UMUR -->
+
+        <td>
+
+            <input
+            type="text"
+            name="umur[]">
+
+        </td>
+
+        <!-- JENIS OPT -->
+
+        <td class="bg-hijau">
+
+            <select
+                name="id_opt[]"
+                class="opt">
+
+                <option value="">
+                    -- Pilih Komoditas Dulu --
+                </option>
+
+            </select>
+
+        </td>
+
+        <!-- LUAS TERSERANG -->
+
+        <td>
+
+            <input
+            type="number"
+            step="0.01"
+            name="luas_terserang[]">
+
+        </td>
+
+        <!-- INTENSITAS -->
+
+        <td>
+
+            <input
+                type="number"
+                step="0.01"
+                name="intens[]">
+
+        </td>
+
+        <!-- KEPADATAN POPULASI -->
+
+        <td>
+
+            <input
+            type="text"
+            name="kepadatan_populasi[]">
+
+        </td>
+
+        <!-- LUAS WASPADA -->
+
+        <td>
+
+            <input
+            type="number"
+            step="0.01"
+            name="luas_waspada[]">
+
+        </td>
+
+        <!-- TANGGAL PENGAMATAN -->
+
+        <td>
+
+            <input
+            type="date"
+            name="tanggal_pengamatan[]">
+
+        </td>
+
+    </tr>
+
+    </tbody>
+
+    </table>
+</div>
+    <br>
+
+    <table style="width:100%; border:none;">
+
+    <tr>
+
+    <td style="width:60%; border:none; vertical-align:top;">
+
+    <b>Keterangan :</b>
+
+    <br>
+
+    Poktan = Kelompok Tani
+
+    <br>
+
+    Tan = Tanaman / Komoditas
+
+    <br>
+
+    OPT = Organisme Pengganggu Tanaman
+
+    <br>
+
+    Long = Longitude
+
+    <br>
+
+    Lat = Latitude
+
+    <br>
+
+    Pop = Kepadatan Populasi
+
+    <br>
+
+    Was = Luas Waspada
 
     </td>
 
-    <!-- KOMODITAS -->
+    <td style="width:40%; border:none; text-align:center;">
 
-    <td class="bg-hijau">
+    <table style="width:280px; float:right;">
 
-        <select
-        name="id_komoditas[]">
+    <tr>
 
-            <option value="">
+    <td style="border:none; text-align:center;">
 
-                -- Pilih --
+    {{ $data->petugas->kecamatan->nama_kecamatan }},
 
-            </option>
+    {{ now()->translatedFormat('d F Y') }}
 
-            @foreach($komoditas as $kom)
+    <br><br>
 
-            <option
-            value="{{ $kom->id_komoditas }}">
+    POPT Kecamatan
 
-                {{ $kom->komoditas }}
+    {{ $data->petugas->kecamatan->nama_kecamatan }}
 
-            </option>
+    <br><br><br><br><br>
 
-            @endforeach
+    <b>
 
-        </select>
+    {{ $data->petugas->nama }}
 
-    </td>
-        <!-- VARIETAS -->
+    </b>
 
-    <td>
+    <br>
 
-        <input
-        type="text"
-        name="varietas[]">
+    NIP.
+
+    {{ $data->petugas->NIP }}
 
     </td>
 
-    <!-- STADIA / UMUR -->
+    </tr>
 
-    <td>
-
-        <input
-        type="text"
-        name="umur[]">
+    </table>
 
     </td>
 
-    <!-- JENIS OPT -->
+    </tr>
 
-    <td class="bg-hijau">
+    </table>
 
-        <select
-        name="id_opt[]">
-
-            <option value="">
-
-                -- Pilih --
-
-            </option>
-
-            @foreach($opt as $o)
-
-            <option
-            value="{{ $o->id_opt }}">
-
-                {{ $o->nama_opt }}
-
-            </option>
-
-            @endforeach
-
-        </select>
-
-    </td>
-
-    <!-- LUAS TERSERANG -->
-
-    <td>
-
-        <input
-        type="number"
-        step="0.01"
-        name="luas_terserang[]">
-
-    </td>
-
-    <!-- INTENSITAS -->
-
-    <td>
-
-        <input
-        type="number"
-        step="0.01"
-        name="intensitas[]">
-
-    </td>
-
-    <!-- KEPADATAN POPULASI -->
-
-    <td>
-
-        <input
-        type="text"
-        name="kepadatan_populasi[]">
-
-    </td>
-
-    <!-- LUAS WASPADA -->
-
-    <td>
-
-        <input
-        type="number"
-        step="0.01"
-        name="luas_waspada[]">
-
-    </td>
-
-    <!-- TANGGAL PENGAMATAN -->
-
-    <td>
-
-        <input
-        type="date"
-        name="tanggal_pengamatan[]">
-
-    </td>
-
-</tr>
-
-</tbody>
-
-</table>
-<br>
-
-<table style="width:100%; border:none;">
-
-<tr>
-
-<td style="width:60%; border:none; vertical-align:top;">
-
-<b>Keterangan :</b>
-
-<br>
-
-Poktan = Kelompok Tani
-
-<br>
-
-Tan = Tanaman / Komoditas
-
-<br>
-
-OPT = Organisme Pengganggu Tanaman
-
-<br>
-
-Long = Longitude
-
-<br>
-
-Lat = Latitude
-
-<br>
-
-Pop = Kepadatan Populasi
-
-<br>
-
-Was = Luas Waspada
-
-</td>
-
-<td style="width:40%; border:none; text-align:center;">
-
-<table style="width:280px; float:right;">
-
-<tr>
-
-<td style="border:none; text-align:center;">
-
-{{ $data->petugas->kecamatan->nama_kecamatan }},
-
-{{ now()->translatedFormat('d F Y') }}
-
-<br><br>
-
-POPT Kecamatan
-
-{{ $data->petugas->kecamatan->nama_kecamatan }}
-
-<br><br><br><br><br>
-
-<b>
-
-{{ $data->petugas->nama }}
-
-</b>
-
-<br>
-
-NIP.
-
-{{ $data->petugas->NIP }}
-
-</td>
-
-</tr>
-
-</table>
-
-</td>
-
-</tr>
-
-</table>
-
-<br>
+    <br>
 
 <div>
 
-<button
-type="button"
-class="btn btn-primary"
-id="tambahBaris">
+    <button
+    type="button"
+    class="btn btn-primary"
+    id="tambahBaris">
 
-Tambah Baris
+    Tambah Baris
 
-</button>
+    </button>
 
-<button
-type="submit"
-class="btn btn-success">
+    <button
+    type="submit"
+    class="btn btn-success">
 
-Simpan
+    Simpan
 
-</button>
+    </button>
 
-<a
-href="{{ route('laporan-peringatan-dini.index') }}"
-class="btn btn-secondary">
+    <a
+    href="{{ route('laporan-peringatan-dini.index') }}"
+    class="btn btn-secondary">
 
-Kembali
+    Kembali
 
-</a>
+    </a>
 
 </div>
 
 </form>
-<script>
+    <script>
 
+function loadOpt(komoditasSelect){
+
+    let idKomoditas = komoditasSelect.value;
+
+    let row = komoditasSelect.closest('tr');
+
+    let optSelect = row.querySelector('.opt');
+
+    optSelect.innerHTML =
+        '<option value="">Loading...</option>';
+
+    if(idKomoditas==''){
+
+        optSelect.innerHTML =
+            '<option value="">-- Pilih Komoditas Dulu --</option>';
+
+        return;
+
+    }
+
+    fetch("{{ route('laporan-peringatan-dini.get-opt', ':id') }}".replace(':id', idKomoditas))
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        optSelect.innerHTML =
+            '<option value="">-- Pilih OPT --</option>';
+
+        data.forEach(function(opt){
+
+            optSelect.innerHTML +=
+                `<option value="${opt.id_opt}">
+                    ${opt.nama_opt}
+                </option>`;
+
+        });
+
+    });
+
+}
+
+// Event pertama
+document.addEventListener('change',function(e){
+
+    if(e.target.classList.contains('komoditas')){
+
+        loadOpt(e.target);
+
+    }
+
+});
+
+// Tambah Baris
 document
 .getElementById('tambahBaris')
 .addEventListener('click',function(){
 
     let tbody =
-    document.getElementById(
-        'tbody-peringatan'
-    );
+    document.getElementById('tbody-peringatan');
 
     let row =
-    document.querySelector(
-        '.baris-peringatan'
-    ).cloneNode(true);
+    document.querySelector('.baris-peringatan')
+    .cloneNode(true);
 
-    row.querySelectorAll(
-        'input'
-    ).forEach(function(i){
+    row.querySelectorAll('input').forEach(function(i){
 
         if(i.type!='hidden'){
 
@@ -1001,20 +1010,20 @@ document
 
     });
 
-    row.querySelectorAll(
-        'select'
-    ).forEach(function(s){
+    row.querySelectorAll('select').forEach(function(s){
 
         s.selectedIndex=0;
 
     });
+
+    row.querySelector('.opt').innerHTML =
+        '<option value="">-- Pilih Komoditas Dulu --</option>';
 
     tbody.appendChild(row);
 
 });
 
 </script>
-
 </body>
 
 </html>

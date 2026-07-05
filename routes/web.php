@@ -32,7 +32,7 @@ use App\Http\Controllers\PenggunaanPestisidaController;
 use App\Http\Controllers\KeadaanCurahHujanController;
 use App\Http\Controllers\PengamatanPenyebaranDanPerkembanganSiputMurbeyController;
 use App\Http\Controllers\LaporanPeringatanDiniController;
-
+use App\Http\Controllers\DashboardController;
 
 
 
@@ -65,60 +65,40 @@ Route::middleware('ceklogin')->group(function () {
     });
 
 });
+
 Route::middleware([
     'ceklogin',
     'cekrole:pengelola_data'
-])->group(function () {
+    ])->group(function () {
+
+    Route::get('/master-data', function () {
+        return view('dashboard.master-data');
+    });
+
+    Route::get('/data-pengamatan', function () {
+    return view('dashboard.data-pengamatan');
+    });
+
+    Route::get('/data-opt', function () {
+    return view('dashboard.data-opt');
+    });
+
+    Route::get('/data-dpi', function () {
+    return view('dashboard.data-dpi');
+    });
+
+    Route::get('/laporan', function () {
+    return view('dashboard.laporan');
+    });
 
     //DASHBOARD
     Route::get('/dashboard-pengelola', function () {
+        return view('dashboard.pengelola');
+        
+    });
 
-        return '
-            <h1>Dashboard Pengelola Data</h1>
-            <hr>
-
-            Login sebagai : '.session('username').'<br>
-            Role : '.session('role').'<br><br>
-
-            <h3>Dashboard</h3>
-            <a href="/dashboard-opt">Dashboard OPT</a><br>
-            <a href="/dashboard-dpi">Dashboard DPI</a><br><br>
-
-            <h3>Master Data</h3>
-
-            <a href="/kabupaten">Kabupaten/Kota</a><br>
-            <a href="/kecamatan">Kecamatan</a><br>
-            <a href="/desa">Desa</a><br>
-            <a href="/komoditas">Komoditas</a><br>
-            <a href="/musim_tanam">Musim Tanam</a><br>
-            <a href="/tahun">Tahun</a><br>
-            <a href="/bulan">Bulan</a><br>
-            <a href="/kelompok-tani">Kelompok Tani</a><br>
-            <a href="/ma">MA</a><br>
-            <a href="/opt">OPT</a><br>
-            <a href="/periode">Periode</a><br>
-            <a href="/petugas">Petugas</a><br>
-
-
-            <h3>Data Pengamatan</h3>
-            <a href="/data">Data</a><br>
-            <a href="/sp">SP</a><br>
-            <a href="/pengamatan-persemaian-padi">Pengamatan Persemaian Padi</a><br><br>
-            <a href="/keadaan-serangan-opt">Keadaan serangan OPT dan pengendalian di wilayah pengamatan</a>
-
-
-
-            <h3>Manajemen Pengguna</h3>
-            <a href="/user-aplikasi">User Aplikasi</a><br>
-            <a href="/role">Role & Permission</a><br><br>
-
-            <h3>Laporan</h3>
-            <a href="/laporan-opt">Laporan OPT</a><br>
-            <a href="/laporan-dpi">Laporan DPI</a><br><br>
-
-            <a href="/logout">Logout</a>
-
-        ';
+    Route::get('/manajemen-sistem', function () {
+    return view('dashboard.manajemen-sistem');
     });
 
     // MASTER DATA
@@ -487,71 +467,89 @@ Route::middleware([
     });
 
     
-    Route::get(
-        '/tangkapan-lampu-perangkap',
-        [TangkapanLampuPerangkapController::class, 'index']
-    )->name('tangkapan-lampu-perangkap.index');
+    Route::prefix('tangkapan-lampu-perangkap')
+    ->name('tangkapan-lampu-perangkap.')
+    ->group(function () {
+
+        Route::get(
+            '/',
+            [TangkapanLampuPerangkapController::class, 'index']
+        )->name('index');
+
+        Route::get(
+            '/create/{id_data}',
+            [TangkapanLampuPerangkapController::class, 'create']
+        )->name('create');
+
+        Route::post(
+            '/store',
+            [TangkapanLampuPerangkapController::class, 'store']
+        )->name('store');
+
+        Route::get(
+            '/detail/{id}',
+            [TangkapanLampuPerangkapController::class, 'show']
+        )->name('detail');
+
+        Route::get(
+            '/edit/{id}',
+            [TangkapanLampuPerangkapController::class, 'edit']
+        )->name('edit');
+
+        Route::put(
+            '/update/{id}',
+            [TangkapanLampuPerangkapController::class, 'update']
+        )->name('update');
+
+        Route::delete(
+            '/delete/{id}',
+            [TangkapanLampuPerangkapController::class, 'destroy'
+        ])->name('destroy');
+
+    });
+
+    
+
+    // Kumulatif Luas Tambah Tanam Padi
+
+Route::prefix('kumulatif-luas-tambah-tanam-padi')->group(function () {
 
     Route::get(
-        '/tangkapan-lampu-perangkap/create/{id_data}',
-        [TangkapanLampuPerangkapController::class, 'create']
-    )->name('tangkapan-lampu-perangkap.create');
-
-    Route::post(
-        '/tangkapan-lampu-perangkap',
-        [TangkapanLampuPerangkapController::class, 'store']
-    )->name('tangkapan-lampu-perangkap.store');
-
-    Route::get(
-        '/tangkapan-lampu-perangkap/{id}',
-        [TangkapanLampuPerangkapController::class, 'show']
-    )->name('tangkapan-lampu-perangkap.detail');
-
-    Route::get(
-        '/tangkapan-lampu-perangkap/{id}/edit',
-        [TangkapanLampuPerangkapController::class, 'edit']
-    )->name('tangkapan-lampu-perangkap.edit');
-
-    Route::put(
-        '/tangkapan-lampu-perangkap/{id}',
-        [TangkapanLampuPerangkapController::class, 'update']
-    )->name('tangkapan-lampu-perangkap.update');
-
-    Route::delete(
-        '/tangkapan-lampu-perangkap/{id}',
-        [TangkapanLampuPerangkapController::class, 'destroy']
-    )->name('tangkapan-lampu-perangkap.destroy');
-
-
-    Route::get(
-    '/kumulatif-luas-tambah-tanam-padi',
-    [KumulatifLuasTambahTanamPadiController::class,'index']
+        '/',
+        [KumulatifLuasTambahTanamPadiController::class, 'index']
     )->name('kumulatif-luas-tambah-tanam-padi.index');
 
     Route::get(
-        '/kumulatif-luas-tambah-tanam-padi/create/{id_data}',
-        [KumulatifLuasTambahTanamPadiController::class,'create']
+        '/create/{id_data}',
+        [KumulatifLuasTambahTanamPadiController::class, 'create']
     )->name('kumulatif-luas-tambah-tanam-padi.create');
 
     Route::post(
-        '/kumulatif-luas-tambah-tanam-padi',
-        [KumulatifLuasTambahTanamPadiController::class,'store']
-    )->name('kumulatif-luas-tambah-tanam-padi.store');
+            '/store',
+            [KumulatifLuasTambahTanamPadiController::class,'store']
+        )->name('store');
 
     Route::get(
-        '/kumulatif-luas-tambah-tanam-padi/{id}/edit',
-        [KumulatifLuasTambahTanamPadiController::class,'edit']
+        '/detail/{id}',
+        [KumulatifLuasTambahTanamPadiController::class, 'show']
+    )->name('kumulatif-luas-tambah-tanam-padi.show');
+
+    Route::get(
+        '/{id}/edit',
+        [KumulatifLuasTambahTanamPadiController::class, 'edit']
     )->name('kumulatif-luas-tambah-tanam-padi.edit');
 
     Route::put(
-        '/kumulatif-luas-tambah-tanam-padi/{id}',
-        [KumulatifLuasTambahTanamPadiController::class,'update']
+        '/{id}',
+        [KumulatifLuasTambahTanamPadiController::class, 'update']
     )->name('kumulatif-luas-tambah-tanam-padi.update');
 
     Route::delete(
-        '/kumulatif-luas-tambah-tanam-padi/{id}',
-        [KumulatifLuasTambahTanamPadiController::class,'destroy']
+        '/{id}',
+        [KumulatifLuasTambahTanamPadiController::class, 'destroy']
     )->name('kumulatif-luas-tambah-tanam-padi.destroy');
+
+});
 
 
 
@@ -593,41 +591,50 @@ Route::middleware([
 
 
 
+ /*
+|--------------------------------------------------------------------------
+| Keadaan Curah Hujan
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('keadaan-curah-hujan')->group(function () {
+
     Route::get(
-    '/keadaan-curah-hujan',
-    [KeadaanCurahHujanController::class, 'index']
+        '/',
+        [KeadaanCurahHujanController::class, 'index']
     )->name('keadaan-curah-hujan.index');
 
     Route::get(
-        '/keadaan-curah-hujan/create/{id_data}',
+        '/create/{id_data}',
         [KeadaanCurahHujanController::class, 'create']
     )->name('keadaan-curah-hujan.create');
 
     Route::post(
-        '/keadaan-curah-hujan/store',
+        '/store',
         [KeadaanCurahHujanController::class, 'store']
     )->name('keadaan-curah-hujan.store');
 
     Route::get(
-        '/keadaan-curah-hujan/{id}',
+        '/{id}',
         [KeadaanCurahHujanController::class, 'show']
     )->name('keadaan-curah-hujan.show');
 
     Route::get(
-        '/keadaan-curah-hujan/{id}/edit',
-        [KeadaanCurahHujanController::class, 'edit']
-    )->name('keadaan-curah-hujan.edit');
+        '/{id}/edit',
+        [KeadaanCurahHujanController::class, 'edit'
+    ])->name('keadaan-curah-hujan.edit');
 
     Route::put(
-        '/keadaan-curah-hujan/{id}',
+        '/{id}',
         [KeadaanCurahHujanController::class, 'update']
     )->name('keadaan-curah-hujan.update');
 
     Route::delete(
-        '/keadaan-curah-hujan/{id}',
+        '/{id}',
         [KeadaanCurahHujanController::class, 'destroy']
     )->name('keadaan-curah-hujan.destroy');
 
+});
 
     Route::prefix('pengamatan-penyebaran-dan-perkembangan-siput-murbey')->group(function () {
 
@@ -735,7 +742,14 @@ Route::prefix('laporan-peringatan-dini')->group(function () {
         [LaporanPeringatanDiniController::class, 'prosesVerifikasi']
     )->name('laporan-peringatan-dini.proses-verifikasi');
 
+    Route::get('/get-opt/{idKomoditas}', [LaporanPeringatanDiniController::class, 'getOpt'])
+    ->name('laporan-peringatan-dini.get-opt');
 });
+
+
+Route::get('/dashboard', [DashboardController::class,'index'])
+    ->name('dashboard');
+
 
 
     //MANAJEMEN PENGGUNA

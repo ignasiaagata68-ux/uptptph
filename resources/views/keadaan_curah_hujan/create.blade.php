@@ -9,633 +9,633 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-<style>
+        <style>
 
-body{
-    font-size:12px;
-    font-family:Times New Roman,serif;
-}
+            body{
+                font-size:12px;
+                font-family:Times New Roman,serif;
+            }
 
-table{
-    width:100%;
-    border-collapse:collapse;
-}
+            table{
+                width:100%;
+                border-collapse:collapse;
+            }
 
-table th,
-table td{
-    border:1px solid #000;
-    padding:2px;
-    text-align:center;
-    vertical-align:middle;
-}
+            table th,
+            table td{
+                border:1px solid #000;
+                padding:2px;
+                text-align:center;
+                vertical-align:middle;
+            }
 
-.bg-biru{
-    background:#b8cce4;
-}
+            .bg-biru{
+                background:#b8cce4;
+            }
 
-.bg-pink{
-    background:#e6b8b7;
-}
+            .bg-pink{
+                background:#e6b8b7;
+            }
 
-.bg-hijau{
-    background:#d8e4bc;
-}
+            .bg-hijau{
+                background:#d8e4bc;
+            }
 
-.bg-kuning{
-    background:#ffff00;
-}
+            .bg-kuning{
+                background:#ffff00;
+            }
 
-.judul{
-    text-align:center;
-    font-size:22px;
-    font-weight:bold;
-}
+            .judul{
+                text-align:center;
+                font-size:22px;
+                font-weight:bold;
+            }
 
-.subjudul{
-    text-align:center;
-    font-size:13px;
-    font-weight:bold;
-    margin-bottom:10px;
-}
+            .subjudul{
+                text-align:center;
+                font-size:13px;
+                font-weight:bold;
+                margin-bottom:10px;
+            }
 
-input{
-    border:none!important;
-    border-radius:0!important;
-    box-shadow:none!important;
-    text-align:center;
-    font-size:12px;
-}
+            input{
+                border:none!important;
+                border-radius:0!important;
+                box-shadow:none!important;
+                text-align:center;
+                font-size:12px;
+            }
 
-input:focus{
-    box-shadow:none!important;
-}
+            input:focus{
+                box-shadow:none!important;
+            }
 
-.kotak-ttd{
-    background:#e6b8b7;
-    display:inline-block;
-    padding:8px 35px;
-    min-width:260px;
-    text-align:center;
-}
+            .kotak-ttd{
+                background:#e6b8b7;
+                display:inline-block;
+                padding:8px 35px;
+                min-width:260px;
+                text-align:center;
+            }
 
-.keterangan{
-    font-size:12px;
-    line-height:18px;
-}
+            .keterangan{
+                font-size:12px;
+                line-height:18px;
+            }
 
-</style>
+        </style>
 
 </head>
 
-<body>
+    <body>
 
-<div class="container-fluid mt-2">
+    <div class="container-fluid mt-2">
 
-<div class="judul">
+    <div class="judul">
 
-KEADAAN CURAH HUJAN
+        KEADAAN CURAH HUJAN
 
-</div>
+    </div>
 
-<div class="subjudul">
+    <div class="subjudul">
 
-(Padi)
+        (Padi)
 
-</div>
+    </div>
 
-<form method="POST"
-action="{{ route('keadaan-curah-hujan.store') }}">
+    <form method="POST"
+        action="{{ route('keadaan-curah-hujan.store') }}">
 
-@csrf
+        @csrf
 
-<div class="row mb-2">
+    <div class="row mb-2">
 
-<div class="col-md-6">
+    <div class="col-md-6">
 
-<table>
+        <table>
 
-<tr>
+            <tr>
 
-<td width="170">
-Kabupaten/Kota
-</td>
+                <td width="170">
+                    Kabupaten/Kota
+                </td>
 
-<td class="bg-pink">
+                <td class="bg-pink">
 
-{{ $data->petugas->kecamatan->kabupaten->nama_kabupaten_kota }}
+                    {{ $data->petugas->kecamatan->kabupaten->nama_kabupaten_kota }}
 
-</td>
+                </td>
 
-</tr>
+                </tr>
 
-<tr>
+                <tr>
 
-<td>
-Kecamatan
-</td>
+                    <td>
+                        Kecamatan
+                    </td>
 
-<td class="bg-pink">
+                    <td class="bg-pink">
 
-{{ $data->petugas->kecamatan->nama_kecamatan }}
+                        {{ $data->petugas->kecamatan->nama_kecamatan }}
 
-</td>
+                    </td>
 
-</tr>
+                 </tr>
 
-</table>
+        </table>
 
-</div>
+    </div>
 
 <div class="col-md-3 offset-md-3">
 
-<table>
+    <table>
 
-<tr>
+        <tr>
 
-<td width="90">
-Bulan
-</td>
+            <td width="90">
+                Bulan
+            </td>
 
-<td class="bg-pink">
+            <td class="bg-pink">
 
-{{ $data->bulan->bulan }}
+                {{ $data->bulan->bulan }}
 
-</td>
+            </td>
 
-</tr>
+        </tr>
 
-<tr>
+        <tr>
 
-<td>
+            <td>
 
-MT
+                MT
 
-</td>
+            </td>
 
-<td class="bg-pink">
+            <td class="bg-pink">
 
-{{ $data->musimTanam->musim_tanam }}
+                {{ $data->musimTanam->musim_tanam }}
 
-</td>
+            </td>
 
-</tr>
+        </tr>
 
-</table>
-
-</div>
+    </table>
 
 </div>
 
-<table>
+</div>
 
-<thead>
+    <table>
 
-<tr>
+        <thead>
 
-<th colspan="2" class="bg-biru">
+            <tr>
 
-Tanggal Penakaran
-(Dasarian I)
+                <th colspan="2" class="bg-biru">
 
-</th>
+                    Tanggal Penakaran
+                    (Dasarian I)
 
-<th colspan="2" class="bg-biru">
+                </th>
 
-Tanggal Penakaran
-(Dasarian II)
+                <th colspan="2" class="bg-biru">
 
-</th>
+                    Tanggal Penakaran
+                    (Dasarian II)
 
-<th colspan="2" class="bg-biru">
+                </th>
 
-Tanggal Penakaran
-(Dasarian III)
+                <th colspan="2" class="bg-biru">
 
-</th>
+                    Tanggal Penakaran
+                    (Dasarian III)
 
-</tr>
+                </th>
 
-<tr>
+            </tr>
 
-<th class="bg-biru" width="80">
-Tanggal
-</th>
+            <tr>
 
-<th class="bg-biru" width="80">
-Curah Hujan
-(mm)
-</th>
+                <th class="bg-biru" width="80">
+                    Tanggal
+                </th>
 
-<th class="bg-biru" width="80">
-Tanggal
-</th>
+                <th class="bg-biru" width="80">
+                    Curah Hujan
+                    (mm)
+                </th>
 
-<th class="bg-biru" width="80">
-Curah Hujan
-(mm)
-</th>
+                <th class="bg-biru" width="80">
+                    Tanggal
+                </th>
 
-<th class="bg-biru" width="80">
-Tanggal
-</th>
+                <th class="bg-biru" width="80">
+                    Curah Hujan
+                    (mm)
+                </th>
 
-<th class="bg-biru" width="80">
-Curah Hujan
-(mm)
-</th>
+                <th class="bg-biru" width="80">
+                    Tanggal
+                </th>
 
-</tr>
+                <th class="bg-biru" width="80">
+                    Curah Hujan
+                    (mm)
+                </th>
 
-<tr class="bg-kuning">
+            </tr>
 
-<th>1</th>
+            <tr class="bg-kuning">
 
-<th>2</th>
+                <th>1</th>
 
-<th>3</th>
+                <th>2</th>
 
-<th>4</th>
+                <th>3</th>
 
-<th>5</th>
+                <th>4</th>
 
-<th>6</th>
+                <th>5</th>
 
-</tr>
+                <th>6</th>
 
-</thead>
+            </tr>
 
-<tbody>
-    {{-- ================= DASARIAN I - II - III ================= --}}
+        </thead>
 
-@for($i=1;$i<=11;$i++)
+            <tbody>
+                {{-- ================= DASARIAN I - II - III ================= --}}
 
-<tr>
+                @for($i=1;$i<=11;$i++)
 
-    {{-- ================= DASARIAN I ================= --}}
+                    <tr>
 
-    @if($i<=10)
+                        {{-- ================= DASARIAN I ================= --}}
 
-        <td class="bg-hijau">
+                        @if($i<=10)
 
-            {{ $i }}
+                            <td class="bg-hijau">
 
-            <input
-                type="hidden"
-                name="tanggal_penakaran[]"
-                value="{{ $i }}">
+                                {{ $i }}
 
-            <input
-                type="hidden"
-                name="dasarian[]"
-                value="I">
+                                <input
+                                    type="hidden"
+                                    name="tanggal_penakaran[]"
+                                    value="{{ $i }}">
 
-        </td>
+                                <input
+                                    type="hidden"
+                                    name="dasarian[]"
+                                    value="I">
 
-        <td>
+                            </td>
 
-            <input
-                type="number"
-                step="0.01"
-                class="form-control ch1"
-                name="curah_hujan_mm[]">
+                            <td>
 
-        </td>
+                                <input
+                                    type="number"
+                                    step="0.01"
+                                    class="form-control ch1"
+                                    name="curah_hujan_mm[]">
 
-    @else
+                            </td>
 
-        <td colspan="2" class="bg-biru">
+                                @else
 
-            Jumlah
+                            <td colspan="2" class="bg-biru">
 
-        </td>
+                                    Jumlah
 
-    @endif
+                                </td>
 
+                            @endif
 
-    {{-- ================= DASARIAN II ================= --}}
 
-    @php
+                            {{-- ================= DASARIAN II ================= --}}
 
-        $tgl2 = $i + 10;
+                            @php
 
-    @endphp
+                                $tgl2 = $i + 10;
 
-    @if($tgl2<=20)
+                            @endphp
 
-        <td class="bg-hijau">
+                            @if($tgl2<=20)
 
-            {{ $tgl2 }}
+                            <td class="bg-hijau">
 
-            <input
-                type="hidden"
-                name="tanggal_penakaran[]"
-                value="{{ $tgl2 }}">
+                                {{ $tgl2 }}
 
-            <input
-                type="hidden"
-                name="dasarian[]"
-                value="II">
+                                <input
+                                    type="hidden"
+                                    name="tanggal_penakaran[]"
+                                    value="{{ $tgl2 }}">
 
-        </td>
+                                <input
+                                    type="hidden"
+                                    name="dasarian[]"
+                                    value="II">
 
-        <td>
+                            </td>
 
-            <input
-                type="number"
-                step="0.01"
-                class="form-control ch2"
-                name="curah_hujan_mm[]">
+                            <td>
 
-        </td>
+                                <input
+                                    type="number"
+                                    step="0.01"
+                                    class="form-control ch2"
+                                    name="curah_hujan_mm[]">
 
-    @else
+                            </td>
 
-        <td colspan="2" class="bg-biru">
+                                @else
 
-            Jumlah
+                                    <td colspan="2" class="bg-biru">
 
-        </td>
+                                        Jumlah
 
-    @endif
+                                    </td>
 
+                                @endif
 
-    {{-- ================= DASARIAN III ================= --}}
 
-    @php
+                                {{-- ================= DASARIAN III ================= --}}
 
-        $tgl3 = $i + 20;
+                                @php
 
-    @endphp
+                                    $tgl3 = $i + 20;
 
-    @if($tgl3<=31)
+                                @endphp
 
-        <td class="bg-hijau">
+                                @if($tgl3<=31)
 
-            {{ $tgl3 }}
+                                <td class="bg-hijau">
 
-            <input
-                type="hidden"
-                name="tanggal_penakaran[]"
-                value="{{ $tgl3 }}">
+                                    {{ $tgl3 }}
 
-            <input
-                type="hidden"
-                name="dasarian[]"
-                value="III">
+                                    <input
+                                        type="hidden"
+                                        name="tanggal_penakaran[]"
+                                        value="{{ $tgl3 }}">
 
-        </td>
+                                    <input
+                                        type="hidden"
+                                        name="dasarian[]"
+                                        value="III">
 
-        <td>
+                                </td>
 
-            <input
-                type="number"
-                step="0.01"
-                class="form-control ch3"
-                name="curah_hujan_mm[]">
+                                <td>
 
-        </td>
+                                    <input
+                                        type="number"
+                                        step="0.01"
+                                        class="form-control ch3"
+                                        name="curah_hujan_mm[]">
 
-    @else
+                                </td>
 
-        <td></td>
+                            @else
 
-        <td></td>
+                                <td></td>
 
-    @endif
+                                <td></td>
 
-</tr>
+                                @endif
 
-@endfor
+                            </tr>
 
+                            @endfor
 
-{{-- ====================== REKAP ====================== --}}
 
-<tr>
+                            {{-- ====================== REKAP ====================== --}}
 
-    <td colspan="2" class="bg-biru text-start">
-        Jumlah CH
-    </td>
+                            <tr>
 
-    <td colspan="2" class="bg-biru text-start">
-        Jumlah CH
-    </td>
+                                <td colspan="2" class="bg-biru text-start">
+                                    Jumlah CH
+                                </td>
 
-    <td colspan="2" class="bg-biru text-start">
-        Jumlah CH
-    </td>
+                                <td colspan="2" class="bg-biru text-start">
+                                    Jumlah CH
+                                </td>
 
-</tr>
+                                <td colspan="2" class="bg-biru text-start">
+                                    Jumlah CH
+                                </td>
 
-<tr>
+                            </tr>
 
-    <td class="bg-pink">
-        CH
-    </td>
+                            <tr>
 
-    <td id="jumlah1" class="bg-pink">0</td>
+                                <td class="bg-pink">
+                                    CH
+                                </td>
 
-    <td class="bg-pink">
-        CH
-    </td>
+                                <td id="jumlah1" class="bg-pink">0</td>
 
-    <td id="jumlah2" class="bg-pink">0</td>
+                                <td class="bg-pink">
+                                    CH
+                                </td>
 
-    <td class="bg-pink">
-        CH
-    </td>
+                                <td id="jumlah2" class="bg-pink">0</td>
 
-    <td id="jumlah3" class="bg-pink">0</td>
+                                <td class="bg-pink">
+                                    CH
+                                </td>
 
-</tr>
+                                <td id="jumlah3" class="bg-pink">0</td>
 
-<tr>
+                            </tr>
 
-    <td>
-        HH
-    </td>
+                            <tr>
 
-    <td id="hh1" class="bg-pink">0</td>
+                                <td>
+                                    HH
+                                </td>
 
-    <td>
-        HH
-    </td>
+                                <td id="hh1" class="bg-pink">0</td>
 
-    <td id="hh2" class="bg-pink">0</td>
+                                <td>
+                                    HH
+                                </td>
 
-    <td>
-        HH
-    </td>
+                                <td id="hh2" class="bg-pink">0</td>
 
-    <td id="hh3" class="bg-pink">0</td>
+                                <td>
+                                    HH
+                                </td>
 
-</tr>
+                                <td id="hh3" class="bg-pink">0</td>
 
-<tr>
+                            </tr>
 
-    <td>
-        Deret Hari Kering
-    </td>
+                            <tr>
 
-    <td id="kering1" class="bg-pink">0</td>
+                                <td>
+                                    Deret Hari Kering
+                                </td>
 
-    <td>
-        Deret Hari Basah
-    </td>
+                                <td id="kering1" class="bg-pink">0</td>
 
-    <td id="basah2" class="bg-pink">0</td>
+                                <td>
+                                    Deret Hari Basah
+                                </td>
 
-    <td>
-        CH Max
-    </td>
+                                <td id="basah2" class="bg-pink">0</td>
 
-    <td id="max3" class="bg-pink">0</td>
+                                <td>
+                                    CH Max
+                                </td>
 
-</tr>
-<script>
+                                <td id="max3" class="bg-pink">0</td>
 
-document.addEventListener("input", function () {
+                            </tr>
+                                <script>
 
-    hitungDasarian("ch1", "jumlah1", "hh1", "kering1", null);
-    hitungDasarian("ch2", "jumlah2", "hh2", null, "basah2");
-    hitungDasarian("ch3", "jumlah3", "hh3", null, null, "max3");
+                                    document.addEventListener("input", function () {
 
-});
+                                        hitungDasarian("ch1", "jumlah1", "hh1", "kering1", null);
+                                        hitungDasarian("ch2", "jumlah2", "hh2", null, "basah2");
+                                        hitungDasarian("ch3", "jumlah3", "hh3", null, null, "max3");
 
-function hitungDasarian(kelas, idCH, idHH, idKering = null, idBasah = null, idMax = null){
+                                    });
 
-    let data=[];
+                                    function hitungDasarian(kelas, idCH, idHH, idKering = null, idBasah = null, idMax = null){
 
-    document.querySelectorAll("."+kelas).forEach(function(item){
+                                        let data=[];
 
-        let v=item.value.trim();
+                                        document.querySelectorAll("."+kelas).forEach(function(item){
 
-        if(v==""){
+                                            let v=item.value.trim();
 
-            data.push(null);
+                                            if(v==""){
 
-        }else{
+                                                data.push(null);
 
-            data.push(parseFloat(v));
+                                            }else{
 
-        }
+                                                data.push(parseFloat(v));
 
-    });
+                                            }
 
-    /* ==========================
-       CH
-    =========================== */
+                                        });
 
-    let jumlah=0;
+                                        /* ==========================
+                                        CH
+                                        =========================== */
 
-    data.forEach(function(v){
+                                        let jumlah=0;
 
-        if(v!=null)
-            jumlah+=v;
+                                        data.forEach(function(v){
 
-    });
+                                            if(v!=null)
+                                                jumlah+=v;
 
-    document.getElementById(idCH).innerHTML=jumlah;
+                                        });
 
+                                        document.getElementById(idCH).innerHTML=jumlah;
 
 
-    /* ==========================
-       HH
-       Hari dengan CH > 0
-    =========================== */
 
-    let hh=0;
+                                        /* ==========================
+                                        HH
+                                        Hari dengan CH > 0
+                                        =========================== */
 
-    data.forEach(function(v){
+                                        let hh=0;
 
-        if(v!=null && v>0)
-            hh++;
+                                        data.forEach(function(v){
 
-    });
+                                            if(v!=null && v>0)
+                                                hh++;
 
-    document.getElementById(idHH).innerHTML=hh;
+                                        });
 
+                                        document.getElementById(idHH).innerHTML=hh;
 
 
-    /* ==========================
-       Deret Hari Kering
-       dihitung dari hari terakhir
-    =========================== */
 
-    if(idKering){
+                                        /* ==========================
+                                        Deret Hari Kering
+                                        dihitung dari hari terakhir
+                                        =========================== */
 
-        let deret=0;
+                                        if(idKering){
 
-        for(let i=data.length-1;i>=0;i--){
+                                            let deret=0;
 
-            if(data[i]==null || data[i]==0){
+                                            for(let i=data.length-1;i>=0;i--){
 
-                deret++;
+                                                if(data[i]==null || data[i]==0){
 
-            }else{
+                                                    deret++;
 
-                break;
+                                                }else{
 
-            }
+                                                    break;
 
-        }
+                                                }
 
-        document.getElementById(idKering).innerHTML=deret;
+                                            }
 
-    }
+                                            document.getElementById(idKering).innerHTML=deret;
 
+                                        }
 
 
-    /* ==========================
-       Deret Hari Basah
-       dihitung dari hari terakhir
-    =========================== */
 
-    if(idBasah){
+                                        /* ==========================
+                                        Deret Hari Basah
+                                        dihitung dari hari terakhir
+                                        =========================== */
 
-        let deret=0;
+                                        if(idBasah){
 
-        for(let i=data.length-1;i>=0;i--){
+                                            let deret=0;
 
-            if(data[i]!=null && data[i]>0){
+                                            for(let i=data.length-1;i>=0;i--){
 
-                deret++;
+                                                if(data[i]!=null && data[i]>0){
 
-            }else{
+                                                    deret++;
 
-                break;
+                                                }else{
 
-            }
+                                                    break;
 
-        }
+                                                }
 
-        document.getElementById(idBasah).innerHTML=deret;
+                                            }
 
-    }
+                                            document.getElementById(idBasah).innerHTML=deret;
 
+                                        }
 
 
-    /* ==========================
-       CH MAX
-    =========================== */
 
-    if(idMax){
+                                        /* ==========================
+                                        CH MAX
+                                        =========================== */
 
-        let maks=0;
+                                        if(idMax){
 
-        data.forEach(function(v){
+                                            let maks=0;
 
-            if(v!=null && v>maks)
-                maks=v;
+                                            data.forEach(function(v){
 
-        });
+                                                if(v!=null && v>maks)
+                                                    maks=v;
 
-        document.getElementById(idMax).innerHTML=maks;
+                                            });
 
-    }
+                                            document.getElementById(idMax).innerHTML=maks;
 
-}
+                                        }
 
-</script>
+                                    }
+
+                                </script>
 
 </body>
 </html>

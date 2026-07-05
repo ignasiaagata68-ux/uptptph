@@ -266,53 +266,48 @@
         <tbody id="tbody-opt">
             @foreach($detail as $d)
             <tr>
-            <td>
-                <input type="hidden"
-                        name="id_detail[]"
-                        value="{{ $d->id_det_keadaan_serangan_opt_dan_pengendalian_di_wilayah }}">
-            </td>
             <!-- THN -->
-            <td class="bg-pink">
-                {{ $d->id_tahun }}
-                <input type="hidden"
-                    name="id_tahun[]"
-                    value="{{ $d->id_tahun }}">
-            </td>
+                <td class="bg-pink">
+                    {{ $d->id_tahun }}
+                    <input type="hidden"
+                        name="id_tahun[]"
+                        value="{{ $d->id_tahun }}">
+                </td>
 
             <!-- BLN -->
-            <td class="bg-pink">
-                {{ $d->id_bulan }}
-                <input type="hidden"
-                    name="id_bulan[]"
-                    value="{{ $d->id_bulan }}">
-            </td>
+                <td class="bg-pink">
+                    {{ $d->id_bulan }}
+                    <input type="hidden"
+                        name="id_bulan[]"
+                        value="{{ $d->id_bulan }}">
+                </td>
 
             <!-- PER -->
-            <td class="bg-pink">
-                {{ $d->id_periode }}
-                <input type="hidden"
-                    name="id_periode"
-                    value="{{ $d->id_periode }}">
-            </td>
+                <td class="bg-pink">
+                    {{ $d->id_periode }}
+                    <input type="hidden"
+                        name="id_periode"
+                        value="{{ $d->id_periode }}">
+                </td>
 
             <!-- KABUPATEN -->
-            <td class="bg-hijau">
+                <td class="bg-hijau">
 
-                {{ $header->nama_kabupaten_kota }}
-                <input type="hidden"
-                    name="id_kabupaten_kota"
-                    value="{{ $header->id_kabupaten_kota }}">
-            </td>
+                    {{ $header->nama_kabupaten_kota }}
+                    <input type="hidden"
+                        name="id_kabupaten_kota"
+                        value="{{ $header->id_kabupaten_kota }}">
+                </td>
 
             <!-- KECAMATAN -->
-            <td class="bg-hijau">
+                <td class="bg-hijau">
 
-                {{ $header->nama_kecamatan }}
-                <input type="hidden"
-                    name="id_kecamatan"
-                    value="{{ $header->id_kecamatan }}">
-               
-            </td>
+                    {{ $header->nama_kecamatan }}
+                    <input type="hidden"
+                        name="id_kecamatan"
+                        value="{{ $header->id_kecamatan }}">
+                
+                </td>
 
             <!-- DESA -->
             <td class="bg-hijau">
@@ -591,7 +586,7 @@
 
     <button type="submit"
             class="btn btn-success">
-        Simpan
+        Update
     </button>
 
     <a href="{{ route('keadaan-serangan-opt.index') }}"

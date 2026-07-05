@@ -90,75 +90,84 @@
 
             <table>
 
-                <tr>
+        <tr>
 
-                    <td width="170">
-                        Kabupaten/Kota
-                    </td>
+            <td width="180">
 
-                    <td class="bg-pink">
+                Kabupaten/Kota
 
-                        {{ $data->petugas->kecamatan->kabupaten->nama_kabupaten_kota }}
+            </td>
 
-                    </td>
+            <td class="bg-pink">
 
-                </tr>
+                {{ $header->nama_kabupaten_kota }}
+            </td>
 
-                <tr>
+        </tr>
 
-                    <td>
-                        Kecamatan
-                    </td>
+        <tr>
 
-                    <td class="bg-pink">
+            <td>
 
-                        {{ $data->petugas->kecamatan->nama_kecamatan }}
+                Kecamatan
 
-                    </td>
+            </td>
 
-                </tr>
+            <td class="bg-pink">
 
-            </table>
+                {{ $header->nama_kecamatan }}
 
-        </div>
+            </td>
 
-        <div class="col-md-3 offset-md-3">
+        </tr>
 
-        <table>
-
-            <tr>
-
-                <td>Bulan</td>
-
-                <td class="bg-pink">
-
-                    {{ $data->bulan->bulan }}
-
-                </td>
-
-            </tr>
-
-            <tr>
-
-                <td>Musim Tanam</td>
-
-                <td class="bg-pink">
-
-                    {{ $data->musimTanam->musim_tanam }}
-
-                </td>
-
-            </tr>
-
-        </table>
-
-    </div>
+    </table>
 
 </div>
+
+<div class="col-md-3 offset-md-3">
+
+    <table>
+
+        <tr>
+
+            <td>
+
+                Bulan
+
+            </td>
+
+            <td class="bg-pink">
+
+                {{ \Carbon\Carbon::parse($header->tgl_mulai)->translatedFormat('F Y') }}
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+
+                Musim Tanam
+
+            </td>
+
+            <td class="bg-pink">
+                {{ $header->musim_tanam }}
+
+            </td>
+
+        </tr>
+
+    </table>    
+</div>
+</div>
 <form method="POST"
-      action="{{ route('penggunaan-pestisida.store') }}">
+    action="{{ route('penggunaan-pestisida.update',$header->id_penggunaan_pestisida) }}">
 
     @csrf
+    @method('PUT')
     <table>
 
         <thead>
@@ -250,172 +259,173 @@
                 <th>12</th>
 
             </tr>
+</thead>    
 
-        </thead>
+        <tbody id="tbodyPestisida">
 
-            <tbody id="tbodyPestisida">
-                @for($i=1;$i<=10;$i++)
+@foreach($detail as $d)
 
-            <input type="hidden"
-                name="id_kabupaten_kota[]"
-                value="{{ $data->petugas->kecamatan->kabupaten->id_kabupaten_kota }}">
+<tr class="barisPestisida">
 
-            <input type="hidden"
-                name="id_kecamatan[]"
-                value="{{ $data->petugas->id_kecamatan }}">
+    <input type="hidden"
+        name="id_kabupaten_kota[]"
+        value="{{ $header->id_kabupaten_kota }}">
 
-            <input type="hidden"
-                name="id_periode[]"
-                value="{{ $data->id_periode }}">
-            
-            <input
-                type="hidden"
-                name="id_musim_tanam[]"
-                value="{{ $data->id_musim_tanam }}">
+    <input type="hidden"
+        name="id_kecamatan[]"
+        value="{{ $header->id_kecamatan }}">
 
-            <input type="hidden"
-                name="id_bulan[]"
-                value="{{ $data->id_bulan }}">
+    <input type="hidden"
+        name="id_periode[]"
+        value="{{ $header->id_periode }}">
 
-            <input type="hidden"
-                name="id_tahun[]"
-                value="{{ $data->id_tahun }}">
+    <input type="hidden"
+        name="id_musim_tanam[]"
+        value="{{ $header->id_musim_tanam }}">
 
-            <tr class="barisPestisida">
+    <td width="45">
 
-                <td width="45">
+        {{ $d->no }}
 
-                    {{ $i }}
+        <input
+            type="hidden"
+            name="no[]"
+            value="{{ $d->no }}">
 
-                    <input type="hidden"
-                    name="no[]"
-                    value="{{ $i }}">
+    </td>
 
-                </td>
+    <td class="bg-hijau">
 
-                <!-- DES -->
-                <td class="bg-hijau">
+        <select
+            name="id_desa[]"
+            class="form-select bg-hijau">
 
-                    <select
-                        name="id_desa[]"
-                        class="form-select bg-hijau">
+            <option value="">Pilih Desa</option>
 
-                        <option value="">Pilih Desa</option>
+            @foreach($desa as $desaItem)
 
-                        @foreach($desa as $d)
-                            <option value="{{ $d->id_desa }}">
-                                {{ $d->nama_desa }}
-                            </option>
-                        @endforeach
+                <option
+                    value="{{ $desaItem->id_desa }}"
+                    {{ $desaItem->nama_desa == $d->lokasi_wilkel_desa ? 'selected' : '' }}>
 
-                    </select>
+                    {{ $desaItem->nama_desa }}
 
-                </td>
+                </option>
 
+            @endforeach
 
-                <td>
+        </select>
 
-                    <input
-                    type="text"
-                    name="jenis_dan_formulasi[]"
-                    class="form-control">
+    </td>
 
-                </td>
+    <td>
 
-                <td>
+        <input
+            type="text"
+            name="jenis_dan_formulasi[]"
+            class="form-control"
+            value="{{ $d->jenis_dan_formulasi }}">
 
-                    <input
-                    type="number"
-                    step="0.01"
-                    name="penggunaan[]"
-                    class="form-control">
+    </td>
 
-                </td>
+    <td>
 
-                <td>
+        <input
+            type="number"
+            step="0.01"
+            name="penggunaan[]"
+            class="form-control"
+            value="{{ $d->penggunaan }}">
 
-                <input
-                    type="number"
-                    step="0.01"
-                    name="volume_semprot[]"
-                    class="form-control">
+    </td>
 
-                </td>
+    <td>
 
-                <td>
+        <input
+            type="number"
+            step="0.01"
+            name="volume_semprot[]"
+            class="form-control"
+            value="{{ $d->volume_semprot }}">
 
-                    <input
-                    type="number"
-                    step="0.01"
-                    name="jenis_tanaman[]"
-                    class="form-control">
+    </td>
 
-                </td>
+    <td>
 
-                <td>
+        <input
+            type="text"
+            name="jenis_tanaman[]"
+            class="form-control"
+            value="{{ $d->jenis_tanaman }}">
 
-                    <input
-                    type="number"
-                    step="0.01"
-                    name="opt_sasaran[]"
-                    class="form-control">
+    </td>
 
-                </td>
+    <td>
 
-                <td>
+        <input
+            type="text"
+            name="opt_sasaran[]"
+            class="form-control"
+            value="{{ $d->opt_sasaran }}">
 
-                    <input
-                    type="number"
-                    step="0.01"
-                    name="opt_non_sasaran[]"
-                    class="form-control">
+    </td>
 
-                </td>
+    <td>
 
-                <td>
+        <input
+            type="text"
+            name="opt_non_sasaran[]"
+            class="form-control"
+            value="{{ $d->opt_non_sasaran }}">
 
-                    <input
-                    type="number"
-                    step="0.01"
-                    name="lingkungan_hayati[]"
-                    class="form-control">
+    </td>
 
-                </td>
+    <td>
 
-                <td>
+        <input
+            type="text"
+            name="lingkungan_hayati[]"
+            class="form-control"
+            value="{{ $d->lingkungan_hayati }}">
 
-                    <input
-                    type="number"
-                    step="0.01"
-                    name="jumlah_korban[]"
-                    class="form-control">
+    </td>
 
-                </td>
+    <td>
 
-                <td>
+        <input
+            type="number"
+            step="0.01"
+            name="jumlah_korban[]"
+            class="form-control"
+            value="{{ $d->jumlah_korban }}">
 
-                    <input
-                    type="number"
-                    step="0.01"
-                    name="sebab[]"
-                    class="form-control">
+    </td>
 
-                </td>
+    <td>
 
-                <td>
+        <input
+            type="text"
+            name="sebab[]"
+            class="form-control"
+            value="{{ $d->sebab }}">
 
-                    <input
-                    type="text"
-                    name="ket[]"
-                    class="form-control">
+    </td>
 
-                </td>
+    <td>
 
-            </tr>
+        <input
+            type="text"
+            name="ket[]"
+            class="form-control"
+            value="{{ $d->ket }}">
 
-        @endfor
+    </td>
 
-    </tbody>
+</tr>
+
+@endforeach
+
+</tbody>
 
 </table>
     <div class="row mt-3">
@@ -440,42 +450,32 @@
 
     <div class="col-md-7 text-center">
 
-        <div
-            class="bg-pink p-2 d-inline-block"
-            style="min-width:320px;">
+       <div class="bg-pink p-2">
 
-            <b>
-
-                {{ $data->petugas->kecamatan->nama_kecamatan }},
+            <strong>
+                {{ $header->nama_kecamatan }},
                 {{ now()->translatedFormat('d F Y') }}
-
-            </b>
+            </strong>
 
             <br>
 
             POPT Kec.
-
-            {{ $data->petugas->kecamatan->nama_kecamatan }}
+            {{ $header->nama_kecamatan }}
 
         </div>
 
         <br><br><br>
 
-        <div
-            class="bg-pink p-2 d-inline-block"
-            style="min-width:320px;">
+        <div class="bg-pink p-2">
 
-            <b>
-
-                {{ $data->petugas->nama }}
-
-            </b>
+            <strong>
+                ................................
+            </strong>
 
             <br>
 
             NIP :
-
-            {{ $data->petugas->NIP ?? '-' }}
+            ................................
 
         </div>
 
@@ -497,7 +497,7 @@
         type="submit"
         class="btn btn-success">
 
-        Simpan
+        update
 
     </button>
 
@@ -515,7 +515,7 @@
 </div>
 <script>
 
-    let nomorBaris = 10;
+    let nomorBaris = {{ $detail->count() }};
 
     document.getElementById('tambahBaris')
     .addEventListener('click', function(){

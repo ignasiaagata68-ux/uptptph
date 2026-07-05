@@ -1,131 +1,118 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tangkapan Lampu Perangkap</title>
 
-@section('title','Tangkapan Lampu Perangkap')
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+<body>
 
-@section('content')
+<div class="container mt-4">
 
-<div class="container-fluid">
+    <h3>Tangkapan Lampu Perangkap </h3>
 
     @if(session('success'))
+
         <div class="alert alert-success">
+
             {{ session('success') }}
+
         </div>
+
     @endif
 
-    <div class="card">
+    <table class="table table-bordered table-striped">
 
-        <div class="card-header">
+        <thead class="table-dark">
 
-            <h4 class="mb-0">
-                Tangkapan Lampu Perangkap
-            </h4>
+            <tr>
 
-        </div>
+                <th>No</th>
+                <th>Kabupaten/Kota</th>
+                <th>Kecamatan</th>
+                <th>Bulan</th>
+                <th>Periode</th>
+                <th>Musim Tanam</th>
+                <th>Aksi</th>
 
-        <div class="card-body">
+            </tr>
 
-            <table class="table table-bordered table-striped">
+        </thead>
 
-                <thead class="table-primary">
+        <tbody>
 
-                    <tr>
+        @forelse($data as $d)
 
-                        <th width="50">No</th>
+            <tr>
 
-                        <th>Kabupaten/Kota</th>
+                <td>
+                    {{ $loop->iteration }}
+                </td>
 
-                        <th>Kecamatan</th>
+                <td>
+                    {{ $d->nama_kabupaten_kota }}
+                </td>
 
-                        <th>Periode Pengamatan</th>
+                <td>
+                    {{ $d->nama_kecamatan }}
+                </td>
 
-                        <th>Musim Tanam</th>
+                <td>{{ $d->bulan }}</td>
 
-                        <th width="170">
-                            Aksi
-                        </th>
+                <td>
+                    {{ $d->periode_pengamatan }}
+                </td>
 
-                    </tr>
+                <td>
+                    {{ $d->musim_tanam }}
+                </td>
 
-                </thead>
+                <td>
 
-                <tbody>
+                    <a href="{{ route(
+                        'tangkapan-lampu-perangkap.detail',
+                        $d->id_tangkapan_lampu_perangkap
+                    ) }}"
+                    class="btn btn-info btn-sm">
 
-                @forelse($data as $i => $d)
+                        Detail
 
-                    <tr>
+                    </a>
 
-                        <td>
-                            {{ $i+1 }}
-                        </td>
+                    <a href="{{ route(
+                        'tangkapan-lampu-perangkap.edit',
+                        $d->id_tangkapan_lampu_perangkap
+                    ) }}"
+                    class="btn btn-warning btn-sm">
 
-                        <td>
-                            {{ $d->nama_kabupaten_kota }}
-                        </td>
+                        Edit
 
-                        <td>
-                            {{ $d->nama_kecamatan }}
-                        </td>
+                    </a>
 
-                        <td>
-                            {{ $d->periode_pengamatan }}
-                        </td>
+                </td>
 
-                        <td>
-                            {{ $d->musim_tanam }}
-                        </td>
+            </tr>
 
-                        <td>
+        @empty
 
-                            <a href="{{ route('tangkapan-lampu-perangkap.edit',$d->id_tangkapan_lampu_perangkap) }}"
-                               class="btn btn-warning btn-sm">
+            <tr>
 
-                                Edit
+                <td colspan="6" class="text-center">
 
-                            </a>
+                    Belum ada data
 
-                            <form action="{{ route('tangkapan-lampu-perangkap.destroy',$d->id_tangkapan_lampu_perangkap) }}"
-                                  method="POST"
-                                  class="d-inline">
+                </td>
 
-                                @csrf
-                                @method('DELETE')
+            </tr>
 
-                                <button
-                                    class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Hapus data?')">
+        @endforelse
 
-                                    Hapus
+        </tbody>
 
-                                </button>
-
-                            </form>
-
-                        </td>
-
-                    </tr>
-
-                @empty
-
-                    <tr>
-
-                        <td colspan="6" class="text-center">
-
-                            Belum ada data.
-
-                        </td>
-
-                    </tr>
-
-                @endforelse
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
+    </table>
 
 </div>
 
-@endsection
+</body>
+</html>

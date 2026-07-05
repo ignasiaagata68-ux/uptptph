@@ -1,170 +1,153 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Kumulatif Luas Tambah Tanam Padi</title>
 
-@section('title','Penggunaan Pestisida')
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+<body>
 
-@section('content')
+<div class="container mt-4">
 
-<div class="container">
+    <h2 class="mb-4">
+        Data Penggunaan Pestisida
+    </h2>
 
     @if(session('success'))
 
-    <div class="alert alert-success">
+        <div class="alert alert-success alert-dismissible fade show">
 
-        {{ session('success') }}
+            {{ session('success') }}
 
-    </div>
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert">
+            </button>
+
+        </div>
 
     @endif
 
-    <div class="card">
+    <table class="table table-bordered table-striped">
 
-        <div class="card-header d-flex justify-content-between align-items-center">
+        <thead class="table-dark">
 
-            <h4 class="mb-0">
+            <tr>
 
-                Data Penggunaan Pestisida
+                <th width="70">ID</th>
 
-            </h4>
+                <th>Kabupaten/Kota</th>
 
-            <a href="{{ route('penggunaan-pestisida.create',1) }}"
-                class="btn btn-primary">
+                <th>Kecamatan</th>
 
-                Tambah Data
+                <th>Periode</th>
 
-            </a>
+                <th>Musim Tanam</th>
 
-        </div>
+                <th width="220">Aksi</th>
 
-        <div class="card-body">
+            </tr>
 
-            <div class="table-responsive">
+        </thead>
 
-            <table class="table table-bordered table-striped">
+        <tbody>
 
-                <thead class="table-primary">
+        @forelse($data as $row)
 
-                    <tr>
+            <tr>
 
-                        <th>No</th>
+                <td>
 
-                        <th>Kabupaten/Kota</th>
+                    {{ $row->id_penggunaan_pestisida }}
 
-                        <th>Kecamatan</th>
+                </td>
 
-                        <th>Periode</th>
+                <td>
 
-                        <th>Musim Tanam</th>
+                    {{ $row->nama_kabupaten_kota }}
 
-                        <th width="180">
+                </td>
 
-                            Aksi
+                <td>
 
-                        </th>
+                    {{ $row->nama_kecamatan }}
 
-                    </tr>
+                </td>
 
-                </thead>
+                <td>
 
-                <tbody>
+                    {{ $row->periode_pengamatan }}
 
-                @forelse($data as $row)
+                </td>
 
-                <tr>
+                <td>
 
-                    <td>
+                    {{ $row->musim_tanam }}
 
-                        {{ $loop->iteration }}
+                </td>
 
-                    </td>
+                <td>
 
-                    <td>
+                    <a href="{{ route(
+                        'penggunaan-pestisida.show',
+                        $row->id_penggunaan_pestisida
+                    ) }}"
+                    class="btn btn-info btn-sm">
 
-                        {{ $row->nama_kabupaten_kota }}
+                        Detail
 
-                    </td>
+                    </a>
 
-                    <td>
+                    <a href="{{ route(
+                        'penggunaan-pestisida.edit',
+                        $row->id_penggunaan_pestisida
+                    ) }}"
+                    class="btn btn-warning btn-sm">
 
-                        {{ $row->nama_kecamatan }}
+                        Edit
 
-                    </td>
+                    </a>
 
-                    <td>
+                    {{-- Aktifkan jika fitur verifikasi sudah dibuat --}}
+                    {{--
+                    <a href="{{ route(
+                        'penggunaan-pestisida.verifikasi',
+                        $row->id_penggunaan_pestisida
+                    ) }}"
+                    class="btn btn-success btn-sm">
 
-                        {{ $row->periode_pengamatan }}
+                        Verifikasi
 
-                    </td>
+                    </a>
+                    --}}
 
-                    <td>
+                </td>
 
-                        {{ $row->musim_tanam }}
+            </tr>
 
-                    </td>
+        @empty
 
-                    <td>
+            <tr>
 
-                        <a href="{{ route('penggunaan-pestisida.show',$row->id_penggunaan_pestisida) }}"
-                            class="btn btn-info btn-sm">
+                <td colspan="8" class="text-center">
 
-                            Detail
+                    Data belum tersedia.
 
-                        </a>
+                </td>
 
-                        <a href="{{ route('penggunaan-pestisida.edit',$row->id_penggunaan_pestisida) }}"
-                            class="btn btn-warning btn-sm">
+            </tr>
 
-                            Edit
+        @endforelse
 
-                        </a>
+        </tbody>
 
-                        <form
-                            action="{{ route('penggunaan-pestisida.destroy',$row->id_penggunaan_pestisida) }}"
-                            method="POST"
-                            style="display:inline-block">
-
-                            @csrf
-
-                            @method('DELETE')
-
-                            <button
-                                onclick="return confirm('Yakin hapus data?')"
-                                class="btn btn-danger btn-sm">
-
-                                Hapus
-
-                            </button>
-
-                        </form>
-
-                    </td>
-
-                </tr>
-
-                @empty
-
-                <tr>
-
-                    <td colspan="6"
-                        class="text-center">
-
-                        Belum ada data.
-
-                    </td>
-
-                </tr>
-
-                @endforelse
-
-                </tbody>
-
-            </table>
-
-            </div>
-
-        </div>
-
-    </div>
+    </table>
 
 </div>
 
-@endsection
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

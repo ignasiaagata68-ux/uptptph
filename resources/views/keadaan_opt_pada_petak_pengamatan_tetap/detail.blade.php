@@ -127,27 +127,6 @@
 
     <div class="col-md-4 offset-md-8 text-center">
 
-        <p>
-            {{ $header->kecamatan->nama_kecamatan }},
-            {{ date('d F Y') }}
-        </p>
-
-        <p>
-            POPT Kec.
-            {{ $header->kecamatan->nama_kecamatan }}
-        </p>
-
-        <br><br><br>
-
-        <strong>
-            {{ $petugas->nama ?? '-' }}
-        </strong>
-
-        <br>
-
-        NIP :
-        {{ $petugas->NIP ?? '-' }}
-
     </div>
 
 </div>

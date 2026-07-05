@@ -208,10 +208,10 @@
 
 </div>
 
-<form
-    method="POST"
-    action="{{ route('laporan-kerusakan-tanaman-akibat-bencana-alam.update', $header->id_laporan_kerusakan_tanaman_akibat_bencana_alam) }}">
-@csrf
+<form method="POST"
+      action="{{ route('laporan-kerusakan-tanaman-akibat-bencana-alam.update', $header->id_laporan_kerusakan_tanaman_akibat_bencana_alam) }}">
+
+    @csrf
     @method('PUT')
 
     <div class="table-responsive">
@@ -373,7 +373,8 @@
 
 <tr class="baris-bencana">
 
-    <input type="hidden"
+    <input
+        type="hidden"
         name="id_detail[]"
         value="{{ $d->id_det_laporan_kerusakan_tanaman_akibat_bencana_alam }}">
 
@@ -388,10 +389,11 @@
     <input type="hidden"
         name="id_periode[]"
         value="{{ $d->id_periode }}">
-    
-    <input type="hidden"
-        name="id_periode[]"
-        value="{{ $d->id_periode }}">
+
+    <input
+        type="hidden"
+        name="id_musim_tanam"
+        value="{{ $header->id_musim_tanam }}">
 
     <input type="hidden"
         name="id_kabupaten_kota[]"
@@ -430,7 +432,9 @@
     <td class="bg-hijau">
         <select name="id_desa[]" class="form-select">
 
-            @foreach($desa as $ds)
+        <option value="">Pilih Desa</option>
+
+        @foreach($desa as $ds)
 
             <option value="{{ $ds->id_desa }}"
                 {{ $d->id_desa == $ds->id_desa ? 'selected' : '' }}>
@@ -446,6 +450,7 @@
     <td class="bg-hijau">
         <select name="id_komoditas[]" class="form-select">
 
+            <option value="">Pilih Komoditas</option>
             @foreach($komoditas as $k)
 
             <option value="{{ $k->id_komoditas }}"
@@ -689,23 +694,31 @@ document.getElementById('tambahBaris')
     let baru =
         contoh.cloneNode(true);
 
-    baru.querySelectorAll('input')
-    .forEach(function(input){
+    baru.querySelectorAll('input').forEach(function(input){
 
-        if(input.type=='hidden')
+    if(input.type == 'hidden'){
+
+        if(
+            input.name == 'id_tahun[]' ||
+            input.name == 'id_bulan[]' ||
+            input.name == 'id_periode[]' ||
+            input.name == 'id_kabupaten_kota[]' ||
+            input.name == 'id_kecamatan[]'
+        ){
             return;
-
-        if(input.readOnly)
-        {
-            input.value=0;
-        }
-        else
-        {
-            input.value='';
         }
 
-    });
+        input.remove();
+        return;
+    }
 
+    if(input.hasAttribute('readonly')){
+        input.value = 0;
+    }else{
+        input.value = '';
+    }
+
+});
     baru.querySelectorAll('select')
     .forEach(function(select){
 
@@ -740,10 +753,10 @@ document.addEventListener('input',function(e){
         parseFloat(row.querySelector('.lt_p').value) || 0;
 
     row.querySelector('.lk_t').value =
-        lpso + lt_t;
+    lsrt + lt_t;
 
     row.querySelector('.lk_p').value =
-        lpso + lt_p;
+    lpso + lt_p;
 
 });
 

@@ -33,8 +33,15 @@ class AuthController extends Controller
                 'role'     => $user->nama_role
             ]);
 
-            return redirect('/dashboard');
-        }
+            if ($user->nama_role == 'pengelola_data') {
+
+                return redirect('/dashboard-pengelola');
+
+    }
+
+    return redirect('/dashboard');
+
+}
 
         return back()->with('error', 'Username atau Password salah');
     }

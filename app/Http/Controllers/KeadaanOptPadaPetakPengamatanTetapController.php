@@ -144,7 +144,7 @@ class KeadaanOptPadaPetakPengamatanTetapController extends Controller
             'id_musim_tanam' =>
                 1,
             'id_petugas' =>
-                $data->petugas->id_petugas
+                $data->petugas->id_petugas[0]
         ]);
 
         for($i = 0; $i < count($request->id_desa); $i++)
@@ -367,7 +367,14 @@ class KeadaanOptPadaPetakPengamatanTetapController extends Controller
                 );
 
     }
+    private function decimal($value)
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
 
+        return str_replace(',', '.', $value);
+    }
     /**
      * Remove the specified resource from storage.
      */

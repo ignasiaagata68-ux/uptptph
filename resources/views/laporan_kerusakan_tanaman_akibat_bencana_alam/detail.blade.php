@@ -378,7 +378,7 @@
             <td class="table-danger">{{ $d->id_tahun }}</td>
 
             <!-- BLN -->
-            <td class="table-danger">{{ $d->id_bulan }}</td>
+            <td class="table-danger">{{ $header->periode_pengamatan }}</td>
 
             <!-- PRD -->
             <td class="table-danger">{{ $header->periode_pengamatan }}</td>

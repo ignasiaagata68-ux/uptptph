@@ -15,6 +15,7 @@ class TangkapanLampuPerangkap extends Model
     protected $fillable = [
         'id_kabupaten_kota',
         'id_kecamatan',
+         'id_bulan',
         'id_periode',
         'id_musim_tanam'
     ];
@@ -63,4 +64,13 @@ class TangkapanLampuPerangkap extends Model
             'id_tangkapan_lampu_perangkap'
         );
     }
+
+    public function bulan()
+{
+    return $this->belongsTo(
+        Bulan::class,
+        'id_bulan',
+        'id_bulan'
+    );
+}
 }

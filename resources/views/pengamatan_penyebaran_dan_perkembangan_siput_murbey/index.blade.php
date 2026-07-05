@@ -1,197 +1,153 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Pengamatan Penyebaran dan Perkembangan Siput Murbey</title>
 
-@section('title','Pengamatan Penyebaran dan Perkembangan Siput Murbey')
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+<body>
 
-@section('content')
+<div class="container mt-4">
 
-<div class="container-fluid">
+    <h2 class="mb-4">
+        Data Pengamatan Penyebaran dan Perkembangan Siput Murbey
+    </h2>
 
-    <div class="card">
+    @if(session('success'))
 
-        <div class="card-header d-flex justify-content-between align-items-center">
+        <div class="alert alert-success alert-dismissible fade show">
 
-            <h4 class="mb-0">
-                Pengamatan Penyebaran dan Perkembangan Siput Murbey
-            </h4>
+            {{ session('success') }}
 
-            <a href="{{ route('data.index') }}"
-               class="btn btn-primary">
-
-                Tambah Data
-
-            </a>
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert">
+            </button>
 
         </div>
 
-        <div class="card-body">
+    @endif
 
-            @if(session('success'))
+    <table class="table table-bordered table-striped">
 
-                <div class="alert alert-success">
+        <thead class="table-dark">
 
-                    {{ session('success') }}
+            <tr>
 
-                </div>
+                <th width="70">ID</th>
 
-            @endif
+                <th>Kabupaten/Kota</th>
 
-            <table class="table table-bordered table-striped">
+                <th>Kecamatan</th>
 
-                <thead class="table-primary">
+                <th>Bulan</th>
 
-                <tr>
+                <th>Musim Tanam</th>
 
-                    <th width="60">No</th>
+                <th width="220">Aksi</th>
 
-                    <th>Kabupaten</th>
+            </tr>
 
-                    <th>Kecamatan</th>
+        </thead>
 
-                    <th>Bulan</th>
+        <tbody>
 
-                    <th>Musim Tanam</th>
+        @forelse($data as $row)
 
-                    <th>Status</th>
+            <tr>
 
-                    <th width="260">Aksi</th>
+                <td>
 
-                </tr>
+                    {{ $row->id_pengamatan_penyebaran_dan_perkembangan_siput_murbey }}
 
-                </thead>
+                </td>
 
-                <tbody>
+                <td>
 
-                @forelse($data as $i=>$row)
+                    {{ $row->nama_kabupaten_kota }}
 
-                    <tr>
+                </td>
 
-                        <td>
+                <td>
 
-                            {{ $i+1 }}
+                    {{ $row->nama_kecamatan }}
 
-                        </td>
+                </td>
 
-                        <td>
+                <td>
 
-                            {{ $row->kabupaten->nama_kabupaten_kota }}
+                    {{ $row->bulan}}
 
-                        </td>
+                </td>
 
-                        <td>
+                <td>
 
-                            {{ $row->kecamatan->nama_kecamatan }}
+                    {{ $row->musim_tanam }}
 
-                        </td>
+                </td>
 
-                        <td>
+                <td>
 
-                            {{ $row->bulan->bulan }}
+                    <a href="{{ route(
+                        'pengamatan-penyebaran-dan-perkembangan-siput-murbey.detail',
+                        $row->id_pengamatan_penyebaran_dan_perkembangan_siput_murbey
+                    ) }}"
+                    class="btn btn-info btn-sm">
 
-                        </td>
+                        Detail
 
-                        <td>
+                    </a>
 
-                            {{ $row->musimTanam->musim_tanam }}
+                    <a href="{{ route(
+                        'pengamatan-penyebaran-dan-perkembangan-siput-murbey.edit',
+                        $row->id_pengamatan_penyebaran_dan_perkembangan_siput_murbey
+                    ) }}"
+                    class="btn btn-warning btn-sm">
 
-                        </td>
+                        Edit
 
-                        <td>
+                    </a>
 
-                            @if($row->status_verifikasi=='menunggu')
+                    {{-- Aktifkan jika fitur verifikasi sudah dibuat --}}
+                    {{--
+                     <a href="{{ route(
+                        'pengamatan-penyebaran-dan-perkembangan-siput-murbey.verifikasi',
+                        $row->id_pengamatan_penyebaran_dan_perkembangan_siput_murbey
+                    ) }}"
+                    class="btn btn-success btn-sm">
 
-                                <span class="badge bg-warning">
+                        Verifikasi
 
-                                    Menunggu
+                    </a>
+                    --}}
 
-                                </span>
+                </td>
 
-                            @elseif($row->status_verifikasi=='benar')
+            </tr>
 
-                                <span class="badge bg-success">
+        @empty
 
-                                    Benar
+            <tr>
 
-                                </span>
+                <td colspan="8" class="text-center">
 
-                            @else
+                    Data belum tersedia.
 
-                                <span class="badge bg-danger">
+                </td>
 
-                                    Salah
+            </tr>
 
-                                </span>
+        @endforelse
 
-                            @endif
+        </tbody>
 
-                        </td>
-
-                        <td>
-
-                            <a href="{{ route('pengamatan-penyebaran-dan-perkembangan-siput-murbey.detail',$row->id_pengamatan_penyebaran_dan_perkembangan_siput_murbey) }}"
-                               class="btn btn-info btn-sm">
-
-                                Detail
-
-                            </a>
-
-                            <a href="{{ route('pengamatan-penyebaran-dan-perkembangan-siput-murbey.edit',$row->id_pengamatan_penyebaran_dan_perkembangan_siput_murbey) }}"
-                               class="btn btn-warning btn-sm">
-
-                                Edit
-
-                            </a>
-
-                            <a href="{{ route('pengamatan-penyebaran-dan-perkembangan-siput-murbey.verifikasi',$row->id_pengamatan_penyebaran_dan_perkembangan_siput_murbey) }}"
-                               class="btn btn-success btn-sm">
-
-                                Verifikasi
-
-                            </a>
-
-                            <form
-                                action="{{ route('pengamatan-penyebaran-dan-perkembangan-siput-murbey.destroy',$row->id_pengamatan_penyebaran_dan_perkembangan_siput_murbey) }}"
-                                method="POST"
-                                style="display:inline;">
-
-                                @csrf
-                                @method('DELETE')
-
-                                <button
-                                    class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Hapus data?')">
-
-                                    Hapus
-
-                                </button>
-
-                            </form>
-
-                        </td>
-
-                    </tr>
-
-                @empty
-
-                    <tr>
-
-                        <td colspan="7" class="text-center">
-
-                            Belum ada data
-
-                        </td>
-
-                    </tr>
-
-                @endforelse
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
+    </table>
 
 </div>
 
-@endsection
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

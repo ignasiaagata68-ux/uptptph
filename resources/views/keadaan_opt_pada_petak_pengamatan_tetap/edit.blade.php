@@ -151,6 +151,15 @@
         </div>
 
         <button
+            type="button"
+            id="tambahBaris"
+            class="btn btn-primary">
+
+            Tambah Baris
+
+        </button>
+
+        <button
             type="submit"
             class="btn btn-success">
 
@@ -170,4 +179,35 @@
 </div>
 
 </body>
+    <script>
+
+    document.getElementById('tambahBaris').addEventListener('click', function(){
+
+        let tbody =
+            document.getElementById('tbody-opt');
+
+        let contohBaris =
+            document.querySelector('.baris-opt');
+
+        let barisBaru =
+            contohBaris.cloneNode(true);
+
+        barisBaru.querySelectorAll('input').forEach(function(input){
+
+            input.value = '';
+
+        });
+
+        barisBaru.querySelectorAll('select').forEach(function(select){
+
+            select.selectedIndex = 0;
+
+        });
+
+        tbody.appendChild(barisBaru);
+
+    });
+
+    </script>
+
 </html>

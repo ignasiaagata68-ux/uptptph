@@ -296,7 +296,7 @@ Menurut Varietas
        value="{{ $data->id_periode }}">
 
 <input type="hidden"
-       name="id_musim_tanam"
+       name="id_musim_tanam[]"
        value="{{ $data->id_musim_tanam }}">
 
 <td class="nomor">
@@ -532,66 +532,6 @@ Menurut Varietas
 </form>
 
 </div>
-
-<script>
-
-document
-.getElementById('tambahBaris')
-.addEventListener('click',function(){
-
-    let tbody =
-        document.getElementById('tbody-kumulatif');
-
-    let contoh =
-        document.querySelector('.baris-kumulatif');
-
-    let clone =
-        contoh.cloneNode(true);
-
-    let nomor =
-        tbody.querySelectorAll('tr').length + 1;
-
-    clone.querySelector('.nomor').innerHTML = nomor;
-
-    clone.querySelector('input[name="no[]"]').value = nomor;
-
-    clone.querySelectorAll('input')
-    .forEach(function(input){
-
-        if(
-            input.type=="hidden"
-            &&
-            input.name!="no[]"
-        ){
-            return;
-        }
-
-        if(input.name=="no[]"){
-            return;
-        }
-
-        input.value="";
-
-    });
-
-    clone.querySelectorAll('select')
-    .forEach(function(select){
-
-        select.selectedIndex=0;
-
-    });
-
-    clone.querySelector('.nomor').appendChild(
-
-        clone.querySelector('input[name="no[]"]')
-
-    );
-
-    tbody.appendChild(clone);
-
-});
-
-</script>
     <script>
 
 document.getElementById('tambahBaris')
@@ -614,6 +554,11 @@ document.getElementById('tambahBaris')
         jumlahBaris +
         '<input type="hidden" name="no[]" value="'+jumlahBaris+'">';
 
+    barisBaru.querySelectorAll('input[type=hidden]').forEach(function(input){
+
+        if(input.name === 'no[]') return;
+
+});
     // Reset semua input selain hidden
     barisBaru.querySelectorAll('input')
     .forEach(function(input){

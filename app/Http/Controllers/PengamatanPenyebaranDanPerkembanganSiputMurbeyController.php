@@ -12,34 +12,65 @@ class PengamatanPenyebaranDanPerkembanganSiputMurbeyController extends Controlle
 {
 
     public function index()
-    {
-        $data = PengamatanPenyebaranDanPerkembanganSiputMurbey::latest()->get();
+{
+    $data = DB::table(
+        'pengamatan_penyebaran_dan_perkembangan_siput_murbey as h'
+    )
 
-        return view(
-            'pengamatan_penyebaran_dan_perkembangan_siput_murbey.index',
-            compact('data')
-        );
-    }
+    ->join(
+        'kabupaten_kota as kab',
+        'h.id_kabupaten_kota',
+        '=',
+        'kab.id_kabupaten_kota'
+    )
 
-    public function create($id_data)
-    {
-        $data = Data::findOrFail($id_data);
+    ->join(
+        'kecamatan as kec',
+        'h.id_kecamatan',
+        '=',
+        'kec.id_kecamatan'
+    )
 
-        $desa = DB::table('desa')
-            ->where(
-                'id_kecamatan',
-                $data->petugas->id_kecamatan
-            )
-            ->get();
+    ->join(
+        'bulan as b',
+        'h.id_bulan',
+        '=',
+        'b.id_bulan'
+    )
 
-        return view(
-            'pengamatan_penyebaran_dan_perkembangan_siput_murbey.create',
-            compact(
-                'data',
-                'desa'
-            )
-        );
-    }
+    ->leftJoin(
+        'musim_tanam as mt',
+        'h.id_musim_tanam',
+        '=',
+        'mt.id_musim_tanam'
+    )
+
+    ->select(
+
+        'h.*',
+
+        'kab.nama_kabupaten_kota',
+
+        'kec.nama_kecamatan',
+
+        'b.bulan',
+
+        'mt.musim_tanam'
+
+    )
+
+    ->orderBy(
+        'h.id_pengamatan_penyebaran_dan_perkembangan_siput_murbey',
+        'desc'
+    )
+
+    ->get();
+
+    return view(
+        'pengamatan_penyebaran_dan_perkembangan_siput_murbey.index',
+        compact('data')
+    );
+}
 
     public function store(Request $request)
     {
@@ -119,48 +150,164 @@ class PengamatanPenyebaranDanPerkembanganSiputMurbeyController extends Controlle
     }
 
     public function detail($id)
-    {
+{
+    $header = DB::table(
+        'pengamatan_penyebaran_dan_perkembangan_siput_murbey as h'
+    )
 
-        $data=
-        PengamatanPenyebaranDanPerkembanganSiputMurbey::with([
-            'detail',
-            'kabupaten',
-            'kecamatan',
-            'bulan',
-            'musimTanam'
-        ])
-        ->findOrFail($id);
+    ->leftJoin(
+        'kabupaten_kota as kab',
+        'h.id_kabupaten_kota',
+        '=',
+        'kab.id_kabupaten_kota'
+    )
 
-        return view(
-            'pengamatan_penyebaran_dan_perkembangan_siput_murbey.detail',
-            compact('data')
-        );
+    ->leftJoin(
+        'kecamatan as kec',
+        'h.id_kecamatan',
+        '=',
+        'kec.id_kecamatan'
+    )
 
-    }
+    ->leftJoin(
+        'bulan as b',
+        'h.id_bulan',
+        '=',
+        'b.id_bulan'
+    )
+
+    ->leftJoin(
+        'musim_tanam as mt',
+        'h.id_musim_tanam',
+        '=',
+        'mt.id_musim_tanam'
+    )
+
+    ->select(
+        'h.*',
+        'kab.nama_kabupaten_kota',
+        'kec.nama_kecamatan',
+        'b.bulan',
+        'mt.musim_tanam'
+    )
+
+    ->where(
+        'h.id_pengamatan_penyebaran_dan_perkembangan_siput_murbey',
+        $id
+    )
+
+    ->first();
+
+
+    $detail = DB::table(
+        'det_pengamatan_penyebaran_dan_perkembangan_siput_murbey as d'
+    )
+
+    ->leftJoin(
+        'desa',
+        'd.id_desa',
+        '=',
+        'desa.id_desa'
+    )
+
+    ->select(
+        'd.*',
+        'desa.nama_desa'
+    )
+
+    ->where(
+        'd.id_pengamatan_penyebaran_dan_perkembangan_siput_murbey',
+        $id
+    )
+
+    ->get();
+
+
+    return view(
+        'pengamatan_penyebaran_dan_perkembangan_siput_murbey.detail',
+        compact(
+            'header',
+            'detail'
+        )
+    );
+}
 
     public function edit($id)
-    {
+{
+    $header = DB::table(
+        'pengamatan_penyebaran_dan_perkembangan_siput_murbey as h'
+    )
 
-        $data=
-        PengamatanPenyebaranDanPerkembanganSiputMurbey::with('detail')
-        ->findOrFail($id);
+    ->leftJoin(
+        'kabupaten_kota as kab',
+        'h.id_kabupaten_kota',
+        '=',
+        'kab.id_kabupaten_kota'
+    )
 
-        $desa=DB::table('desa')
-            ->where(
-                'id_kecamatan',
-                $data->id_kecamatan
-            )
-            ->get();
+    ->leftJoin(
+        'kecamatan as kec',
+        'h.id_kecamatan',
+        '=',
+        'kec.id_kecamatan'
+    )
 
-        return view(
-            'pengamatan_penyebaran_dan_perkembangan_siput_murbey.edit',
-            compact(
-                'data',
-                'desa'
-            )
-        );
+    ->leftJoin(
+        'bulan as b',
+        'h.id_bulan',
+        '=',
+        'b.id_bulan'
+    )
 
-    }
+    ->leftJoin(
+        'musim_tanam as mt',
+        'h.id_musim_tanam',
+        '=',
+        'mt.id_musim_tanam'
+    )
+
+    ->select(
+        'h.*',
+        'kab.nama_kabupaten_kota',
+        'kec.nama_kecamatan',
+        'b.bulan',
+        'mt.musim_tanam'
+    )
+
+    ->where(
+        'h.id_pengamatan_penyebaran_dan_perkembangan_siput_murbey',
+        $id
+    )
+
+    ->first();
+
+    $detail = DB::table(
+        'det_pengamatan_penyebaran_dan_perkembangan_siput_murbey'
+    )
+
+    ->where(
+        'id_pengamatan_penyebaran_dan_perkembangan_siput_murbey',
+        $id
+    )
+
+    ->get();
+
+    $desa = DB::table('desa')
+        ->where(
+            'id_kecamatan',
+            $header->id_kecamatan
+        )
+        ->get();
+
+    return view(
+        'pengamatan_penyebaran_dan_perkembangan_siput_murbey.edit',
+        compact(
+            'header',
+            'detail',
+            'desa'
+        )
+    );
+}
 
     public function update(Request $request,$id)
     {

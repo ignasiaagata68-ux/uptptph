@@ -91,6 +91,7 @@
     (Padi)
 
 </div>
+
 <div class="row mb-3">
 
     <div class="col-md-6">
@@ -114,9 +115,7 @@
             <tr>
 
                 <td>
-
                     Kecamatan
-
                 </td>
 
                 <td class="bg-pink">
@@ -164,12 +163,15 @@
     </div>
 
 </div>
+
 <form method="POST"
       action="{{ route('tangkapan-lampu-perangkap.store') }}">
 
-@csrf
-<table>
-    <thead>
+    @csrf
+
+    <table>
+
+        <thead>
 
 <tr>
 
@@ -210,7 +212,7 @@
         Wereng Daun
     </th>
 
-    <!-- lainnya -->
+    <!-- Serangga Lain -->
     <th rowspan="2">G</th>
     <th rowspan="2">Kt</th>
     <th rowspan="2">Ws</th>
@@ -271,332 +273,313 @@
 </thead>
 <tbody>
 
-@for($i=1; $i<=31; $i++)
-
-<input type="hidden" name="id_kabupaten_kota[]" value="{{ $data->petugas->kecamatan->kabupaten->id_kabupaten_kota }}">
-<input type="hidden" name="id_kecamatan[]" value="{{ $data->petugas->id_kecamatan }}">
-<input type="hidden" name="id_periode[]" value="{{ $data->id_periode }}">
-<input type="hidden" name="id_bulan[]" value="{{ $data->id_bulan }}">
-<input type="hidden" name="id_tahun[]" value="{{ $data->id_tahun }}">
+@for($i = 1; $i <= 31; $i++)
 
 <tr>
 
     <!-- Tanggal -->
-    <td width="55">
+    <td width="60">
 
         {{ $i }}
 
-        <input type="hidden"
-               name="tanggal[]"
-               value="{{ $i }}">
+        <input
+            type="hidden"
+            name="tanggal[]"
+            value="{{ $i }}">
 
     </td>
+
+    <!-- Hidden Header -->
+
+    <input
+        type="hidden"
+        name="id_kabupaten_kota"
+        value="{{ $data->petugas->kecamatan->kabupaten->id_kabupaten_kota }}">
+
+    <input
+        type="hidden"
+        name="id_kecamatan"
+        value="{{ $data->petugas->id_kecamatan }}">
+
+    <input 
+        type="hidden" 
+        name="id_bulan" 
+        value="{{ $data->id_bulan }}">
+        
+    <input
+        type="hidden"
+        name="id_periode"
+        value="{{ $data->id_periode }}">
+
+    <input
+        type="hidden"
+        name="id_musim_tanam"
+        value="{{ $data->id_musim_tanam }}">
 
     <!-- Penggerek Batang Padi -->
 
     <td>
-       <input type="number"
-            name="penggerek_batang_padi_kn[]"
-            class="form-control kn">
+        <input type="number"
+               name="penggerek_batang_padi_kn[]"
+               class="form-control kn">
     </td>
 
     <td>
         <input type="number"
-            name="penggerek_batang_padi_pt[]"
-            class="form-control pt">
-    </td>
-
-    <td>
-    <input type="number"
-           name="serangga1[]"
-           class="form-control">
+               name="penggerek_batang_padi_pt[]"
+               class="form-control pt">
     </td>
 
     <td>
         <input type="number"
-            name="serangga2[]"
-            class="form-control">
+               name="serangga1[]"
+               class="form-control p1">
+    </td>
+
+    <td>
+        <input type="number"
+               name="serangga2[]"
+               class="form-control p2">
     </td>
 
     <!-- Wereng -->
 
     <td>
         <input type="number"
-            name="wereng_ck[]"
-            class="form-control ck">
+               name="wereng_ck[]"
+               class="form-control ck">
     </td>
 
     <td>
         <input type="number"
-            name="wereng_pp[]"
-            class="form-control pp">
+               name="wereng_pp[]"
+               class="form-control pp">
+    </td>
+
+    <!-- Wereng Daun -->
+
+    <td>
+        <input type="number"
+               name="wereng_daun_vn[]"
+               class="form-control vn">
     </td>
 
     <td>
         <input type="number"
-            name="wereng_daun_vn[]"
-            class="form-control vn">
+               name="wereng_daun_nn[]"
+               class="form-control nn">
     </td>
 
     <td>
         <input type="number"
-            name="wereng_daun_nn[]"
-            class="form-control nn">
+               name="serangga3[]"
+               class="form-control wd">
     </td>
 
     <!-- Serangga -->
 
     <td>
         <input type="number"
-            name="ganjur[]"
-            class="form-control g">
+               name="ganjur[]"
+               class="form-control g">
     </td>
 
     <td>
         <input type="number"
-            name="kepinding_tanah[]"
-            class="form-control kt">
+               name="kepinding_tanah[]"
+               class="form-control kt">
     </td>
 
     <td>
         <input type="number"
-            name="walang_sangit[]"
-            class="form-control ws">
-    </td>
-
-    <td>
-    <input type="number"
-           name="serangga1[]"
-           class="form-control">
+               name="walang_sangit[]"
+               class="form-control ws">
     </td>
 
     <td>
         <input type="number"
-            name="serangga2[]"
-            class="form-control">
+               name="serangga4[]"
+               class="form-control s1">
     </td>
 
     <td>
         <input type="number"
-            name="serangga3[]"
-            class="form-control">
-    </td>
-
-    <td>
-        <input type="number"
-            name="serangga4[]"
-            class="form-control">
+               name="serangga5[]"
+               class="form-control s2">
     </td>
 
     <!-- Musuh Alami -->
 
     <td>
         <input type="number"
-            name="musuh_alami1[]"
-            class="form-control ma1">
+               name="musuh_alami1[]"
+               class="form-control ma1">
     </td>
 
     <td>
         <input type="number"
-               step="0.01"
                name="musuh_alami2[]"
                class="form-control ma2">
     </td>
 
     <td>
         <input type="number"
-                name="musuh_alami3[]"
-                class="form-control ma3">
+               name="musuh_alami3[]"
+               class="form-control ma3">
+    </td>
+
+    <td>
+        <input type="number"
+               name="musuh_alami4[]"
+               class="form-control ma4">
     </td>
 
 </tr>
 
 @endfor
+<!-- ================= JUMLAH ================= -->
 
-<!-- JUMLAH -->
-
-<!-- JUMLAH -->
-
-<tr class="bg-primary text-white">
+<tr class="table-primary fw-bold">
 
     <th>Jumlah</th>
 
-    <!-- Penggerek Batang Padi -->
     <th id="j_kn">0</th>
     <th id="j_pt">0</th>
     <th id="j_p1">0</th>
     <th id="j_p2">0</th>
 
-    <!-- Wereng -->
     <th id="j_ck">0</th>
     <th id="j_pp">0</th>
 
-    <!-- Wereng Daun -->
-    <th id="j_nv">0</th>
+    <th id="j_vn">0</th>
     <th id="j_nn">0</th>
     <th id="j_wd">0</th>
 
-    <!-- Serangga -->
     <th id="j_g">0</th>
     <th id="j_kt">0</th>
     <th id="j_ws">0</th>
     <th id="j_s1">0</th>
     <th id="j_s2">0</th>
 
-    <!-- Musuh Alami -->
-    <th id="j_m1">0</th>
-    <th id="j_m2">0</th>
-    <th id="j_m3">0</th>
-    <th id="j_m4">0</th>
+    <th id="j_ma1">0</th>
+    <th id="j_ma2">0</th>
+    <th id="j_ma3">0</th>
+    <th id="j_ma4">0</th>
 
 </tr>
 
-<!-- RATA-RATA -->
+<!-- ================= RATA-RATA ================= -->
 
-<tr class="bg-primary text-white">
+<tr class="table-primary fw-bold">
 
     <th>Rata-rata</th>
 
-    <!-- Penggerek Batang Padi -->
     <th id="r_kn">0</th>
     <th id="r_pt">0</th>
     <th id="r_p1">0</th>
     <th id="r_p2">0</th>
 
-    <!-- Wereng -->
     <th id="r_ck">0</th>
     <th id="r_pp">0</th>
 
-    <!-- Wereng Daun -->
-    <th id="r_nv">0</th>
+    <th id="r_vn">0</th>
     <th id="r_nn">0</th>
     <th id="r_wd">0</th>
 
-    <!-- Serangga -->
     <th id="r_g">0</th>
     <th id="r_kt">0</th>
     <th id="r_ws">0</th>
     <th id="r_s1">0</th>
     <th id="r_s2">0</th>
 
-    <!-- Musuh Alami -->
-    <th id="r_m1">0</th>
-    <th id="r_m2">0</th>
-    <th id="r_m3">0</th>
-    <th id="r_m4">0</th>
+    <th id="r_ma1">0</th>
+    <th id="r_ma2">0</th>
+    <th id="r_ma3">0</th>
+    <th id="r_ma4">0</th>
 
 </tr>
 
 </tbody>
+
 </table>
-<div class="row mt-5">
 
-    <div class="col-md-6">
-    </div>
 
-    <div class="col-md-6 text-center">
+   <div class="mt-3">
 
-        <div class="bg-pink p-2">
+    <button
+        type="submit"
+        class="btn btn-success">
 
-            <strong>
-                {{ $data->petugas->kecamatan->nama_kecamatan }},
-                {{ now()->translatedFormat('d F Y') }}
-            </strong>
+        Simpan
 
-            <br>
+    </button>
 
-            POPT Kec.
-            {{ $data->petugas->kecamatan->nama_kecamatan }}
+    <a
+        href="{{ route('tangkapan-lampu-perangkap.index') }}"
+        class="btn btn-secondary">
 
-        </div>
+        Kembali
 
-        <br><br><br>
-
-        <div class="bg-pink p-2">
-
-            <strong>
-                {{ $data->petugas->nama }}
-            </strong>
-
-            <br>
-
-            NIP :
-            {{ $data->petugas->NIP ?? '-' }}
-
-        </div>
-
-    </div>
+    </a>
 
 </div>
-
-        <div class="mt-3">
-
-        <button
-            type="submit"
-            class="btn btn-success">
-
-            Simpan
-
-        </button>
-
-        <a href="{{ route('tangkapan-lampu-perangkap.index') }}"
-            class="btn btn-secondary">
-
-            Kembali
-
-        </a>
-
-    </div>
 </form>
+ 
+<script>
 
-</body>
-    <script>
-
-document.addEventListener('input', hitungSemua);
-
-function hitungSemua(){
-
-    hitungKolom('kn','j_kn','r_kn');
-    hitungKolom('pt','j_pt','r_pt');
-
-    hitungKolom('ck','j_ck','r_ck');
-    hitungKolom('pp','j_pp','r_pp');
-    hitungKolom('vn','j_vn','r_vn');
-    hitungKolom('nn','j_nn','r_nn');
-
-    hitungKolom('g','j_g','r_g');
-    hitungKolom('kt','j_kt','r_kt');
-    hitungKolom('ws','j_ws','r_ws');
-
-    hitungKolom('ma1','j_m1','r_m1');
-    hitungKolom('ma2','j_m2','r_m2');
-    hitungKolom('ma3','j_m3','r_m3');
-    hitungKolom('ma4','j_m4','r_m4');
-
-}
-
-function hitungKolom(kelas,idJumlah,idRata){
+function hitung(cls, jumlahId, rataId){
 
     let total = 0;
-    let jumlah = 0;
 
-    document.querySelectorAll('.'+kelas)
-    .forEach(function(item){
+    let data = document.querySelectorAll("." + cls);
+
+    data.forEach(function(item){
 
         total += parseFloat(item.value) || 0;
-        jumlah++;
 
     });
 
-    document.getElementById(idJumlah).innerHTML = total;
+    document.getElementById(jumlahId).innerHTML = total;
 
-    document.getElementById(idRata).innerHTML =
-        jumlah > 0
-        ? (total / jumlah).toFixed(2)
-        : 0;
+    document.getElementById(rataId).innerHTML =
+        (total / data.length).toFixed(2);
 
 }
 
+function refresh(){
+
+    hitung("kn","j_kn","r_kn");
+    hitung("pt","j_pt","r_pt");
+
+    hitung("p1","j_p1","r_p1");
+    hitung("p2","j_p2","r_p2");
+
+    hitung("ck","j_ck","r_ck");
+    hitung("pp","j_pp","r_pp");
+
+    hitung("vn","j_vn","r_vn");
+    hitung("nn","j_nn","r_nn");
+    hitung("wd","j_wd","r_wd");
+
+    hitung("g","j_g","r_g");
+    hitung("kt","j_kt","r_kt");
+    hitung("ws","j_ws","r_ws");
+
+    hitung("s1","j_s1","r_s1");
+    hitung("s2","j_s2","r_s2");
+
+    hitung("ma1","j_ma1","r_ma1");
+    hitung("ma2","j_ma2","r_ma2");
+    hitung("ma3","j_ma3","r_ma3");
+    hitung("ma4","j_ma4","r_ma4");
+
+}
+
+document.addEventListener("input", refresh);
+
+refresh();
+
 </script>
-</div>
+
+</body>
 </html>

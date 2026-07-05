@@ -1,183 +1,153 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Kumulatif Luas Tambah Tanam Padi</title>
 
-@section('title','Keadaan Curah Hujan')
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+<body>
 
-@section('content')
+<div class="container mt-4">
 
-<div class="container-fluid">
+    <h2 class="mb-4">
+        Data Keadaan Curah Hujan
+    </h2>
 
-    <div class="card shadow">
+    @if(session('success'))
 
-        <div class="card-header d-flex justify-content-between align-items-center">
+        <div class="alert alert-success alert-dismissible fade show">
 
-            <h4 class="mb-0">
-                Keadaan Curah Hujan
-            </h4>
+            {{ session('success') }}
 
-            <a href="{{ route('data.index') }}"
-               class="btn btn-primary">
-
-                <i class="fa fa-plus"></i>
-                Tambah Data
-
-            </a>
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert">
+            </button>
 
         </div>
 
-        <div class="card-body">
+    @endif
 
-            @if(session('success'))
+    <table class="table table-bordered table-striped">
 
-                <div class="alert alert-success">
+        <thead class="table-dark">
 
-                    {{ session('success') }}
+            <tr>
 
-                </div>
+                <th width="70">ID</th>
 
-            @endif
+                <th>Kabupaten/Kota</th>
 
-            <div class="table-responsive">
+                <th>Kecamatan</th>
 
-                <table class="table table-bordered table-striped" id="datatable">
+                <th>Periode</th>
 
-                    <thead class="table-primary">
+                <th>Musim Tanam</th>
 
-                        <tr>
+                <th width="220">Aksi</th>
 
-                            <th width="60">
-                                No
-                            </th>
+            </tr>
 
-                            <th>
-                                Kabupaten/Kota
-                            </th>
+        </thead>
 
-                            <th>
-                                Kecamatan
-                            </th>
+        <tbody>
 
-                            <th>
-                                Bulan
-                            </th>
+        @forelse($data as $row)
 
-                            <th>
-                                Musim Tanam
-                            </th>
+            <tr>
 
-                            <th width="230">
-                                Aksi
-                            </th>
+                <td>
 
-                        </tr>
+                    {{ $row->id_keadaan_curah_hujan }}
 
-                    </thead>
+                </td>
 
-                    <tbody>
+                <td>
 
-                        @foreach($data as $item)
+                    {{ $row->nama_kabupaten_kota }}
 
-                        <tr>
+                </td>
 
-                            <td>
+                <td>
 
-                                {{ $loop->iteration }}
+                    {{ $row->nama_kecamatan }}
 
-                            </td>
+                </td>
 
-                            <td>
+                <td>
 
-                                {{ $item->nama_kabupaten_kota }}
+                    {{ $row->periode_pengamatan }}
 
-                            </td>
+                </td>
 
-                            <td>
+                <td>
 
-                                {{ $item->nama_kecamatan }}
+                    {{ $row->musim_tanam }}
 
-                            </td>
+                </td>
 
-                            <td>
+                <td>
 
-                                {{ $item->bulan }}
+                    <a href="{{ route(
+                        'keadaan-curah-hujan.show',
+                        $row->id_keadaan_curah_hujan
+                    ) }}"
+                    class="btn btn-info btn-sm">
 
-                            </td>
+                        Detail
 
-                            <td>
+                    </a>
 
-                                {{ $item->musim_tanam }}
+                    <a href="{{ route(
+                        'keadaan-curah-hujan.edit',
+                        $row->id_keadaan_curah_hujan
+                    ) }}"
+                    class="btn btn-warning btn-sm">
 
-                            </td>
+                        Edit
 
-                            <td>
+                    </a>
 
-                                <a
-                                    href="{{ route('keadaan-curah-hujan.show',$item->id_keadaan_curah_hujan) }}"
-                                    class="btn btn-info btn-sm">
+                    {{-- Aktifkan jika fitur verifikasi sudah dibuat --}}
+                    {{--
+                    <a href="{{ route(
+                        'keadaan-curah-hujan.verifikasi',
+                        $row->id_keadaan_curah_hujan
+                    ) }}"
+                    class="btn btn-success btn-sm">
 
-                                    Detail
+                        Verifikasi
 
-                                </a>
+                    </a>
+                    --}}
 
-                                <a
-                                    href="{{ route('keadaan-curah-hujan.edit',$item->id_keadaan_curah_hujan) }}"
-                                    class="btn btn-warning btn-sm">
+                </td>
 
-                                    Edit
+            </tr>
 
-                                </a>
+        @empty
 
-                                <form
-                                    action="{{ route('keadaan-curah-hujan.destroy',$item->id_keadaan_curah_hujan) }}"
-                                    method="POST"
-                                    class="d-inline">
+            <tr>
 
-                                    @csrf
-                                    @method('DELETE')
+                <td colspan="8" class="text-center">
 
-                                    <button
-                                        class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Hapus data ini?')">
+                    Data belum tersedia.
 
-                                        Hapus
+                </td>
 
-                                    </button>
+            </tr>
 
-                                </form>
+        @endforelse
 
-                            </td>
+        </tbody>
 
-                        </tr>
-
-                        @endforeach
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </div>
+    </table>
 
 </div>
 
-@endsection
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-@push('scripts')
-
-<script>
-
-$(function(){
-
-    $('#datatable').DataTable({
-
-        responsive:true
-
-    });
-
-});
-
-</script>
-
-@endpush
+</body>
+</html>

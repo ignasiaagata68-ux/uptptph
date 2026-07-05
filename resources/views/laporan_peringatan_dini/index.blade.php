@@ -1,180 +1,108 @@
-@extends('layouts.app')
 
-@section('title','Laporan Peringatan Dini')
 
-@section('content')
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Laporan Peringatan Dini</title>
 
-<div class="container-fluid">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+<body>
 
-    <div class="card shadow">
+<div class="container mt-4">
 
-        <div class="card-header bg-primary text-white">
+    <h3>Data Laporan Peringatan Dini</h3>
 
-            <h5 class="mb-0">
-
-                <i class="fas fa-exclamation-triangle"></i>
-
-                Laporan Peringatan Dini
-
-            </h5>
-
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
         </div>
+    @endif
 
-        <div class="card-body">
+    <table class="table table-bordered">
 
-            @if(session('success'))
+        <thead class="table-dark">
 
-                <div class="alert alert-success">
+            <tr>
 
-                    {{ session('success') }}
+                <th>ID</th>
+                <th>Kabupaten/Kota</th>
+                <th>Kecamatan</th>
+                <th>Periode</th>
+                <th>Musim Tanam</th>
+                <th>Aksi</th>
 
-                </div>
+            </tr>
 
-            @endif
+        </thead>
 
-            @if(session('error'))
+        <tbody>
 
-                <div class="alert alert-danger">
+        @forelse($data as $d)
 
-                    {{ session('error') }}
+            <tr>
 
-                </div>
+                <td>
+                    {{ $d->id_laporan_peringatan_dini }}
+                </td>
 
-            @endif
+                <td>
+                    {{ $d->kabupaten->nama_kabupaten_kota ?? '-' }}
+                </td>
 
-            <div class="table-responsive">
+                <td>
+                    {{ $d->kecamatan->nama_kecamatan ?? '-' }}
+                </td>
 
-                <table class="table table-bordered table-striped table-hover">
+                <td>
+                    {{ $d->periode->periode_pengamatan ?? '-' }}
 
-                    <thead class="table-primary">
+                </td>
 
-                        <tr>
+                <td>
+                    {{ $d->musimTanam->musim_tanam ?? '-' }}
+                </td>
 
-                            <th width="60">No</th>
+                <td>
 
-                            <th>Kabupaten/Kota</th>
+                    <a href="{{ route('laporan-peringatan-dini.detail',$d->id_laporan_peringatan_dini) }}"
+   class="btn btn-info btn-sm">
+    Detail
+</a>
+                    <a href="{{ route('laporan-peringatan-dini.edit',$d->id_laporan_peringatan_dini) }}"
+   class="btn btn-warning btn-sm">
+    Edit
+</a>
+                    <a href="{{ route('laporan-peringatan-dini.verifikasi',$d->id_laporan_peringatan_dini) }}"
+   class="btn btn-success btn-sm">
+    Verifikasi
+</a>
 
-                            <th>Kecamatan</th>
+                </td>
 
-                            <th>Periode</th>
+            </tr>
 
-                            <th>Musim Tanam</th>
+        @empty
 
-                            <th width="220">Aksi</th>
+            <tr>
 
-                        </tr>
+                <td colspan="6" class="text-center">
 
-                    </thead>
+                    Belum ada data
 
-                    <tbody>
+                </td>
 
-                        @forelse($data as $item)
+            </tr>
 
-                        <tr>
+        @endforelse
 
-                            <td class="text-center">
+        </tbody>
 
-                                {{ $loop->iteration }}
-
-                            </td>
-
-                            <td>
-
-                                {{ $item->kabupaten->nama_kabupaten_kota }}
-
-                            </td>
-
-                            <td>
-
-                                {{ $item->kecamatan->nama_kecamatan }}
-
-                            </td>
-
-                            <td>
-
-                                {{ $item->periode->periode }}
-
-                            </td>
-
-                            <td>
-
-                                {{ $item->musimTanam->musim_tanam }}
-
-                            </td>
-
-                            <td class="text-center">
-
-                                <a
-                                    href="{{ route('laporan-peringatan-dini.detail',$item->id_laporan_peringatan_dini) }}"
-                                    class="btn btn-info btn-sm">
-
-                                    Detail
-
-                                </a>
-
-                                <a
-                                    href="{{ route('laporan-peringatan-dini.edit',$item->id_laporan_peringatan_dini) }}"
-                                    class="btn btn-warning btn-sm">
-
-                                    Edit
-
-                                </a>
-
-                                <a
-                                    href="{{ route('laporan-peringatan-dini.verifikasi',$item->id_laporan_peringatan_dini) }}"
-                                    class="btn btn-success btn-sm">
-
-                                    Verifikasi
-
-                                </a>
-
-                                <form
-                                    action="{{ route('laporan-peringatan-dini.destroy',$item->id_laporan_peringatan_dini) }}"
-                                    method="POST"
-                                    class="d-inline">
-
-                                    @csrf
-                                    @method('DELETE')
-
-                                    <button
-                                        type="submit"
-                                        class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Yakin ingin menghapus data ini?')">
-
-                                        Hapus
-
-                                    </button>
-
-                                </form>
-
-                            </td>
-
-                        </tr>
-
-                        @empty
-
-                        <tr>
-
-                            <td colspan="6" class="text-center">
-
-                                Belum ada data.
-
-                            </td>
-
-                        </tr>
-
-                        @endforelse
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </div>
+    </table>
 
 </div>
 
-@endsection
+</body>
+</html>
+

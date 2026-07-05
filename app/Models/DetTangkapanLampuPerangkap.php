@@ -14,32 +14,37 @@ class DetTangkapanLampuPerangkap extends Model
 
     protected $fillable = [
 
-        'id_tangkapan_lampu_perangkap',
+    'id_tangkapan_lampu_perangkap',
 
-        'penggerek_batang_padi_kn',
-        'penggerek_batang_padi_pt',
+    'penggerek_batang_padi_kn',
+    'penggerek_batang_padi_pt',
 
-        'wereng_ck',
-        'wereng_pp',
-        'wereng_daun_vn',
-        'wereng_daun_nn',
+    'wereng_ck',
+    'wereng_pp',
 
-        'ganjur',
+    'wereng_daun_vn',
+    'wereng_daun_nn',
 
-        'kepinding_tanah',
+    'ganjur',
+    'kepinding_tanah',
+    'walang_sangit',
 
-        'walang_sangit',
+    'serangga1',
+    'serangga2',
+    'serangga3',
+    'serangga4',
+    'serangga5',
 
-        'musuh_alami1',
-        'musuh_alami2',
-        'musuh_alami3',
-        'musuh_alami4',
+    'musuh_alami1',
+    'musuh_alami2',
+    'musuh_alami3',
+    'musuh_alami4',
 
-        'status_verifikasi',
-        'keterangan_verifikasi',
-        'verified_by',
-        'verified_at'
-    ];
+    'status_verifikasi',
+    'keterangan_verifikasi',
+    'verified_by',
+    'verified_at'
+];
 
     public function header()
     {

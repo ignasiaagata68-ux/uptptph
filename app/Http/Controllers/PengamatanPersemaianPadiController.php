@@ -224,5 +224,14 @@ class PengamatanPersemaianPadiController extends Controller
 
         return response()->json($kelompok);
     }
+
+    private function decimal($value)
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        return str_replace(',', '.', $value);
+    }
     
 }
