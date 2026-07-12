@@ -14,77 +14,75 @@ use App\Models\Opt;
 use App\Models\Ma;
 use App\Models\Data;
 use App\Models\Petugas;
+use App\Models\MusimTanam;
 
 class KeadaanOptPadaPetakPengamatanTetapController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
-         $data = DB::table(
-                'keadaan_opt_pada_petak_pengamatan_tetap as k'
-            )
+   public function index()
+{
+    $data = DB::table(
+            'keadaan_opt_pada_petak_pengamatan_tetap as k'
+        )
 
-            ->leftJoin(
-                'kabupaten_kota as kab',
-                'k.id_kabupaten_kota',
-                '=',
-                'kab.id_kabupaten_kota'
-            )
+        ->leftJoin(
+            'kabupaten_kota as kab',
+            'k.id_kabupaten_kota',
+            '=',
+            'kab.id_kabupaten_kota'
+        )
 
-            ->leftJoin(
-                'kecamatan as kec',
-                'k.id_kecamatan',
-                '=',
-                'kec.id_kecamatan'
-            )
+        ->leftJoin(
+            'kecamatan as kec',
+            'k.id_kecamatan',
+            '=',
+            'kec.id_kecamatan'
+        )
 
-            ->leftJoin(
-                'periode as p',
-                'k.id_periode',
-                '=',
-                'p.id_periode'
-            )
+        ->leftJoin(
+            'periode as p',
+            'k.id_periode',
+            '=',
+            'p.id_periode'
+        )
 
-            ->leftJoin(
-                'det_keadaan_opt_pada_petak_pengamatan_tetap as d',
-                'k.id_keadaan_opt_pada_petak_pengamatan_tetap',
-                '=',
-                'd.id_keadaan_opt_pada_petak_pengamatan_tetap'
-            )
+        ->leftJoin(
+            'det_keadaan_opt_pada_petak_pengamatan_tetap as d',
+            'k.id_keadaan_opt_pada_petak_pengamatan_tetap',
+            '=',
+            'd.id_keadaan_opt_pada_petak_pengamatan_tetap'
+        )
 
-            ->select(
-                'k.*',
-                'kab.nama_kabupaten_kota',
-                'kec.nama_kecamatan',
-                'p.periode_pengamatan',
+        ->select(
+            'k.*',
+            'kab.nama_kabupaten_kota',
+            'kec.nama_kecamatan',
+            'p.periode_pengamatan',
 
-                'd.status_verifikasi',
-                'd.keterangan_verifikasi'
-            )
+            DB::raw('MIN(d.status_verifikasi) as status_verifikasi'),
+            DB::raw('GROUP_CONCAT(DISTINCT d.keterangan_verifikasi SEPARATOR ", ") as keterangan_verifikasi')
+        )
 
-            ->groupBy(
-                'k.id_keadaan_opt_pada_petak_pengamatan_tetap',
-                'kab.nama_kabupaten_kota',
-                'kec.nama_kecamatan',
-                'p.periode_pengamatan',
-                'd.status_verifikasi',
-                'd.keterangan_verifikasi'
-            )
+        ->groupBy(
+            'k.id_keadaan_opt_pada_petak_pengamatan_tetap',
+            'kab.nama_kabupaten_kota',
+            'kec.nama_kecamatan',
+            'p.periode_pengamatan'
+        )
 
-            ->latest(
-                'k.id_keadaan_opt_pada_petak_pengamatan_tetap'
-            )
+        ->latest(
+            'k.id_keadaan_opt_pada_petak_pengamatan_tetap'
+        )
 
-            ->get();
+        ->get();
 
-            return view(
-                'keadaan_opt_pada_petak_pengamatan_tetap.index',
-                compact('data')
-            );
-    }
+    return view(
+        'keadaan_opt_pada_petak_pengamatan_tetap.index',
+        compact('data')
+    );
+}
 
     /**
      * Show the form for creating a new resource.
@@ -129,6 +127,7 @@ class KeadaanOptPadaPetakPengamatanTetapController extends Controller
      */
     public function store(Request $request)
         {
+
         $header =
         KeadaanOptPadaPetakPengamatanTetap::create([
 
@@ -142,11 +141,10 @@ class KeadaanOptPadaPetakPengamatanTetapController extends Controller
                 $request->id_kecamatan[0],
 
             'id_musim_tanam' =>
-                1,
+                $request->id_musim_tanam,
             'id_petugas' =>
-                $data->petugas->id_petugas[0]
+                 $request->id_petugas
         ]);
-
         for($i = 0; $i < count($request->id_desa); $i++)
         {
             DetKeadaanOptPadaPetakPengamatanTetap::create([
@@ -367,6 +365,42 @@ class KeadaanOptPadaPetakPengamatanTetapController extends Controller
                 );
 
     }
+public function prosesVerifikasi(Request $request, $id)
+{
+    foreach ($request->id_detail as $idDetail) {
+
+        DetKeadaanOptPadaPetakPengamatanTetap::where(
+            'id_det_keadaan_opt_pada_petak_pengamatan_tetap',
+            $idDetail
+        )->update([
+
+            'status_verifikasi' =>
+                $request->status_verifikasi[$idDetail],
+
+            'keterangan_verifikasi' =>
+                $request->keterangan_verifikasi[$idDetail] ?? null,
+
+            'verified_by' =>
+                session('id_user'),
+
+            'verified_at' =>
+                now()
+
+        ]);
+    }
+
+    return redirect()
+        ->route(
+            'keadaan-opt-pada-petak-pengamatan-tetap.detail',
+            $id
+        )
+        ->with(
+            'success',
+            'Verifikasi berhasil disimpan.'
+        );
+}
+
+
     private function decimal($value)
     {
         if ($value === null || $value === '') {

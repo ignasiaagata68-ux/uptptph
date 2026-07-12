@@ -627,7 +627,7 @@
         type="submit"
         class="btn btn-success">
 
-        Simpan
+        Update
 
     </button>
 

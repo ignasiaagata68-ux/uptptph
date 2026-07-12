@@ -12,6 +12,11 @@ class Kecamatan extends Model
 
     public $timestamps = false;
 
+    protected $fillable = [
+        'nama_kecamatan',
+        'id_kabupaten_kota'
+    ];
+
     public function kabupaten()
     {
         return $this->belongsTo(

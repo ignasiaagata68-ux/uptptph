@@ -163,74 +163,50 @@ class LaporanKerusakanTanamanAkibatKekeringanController extends Controller
                     'var' =>
                         $request->var[$i],
 
-                    'umr' =>
-                        $request->umr[$i],
+                    'umur' =>
+                        $request->umur[$i],
 
-                    'lst' =>
-                        $this->decimal($request->lst[$i]),
+                    'luas_tanam' =>
+                        $this->decimal($request->luas_tanam[$i]),
 
-                    'was' =>
-                        $this->decimal($request->was[$i]),
+                    'luas_waspada' =>
+                        $this->decimal($request->luas_waspada[$i]),
 
-                    'sp_r' =>
-                        $this->decimal($request->sp_r[$i]),
+                    'sps_surut_luas' =>
+                        $this->decimal($request->sps_surut_luas[$i]),
 
-                    'sp_s' =>
-                        $this->decimal($request->sp_s[$i]),
+                    'sps_surut_ket' =>
+                        $request->sps_surut_ket[$i],
 
-                    'sp_b' =>
-                        $this->decimal($request->sp_b[$i]),
+                    'sps_puso_luas' =>
+                        $this->decimal($request->sps_puso_luas[$i]),
 
-                    'sp_ps' =>
-                        $this->decimal($request->sp_ps[$i]),
+                    'sps_puso_ket' =>
+                        $request->sps_puso_ket[$i],
 
-                    'sp_pl' =>
-                        $this->decimal($request->sp_pl[$i]),
+                    'luas_tambah_terkena' =>
+                        $this->decimal($request->uas_tambah_terkena[$i]),
 
-                    'sp_j' =>
-                        $this->decimal($request->sp_j[$i]),
+                    'luas_tambah_puso' =>
+                        $this->decimal($request->luas_tambah_puso[$i]),
 
-                    'lt_r' =>
-                        $this->decimal($request->lt_r[$i]),
+                    'luas_keadaan_terkena' =>
+                        $this->decimal($request->luas_keadaan_terkena[$i]),
 
-                    'lt_s' =>
-                        $this->decimal($request->lt_s[$i]),
+                    'luas_keadaan_puso' =>
+                        $this->decimal($request->luas_keadaan_puso[$i]),
 
-                    'lt_b' =>
-                        $this->decimal($request->lt_b[$i]),
+                    'penangan_upaya' =>
+                        $request->penangan_upaya[$i],
 
-                    'lt_p' =>
-                        $this->decimal($request->lt_p[$i]),
+                    'penangan_jumlah' =>
+                        $this->decimal($request->penangan_jumlah[$i]),
 
-                    'lt_j' =>
-                        $this->decimal($request->lt_j[$i]),
+                    'koordinat_latitude' =>
+                        $this->decimal($request->koordinat_latitude[$i]),
 
-                    'lk_r' =>
-                        $this->decimal($request->lk_r[$i]),
-
-                    'lk_s' =>
-                        $this->decimal($request->lk_s[$i]),
-
-                    'lk_b' =>
-                        $this->decimal($request->lk_b[$i]),
-
-                    'lk_p' =>
-                        $this->decimal($request->lk_p[$i]),
-
-                    'lk_j' =>
-                        $this->decimal($request->lk_j[$i]),
-
-                    'upy' =>
-                        $this->decimal($request->upy[$i]),
-
-                    'l_upy' =>
-                        $this->decimal($request->l_upy[$i]),
-
-                    'lat' =>
-                        $this->decimal($request->lat[$i]),
-
-                    'long' =>
-                        $this->decimal($request->long[$i]),
+                    'koordinat_longitude' =>
+                        $this->decimal($request->koordinat_longitude[$i]),
 
                     'status_verifikasi' =>
                         'menunggu',
@@ -457,74 +433,63 @@ class LaporanKerusakanTanamanAkibatKekeringanController extends Controller
             'var' =>
                 $request->var[$i],
 
-            'umr' =>
-                $request->umr[$i],
+            'umur' =>
+                $request->umur[$i],
 
-            'lst' =>
-                $this->decimal($request->lst[$i]),
+            'luas_tanam' =>
+                        $this->decimal($request->luas_tanam[$i]),
 
-            'was' =>
-                $this->decimal($request->was[$i]),
+                    'luas_waspada' =>
+                        $this->decimal($request->luas_waspada[$i]),
 
-            'sp_r' =>
-                $this->decimal($request->sp_r[$i]),
+                    'sps_surut_luas' =>
+                        $this->decimal($request->sps_surut_luas[$i]),
 
-            'sp_s' =>
-                $this->decimal($request->sp_s[$i]),
+                    'sps_surut_ket' =>
+                        $request->sps_surut_ket[$i],
 
-            'sp_b' =>
-                $this->decimal($request->sp_b[$i]),
+                    'sps_puso_luas' =>
+                        $this->decimal($request->sps_puso_luas[$i]),
 
-            'sp_ps' =>
-                $this->decimal($request->sp_ps[$i]),
+                    'sps_puso_ket' =>
+                        $request->sps_puso_ket[$i],
 
-            'sp_pl' =>
-                $this->decimal($request->sp_pl[$i]),
+                    'luas_tambah_terkena' =>
+                        $this->decimal($request->uas_tambah_terkena[$i]),
 
-            'sp_j' =>
-                $this->decimal($request->sp_j[$i]),
+                    'luas_tambah_puso' =>
+                        $this->decimal($request->luas_tambah_puso[$i]),
 
-            'lt_r' =>
-                $this->decimal($request->lt_r[$i]),
+                    'luas_keadaan_terkena' =>
+                        $this->decimal($request->luas_keadaan_terkena[$i]),
 
-            'lt_s' =>
-                $this->decimal($request->lt_s[$i]),
+                    'luas_keadaan_puso' =>
+                        $this->decimal($request->luas_keadaan_puso[$i]),
 
-            'lt_b' =>
-                $this->decimal($request->lt_b[$i]),
+                    'penangan_upaya' =>
+                        $request->penangan_upaya[$i],
 
-            'lt_p' =>
-                $this->decimal($request->lt_p[$i]),
+                    'penangan_jumlah' =>
+                        $this->decimal($request->penangan_jumlah[$i]),
 
-            'lt_j' =>
-                $this->decimal($request->lt_j[$i]),
+                    'koordinat_latitude' =>
+                        $this->decimal($request->koordinat_latitude[$i]),
 
-            'lk_r' =>
-                $this->decimal($request->lk_r[$i]),
+                    'koordinat_longitude' =>
+                        $this->decimal($request->koordinat_longitude[$i]),
 
-            'lk_s' =>
-                $this->decimal($request->lk_s[$i]),
+                    'status_verifikasi' =>
+                        'menunggu',
 
-            'lk_b' =>
-                $this->decimal($request->lk_b[$i]),
+                    'keterangan_verifikasi' =>
+                        null,
 
-            'lk_p' =>
-                $this->decimal($request->lk_p[$i]),
+                    'verified_by' =>
+                        null,
 
-            'lk_j' =>
-                $this->decimal($request->lk_j[$i]),
+                    'verified_at' =>
+                        null
 
-            'upy' =>
-                $this->decimal($request->upy[$i]),
-
-            'l_upy' =>
-                $this->decimal($request->l_upy[$i]),
-
-            'lat' =>
-                $this->decimal($request->lat[$i]),
-
-            'long' =>
-                $this->decimal($request->long[$i])
 
         ]);
     }

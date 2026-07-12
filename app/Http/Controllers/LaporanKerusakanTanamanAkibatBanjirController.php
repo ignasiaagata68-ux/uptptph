@@ -99,7 +99,7 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
     public function store(Request $request)
     {
         $header =
-        LaporanKerusakanTanamanAkibatKekeringan::create([
+        LaporanKerusakanTanamanAkibatBanjir::create([
 
             'id_periode' =>
                 $request->id_periode[0],
@@ -117,10 +117,10 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
         for($i = 0; $i < count($request->id_desa); $i++)
         {
 
-            DetLaporanKerusakanTanamanAkibatKekeringan::create([
+            DetLaporanKerusakanTanamanAkibatBanjir::create([
 
-                'id_laporan_kerusakan_tanaman_akibat_kekeringan' =>
-                    $header->id_laporan_kerusakan_tanaman_akibat_kekeringan,
+                'id_laporan_kerusakan_tanaman_akibat_banjir' =>
+                    $header->id_laporan_kerusakan_tanaman_akibat_banjir,
 
                 'id_tahun' =>
                     $request->id_tahun[0],
@@ -146,74 +146,50 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
                 'var' =>
                     $request->var[$i],
 
-                'umr' =>
-                    $request->umr[$i],
+                'umur' =>
+                    $request->umur[$i],
 
-                'lst' =>
-                    $this->decimal($request->lst[$i]),
+                'luas_tanam' =>
+                    $this->decimal($request->luas_tanam[$i]),
 
-                'was' =>
-                    $this->decimal($request->was[$i]),
+                'luas_waspada' =>
+                    $this->decimal($request->luas_waspada[$i]),
 
-                'sp_r' =>
-                    $this->decimal($request->sp_r[$i]),
+                'sps_surut_luas' =>
+                    $this->decimal($request->sps_surut_luas[$i]),
 
-                'sp_s' =>
-                    $this->decimal($request->sp_s[$i]),
+                'sps_surut_ket' =>
+                    $request->sps_surut_ket[$i],
 
-                'sp_b' =>
-                    $this->decimal($request->sp_b[$i]),
+                'sps_puso_luas' =>
+                    $this->decimal($request->sps_puso_luas[$i]),
 
-                'sp_ps' =>
-                    $this->decimal($request->sp_ps[$i]),
+                'sps_puso_ket' =>
+                   $request->sps_puso_ket[$i],
 
-                'sp_pl' =>
-                    $this->decimal($request->sp_pl[$i]),
+                'luas_tambah_terkena' =>
+                    $this->decimal($request->luas_tambah_terkena[$i]),
 
-                'sp_j' =>
-                    $this->decimal($request->sp_j[$i]),
+                'luas_tambah_puso' =>
+                    $this->decimal($request->luas_tambah_puso[$i]),
 
-                'lt_r' =>
-                    $this->decimal($request->lt_r[$i]),
+                'luas_keadaan_terkena' =>
+                    $this->decimal($request->luas_keadaan_terkena[$i]),
 
-                'lt_s' =>
-                    $this->decimal($request->lt_s[$i]),
+                'luas_keadaan_puso' =>
+                    $this->decimal($request->luas_keadaan_puso[$i]),
 
-                'lt_b' =>
-                    $this->decimal($request->lt_b[$i]),
+                'penangan_upaya' =>
+                    $request->penangan_upaya[$i],
 
-                'lt_p' =>
-                    $this->decimal($request->lt_p[$i]),
+                'penangan_jumlah' =>
+                    $this->decimal($request->penangan_jumlah[$i]),
 
-                'lt_j' =>
-                    $this->decimal($request->lt_j[$i]),
+                'koordinat_latitude' =>
+                    $this->decimal($request->koordinat_latitude[$i]),
 
-                'lk_r' =>
-                    $this->decimal($request->lk_r[$i]),
-
-                'lk_s' =>
-                    $this->decimal($request->lk_s[$i]),
-
-                'lk_b' =>
-                    $this->decimal($request->lk_b[$i]),
-
-                'lk_p' =>
-                    $this->decimal($request->lk_p[$i]),
-
-                'lk_j' =>
-                    $this->decimal($request->lk_j[$i]),
-
-                'upy' =>
-                    $this->decimal($request->upy[$i]),
-
-                'l_upy' =>
-                    $this->decimal($request->l_upy[$i]),
-
-                'lat' =>
-                    $this->decimal($request->lat[$i]),
-
-                'long' =>
-                    $this->decimal($request->long[$i]),
+                'koordinat_longitude' =>
+                    $this->decimal($request->koordinat_longitude[$i]),
 
                 'status_verifikasi' =>
                     'menunggu',
@@ -233,7 +209,7 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
 
         return redirect()
             ->route(
-                'laporan-kerusakan-tanaman-akibat-kekeringan.index'
+                'laporan-kerusakan-tanaman-akibat-banjir.index'
             )
             ->with(
                 'success',
@@ -394,62 +370,70 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+  public function update(Request $request, $id)
 {
-    DB::table(
-    'det_laporan_kerusakan_tanaman_akibat_bencana_alam'
-)
-->where(
-    'id_laporan_kerusakan_tanaman_akibat_bencana_alam',
-    $id
-)
-->delete();
+    DB::table('det_laporan_kerusakan_tanaman_akibat_banjir')
+        ->where(
+            'id_laporan_kerusakan_tanaman_akibat_banjir',
+            $id
+        )
+        ->delete();
 
-for ($i = 0; $i < count($request->id_desa); $i++) {
+    for ($i = 0; $i < count($request->id_desa); $i++) {
 
-    if (
-        empty($request->id_desa[$i]) &&
-        empty($request->id_komoditas[$i])
-    ) {
-        continue;
+        if (
+            empty($request->id_desa[$i]) &&
+            empty($request->id_komoditas[$i])
+        ) {
+            continue;
+        }
+
+        DetLaporanKerusakanTanamanAkibatBanjir::create([
+
+            'id_laporan_kerusakan_tanaman_akibat_banjir' => $id,
+
+            'id_tahun' => $request->id_tahun[$i],
+            'id_bulan' => $request->id_bulan[$i],
+            'id_periode' => $request->id_periode[$i],
+            'id_kabupaten_kota' => $request->id_kabupaten_kota[$i],
+            'id_kecamatan' => $request->id_kecamatan[$i],
+            'id_desa' => $request->id_desa[$i],
+            'id_komoditas' => $request->id_komoditas[$i],
+
+            'var' => $request->var[$i],
+            'umur' => $request->umur[$i],
+
+            'luas_tanam' => $this->decimal($request->luas_tanam[$i]),
+            'luas_waspada' => $this->decimal($request->luas_waspada[$i]),
+
+            'sps_surut_luas' => $this->decimal($request->sps_surut_luas[$i]),
+            'sps_surut_ket' => $request->sps_surut_ket[$i],
+
+            'sps_puso_luas' => $this->decimal($request->sps_puso_luas[$i]),
+            'sps_puso_ket' => $request->sps_puso_ket[$i],
+
+            'luas_tambah_terkena' => $this->decimal($request->luas_tambah_terkena[$i]),
+            'luas_tambah_puso' => $this->decimal($request->luas_tambah_puso[$i]),
+
+            'luas_keadaan_terkena' => $this->decimal($request->luas_keadaan_terkena[$i]),
+            'luas_keadaan_puso' => $this->decimal($request->luas_keadaan_puso[$i]),
+            'penangan_upaya' => $request->penangan_upaya[$i],
+            'penangan_jumlah' => $this->decimal($request->penangan_jumlah[$i]),
+
+            'koordinat_latitude' => $this->decimal($request->koordinat_latitude[$i]),
+            'koordinat_longitude' => $this->decimal($request->koordinat_longitude[$i]),
+
+            'status_verifikasi' => 'menunggu',
+            'keterangan_verifikasi' => null,
+            'verified_by' => null,
+            'verified_at' => null,
+        ]);
     }
 
-    DetLaporanKerusakanTanamanAkibatBencanaAlam::create([
-
-        'id_laporan_kerusakan_tanaman_akibat_bencana_alam' => $id,
-
-        'id_tahun'          => $request->id_tahun[$i],
-        'id_bulan'          => $request->id_bulan[$i],
-        'id_periode'        => $request->id_periode[$i],
-        'id_kabupaten_kota' => $request->id_kabupaten_kota[$i],
-        'id_kecamatan'      => $request->id_kecamatan[$i],
-        'id_desa'           => $request->id_desa[$i],
-        'id_komoditas'      => $request->id_komoditas[$i],
-
-        'var'   => $request->var[$i],
-        'umr'   => $request->umr[$i],
-        'lst'   => $this->decimal($request->lst[$i]),
-        'was'   => $this->decimal($request->was[$i]),
-        'lsrt'  => $this->decimal($request->lsrt[$i]),
-        'k_s'   => $request->k_s[$i],
-        'lpso'  => $this->decimal($request->lpso[$i]),
-        'k_p'   => $request->k_p[$i],
-        'lt_t'  => $this->decimal($request->lt_t[$i]),
-        'lt_p'  => $this->decimal($request->lt_p[$i]),
-        'lk_t'  => $this->decimal($request->lk_t[$i]),
-        'lk_p'  => $this->decimal($request->lk_p[$i]),
-        'upy'   => $request->upy[$i],
-        'j_upy' => $this->decimal($request->j_upy[$i]),
-        'lat'   => $this->decimal($request->lat[$i]),
-        'long'  => $this->decimal($request->long[$i]),
-
-        'status_verifikasi' => 'menunggu',
-        'keterangan_verifikasi' => null,
-        'verified_by' => null,
-        'verified_at' => null,
-    ]);
+    return redirect()
+        ->route('laporan-kerusakan-tanaman-akibat-banjir.detail', $id)
+        ->with('success', 'Data berhasil diperbarui');
 }
-    }
     private function decimal($value)
     {
         if ($value === null || $value === '') {

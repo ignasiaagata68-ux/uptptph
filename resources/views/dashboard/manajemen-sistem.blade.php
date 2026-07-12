@@ -6,48 +6,44 @@
 
 <div class="container-fluid">
 
-    <div class="mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-        <h2 class="fw-bold">
-            Manajemen Sistem
-        </h2>
+        <div>
 
-        <p class="text-muted">
-            Kelola pengguna dan hak akses sistem.
-        </p>
+            <h2 class="fw-bold">
+                Manajemen Sistem
+            </h2>
+
+            <p class="text-muted">
+                Kelola User, Role, Permission dan Hak Akses
+            </p>
+
+        </div>
+
+        <a href="{{ url('/dashboard-pengelola') }}" class="btn btn-secondary">
+
+            <i class="bi bi-arrow-left"></i>
+
+            Kembali
+
+        </a>
 
     </div>
 
-    <div class="row">
+    <div class="row g-4">
+        <div class="col-lg-3">
 
-        <div class="col-lg-4 col-md-6 mb-4">
+    <a href="/user-aplikasi" class="btn-dashboard w-100">
 
-            <a href="/user-aplikasi" class="btn btn-warning w-100 p-4">
+        <div class="quick-card">
 
-                👤
+            <div class="quick-icon setting">
 
-                <hr>
+                <i class="bi bi-person-fill"></i>
 
-                User Aplikasi
+            </div>
 
-            </a>
-
-        </div>
-
-        <div class="col-lg-4 col-md-6 mb-4">
-
-            <a href="/role" class="btn btn-warning w-100 p-4">
-
-                🔐
-
-                <hr>
-
-                Role & Permission
-
-            </a>
-
-        </div>
-
+            
     </div>
 
 </div>

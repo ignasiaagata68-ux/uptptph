@@ -61,7 +61,10 @@
 <body>
 
 <div class="container-fluid mt-4">
+    <form method="POST"
+      action="{{ route('keadaan-serangan-opt.proses-verifikasi', $header->id_keadaan_serangan_opt_dan_pengendalian_di_wilayah) }}">
 
+    @csrf
     <h3>Detail Keadaan Serangan OPT dan Pengendaliannya</h3>
     <div class="table-responsive">
 
@@ -108,7 +111,8 @@
 
                     <th>MT</th>
                     <th>Status</th>
-                    <th>Verifikasi</th>
+                    <th>Keterangan</th>
+                    <th>Aksi</th>
 
                 </tr>
 
@@ -157,25 +161,57 @@
 
                     <td>{{ $d->mt }}</td>
 
-                    <td>
+                   <td>
 
-                        @if($d->status_verifikasi == 'benar')
+                        @if(session('role') == 'lphp')
 
-                            <span class="badge bg-success">
-                                Benar
-                            </span>
+                            <input
+                                type="hidden"
+                                name="id_detail[]"
+                                value="{{ $d->id_det_keadaan_serangan_opt_dan_pengendalian_di_wilayah }}">
 
-                        @elseif($d->status_verifikasi == 'salah')
+                            <select
+                                name="status_verifikasi[{{ $d->id_det_keadaan_serangan_opt_dan_pengendalian_di_wilayah }}]"
+                                class="form-select form-select-sm">
 
-                            <span class="badge bg-danger">
-                                Salah
-                            </span>
+                                <option value="menunggu"
+                                    {{ $d->status_verifikasi == 'menunggu' ? 'selected' : '' }}>
+                                    Menunggu
+                                </option>
+
+                                <option value="terverifikasi"
+                                    {{ $d->status_verifikasi == 'terverifikasi' ? 'selected' : '' }}>
+                                    Terverifikasi
+                                </option>
+
+                                <option value="perlu_perbaikan"
+                                    {{ $d->status_verifikasi == 'perlu_perbaikan' ? 'selected' : '' }}>
+                                    Perlu Perbaikan
+                                </option>
+
+                            </select>
 
                         @else
 
-                            <span class="badge bg-warning">
-                                Menunggu
-                            </span>
+                            @if($d->status_verifikasi == 'terverifikasi')
+
+                                <span class="badge bg-success">
+                                    Terverifikasi
+                                </span>
+
+                            @elseif($d->status_verifikasi == 'perlu_perbaikan')
+
+                                <span class="badge bg-danger">
+                                    Perlu Perbaikan
+                                </span>
+
+                            @else
+
+                                <span class="badge bg-warning text-dark">
+                                    Menunggu
+                                </span>
+
+                            @endif
 
                         @endif
 
@@ -183,18 +219,44 @@
 
                     <td>
 
-                        <a href="{{ route(
-                            'keadaan-serangan-opt.verifikasi',
-                            [
-                                'id' => $d->id_det_keadaan_serangan_opt_dan_pengendalian_di_wilayah,
-                                'status' => 'benar'
-                            ]
-                        ) }}"
-                        class="btn btn-success btn-sm">
+                        @if(session('role') == 'lphp')
 
-                            Benar
+                            <textarea
+                                name="keterangan_verifikasi[{{ $d->id_det_keadaan_serangan_opt_dan_pengendalian_di_wilayah }}]"
+                                class="form-control form-control-sm"
+                                rows="2">{{ $d->keterangan_verifikasi }}</textarea>
 
-                        </a>
+                        @else
+
+                            {{ $d->keterangan_verifikasi ?? '-' }}
+
+                        @endif
+
+                    </td>
+                    <td>
+
+                        @if(session('role') == 'popt')
+
+                            @if($d->status_verifikasi == 'perlu_perbaikan')
+
+                                <a href="{{ route('keadaan-serangan-opt.edit', $header->id_keadaan_serangan_opt_dan_pengendalian_di_wilayah) }}"
+                                class="btn btn-warning btn-sm">
+
+                                    Edit
+
+                                </a>
+
+                            @else
+
+                                -
+
+                            @endif
+
+                        @else
+
+                            -
+
+                        @endif
 
                     </td>
 
@@ -208,8 +270,26 @@
 
     </div>
 
+    @if(session('role') == 'lphp')
+
+    <div class="mb-3">
+
+        <button
+            type="submit"
+            class="btn btn-success">
+
+            Simpan Verifikasi
+
+        </button>
+
+    </div>
+
+    @endif
+
+    </form>
+
     <a href="{{ route('keadaan-serangan-opt.index') }}"
-       class="btn btn-secondary">
+    class="btn btn-secondary">
         Kembali
     </a>
 

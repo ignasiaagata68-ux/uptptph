@@ -66,7 +66,7 @@
 
             <tbody>
                 @foreach($detail as $d)
-
+                @if($d->status_verifikasi == 'perlu_perbaikan')
                 <tr>
 
                     <input
@@ -136,7 +136,6 @@
                                     {{ $m->nama_ma }}
 
                                 </option>
-
                             @endforeach
 
                         </select>
@@ -181,7 +180,7 @@
                     </td>
 
                 </tr>
-
+                @endif
                 @endforeach
 
             </tbody>

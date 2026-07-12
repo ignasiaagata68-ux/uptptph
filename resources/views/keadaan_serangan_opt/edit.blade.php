@@ -265,7 +265,12 @@
 
         <tbody id="tbody-opt">
             @foreach($detail as $d)
+            @if($d->status_verifikasi == 'perlu_perbaikan')
             <tr>
+                <input
+                    type="hidden"
+                    name="id_detail[]"
+                    value="{{ $d->id_det_keadaan_serangan_opt_dan_pengendalian_di_wilayah }}">
             <!-- THN -->
                 <td class="bg-pink">
                     {{ $d->id_tahun }}
@@ -568,6 +573,7 @@
                 </td>
 
             </tr>
+            @endif
             @endforeach
 
         </tbody>

@@ -51,9 +51,12 @@
         <tr>
             <th>No</th>
             <th>Tanggal</th>
+            <th>kabupaten</th>
+            <th>Kecamatan</th>
+            <th>Desa</th>
+            <th>Kelompok Tani</th>
             <th>Petak Pengamatan</th>
-            <th>Status Verifikasi</th>
-            <th>Keterangan</th>
+            <th>Petugas</th>
             <th>Aksi</th>
         </tr>
 
@@ -69,35 +72,18 @@
 
         <td>{{ $d->tgl_pengamatan }}</td>
 
+        <td>{{ $d->kabupaten->nama_kabupaten_kota ?? '-' }}</td>
+
+        <td>{{ $d->kecamatan->nama_kecamatan ?? '-' }}</td>
+
+        <td>{{ $d->desa->nama_desa ?? '-' }}</td>
+
+        <td>{{ $d->kelompokTani->nama_kelompok ?? '-' }}</td>
+
         <td>{{ $d->petak_pengamatan }}</td>
 
-        <td>
+        <td>{{ $d->petugas->nama ?? '-' }}</td>
 
-            @if($d->status_verifikasi == 'benar')
-
-                <span class="badge bg-success">
-                    Benar
-                </span>
-
-            @elseif($d->status_verifikasi == 'salah')
-
-                <span class="badge bg-danger">
-                    Salah
-                </span>
-
-            @else
-
-                <span class="badge bg-warning text-dark">
-                    Menunggu
-                </span>
-
-            @endif
-
-        </td>
-
-        <td>
-            {{ $d->keterangan_verifikasi ?? '-' }}
-        </td>
 
         <td style="white-space: nowrap; width:1%;">
 
@@ -105,12 +91,6 @@
                class="btn btn-info btn-sm me-2">
                 Detail
             </a>
-
-            <a href="{{ route('pengamatan-persemaian-padi.edit', $d->id_pengamatan_persemaian_padi) }}"
-               class="btn btn-warning btn-sm">
-                Edit
-            </a>
-
         </td>
 
     </tr>
@@ -120,8 +100,6 @@
     </tbody>
 
 </table>
-```
-
 </div>
 
 </body>

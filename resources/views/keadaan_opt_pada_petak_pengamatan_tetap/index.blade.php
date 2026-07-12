@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>
-        Data Keadaan OPT Pada Petak Pengamatan Tetap
-    </title>
+    <title>Data Keadaan OPT Pada Petak Pengamatan Tetap</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
@@ -11,19 +9,7 @@
 <body>
 
 <div class="container mt-4">
-    @if(session('success'))
 
-    <div class="alert alert-success">
-
-        {{ session('success') }}
-
-    </div>
-
-    @endif
-
-    <h2>
-        Data Keadaan OPT Pada Petak Pengamatan Tetap
-    </h2>
     @if(session('success'))
 
     <div class="alert alert-success alert-dismissible fade show">
@@ -40,11 +26,14 @@
 
     @endif
 
-    <table class="table table-bordered">
+    <h2>Data Keadaan OPT Pada Petak Pengamatan Tetap</h2>
+
+    <table class="table table-bordered table-striped">
 
         <thead class="table-dark">
 
         <tr>
+
             <th>ID</th>
             <th>Kabupaten/Kota</th>
             <th>Kecamatan</th>
@@ -52,6 +41,7 @@
             <th>Status</th>
             <th>Keterangan</th>
             <th>Aksi</th>
+
         </tr>
 
         </thead>
@@ -78,33 +68,23 @@
                 {{ $row->periode_pengamatan }}
             </td>
             <td>
-                {{ $row->status_verifikasi ?? '-' }}
-            </td>
 
-            <td>
-
-                @if($row->status_verifikasi == 'benar')
+                @if($row->status_verifikasi == 'terverifikasi')
 
                     <span class="badge bg-success">
-                        Benar
+                        Terverifikasi
                     </span>
 
-                @elseif($row->status_verifikasi == 'salah')
+                @elseif($row->status_verifikasi == 'perlu_perbaikan')
 
                     <span class="badge bg-danger">
-                        Salah
-                    </span>
-
-                @elseif($row->status_verifikasi == 'menunggu')
-
-                    <span class="badge bg-warning text-dark">
-                        Menunggu
+                        Perlu Perbaikan
                     </span>
 
                 @else
 
-                    <span class="badge bg-secondary">
-                        -
+                    <span class="badge bg-warning text-dark">
+                        Menunggu
                     </span>
 
                 @endif
@@ -112,11 +92,22 @@
             </td>
 
             <td>
+                {{ $row->keterangan_verifikasi ?? '-' }}
+            </td>
 
-                <a href="{{ route('keadaan-opt-pada-petak-pengamatan-tetap.detail', $row->id_keadaan_opt_pada_petak_pengamatan_tetap) }}"
-                    class="btn btn-info btn-sm">
+            <td style="white-space: nowrap;">
+
+                <a href="{{ route(
+                    'keadaan-opt-pada-petak-pengamatan-tetap.detail',
+                    $row->id_keadaan_opt_pada_petak_pengamatan_tetap
+                ) }}"
+                class="btn btn-primary btn-sm">
+
                     Detail
+
                 </a>
+
+                @if($row->status_verifikasi == 'perlu_perbaikan')
 
                 <a href="{{ route(
                     'keadaan-opt-pada-petak-pengamatan-tetap.edit',
@@ -127,17 +118,11 @@
                     Edit
 
                 </a>
-                <a href="{{ route(
-                    'keadaan-opt-pada-petak-pengamatan-tetap.verifikasi',
-                    $row->id_keadaan_opt_pada_petak_pengamatan_tetap
-                ) }}"
-                class="btn btn-success btn-sm">
 
-                    Verifikasi
-
-                </a>
+                @endif
 
             </td>
+
         </tr>
 
         @endforeach
@@ -147,6 +132,8 @@
     </table>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

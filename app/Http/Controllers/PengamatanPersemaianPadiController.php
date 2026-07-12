@@ -15,20 +15,13 @@ class PengamatanPersemaianPadiController extends Controller
 {
     public function index()
     {
-        $data = PengamatanPersemaianPadi::leftJoin(
-            'det_pengamatan_persemaian_padi',
-            'pengamatan_persemaian_padi.id_pengamatan_persemaian_padi',
-            '=',
-            'det_pengamatan_persemaian_padi.id_pengamatan_persemaian_padi'
-        )
-        ->select(
-            'pengamatan_persemaian_padi.*',
-            'det_pengamatan_persemaian_padi.status_verifikasi',
-            'det_pengamatan_persemaian_padi.keterangan_verifikasi'
-        )
-        ->latest('pengamatan_persemaian_padi.id_pengamatan_persemaian_padi')
+        $data = PengamatanPersemaianPadi::with([
+            'kabupaten',
+            'kecamatan',
+            'petugas'
+        ])
+        ->latest('id_pengamatan_persemaian_padi')
         ->get();
-
         return view(
             'pengamatan_persemaian_padi.index',
             compact('data')
@@ -130,8 +123,13 @@ class PengamatanPersemaianPadiController extends Controller
 
     public function show($id)
     {
-        $header = PengamatanPersemaianPadi::findOrFail($id);
-
+       $header = PengamatanPersemaianPadi::with([
+            'kabupaten',
+            'kecamatan',
+            'desa',
+            'kelompokTani',
+            'petugas'
+        ])->findOrFail($id);
         $detail = DB::table('det_pengamatan_persemaian_padi as d')
             ->leftJoin('ma as m', 'm.id_ma', '=', 'd.id_ma')
             ->select(
@@ -200,8 +198,14 @@ class PengamatanPersemaianPadiController extends Controller
                     'penyakit' => $request->penyakit[$i],
                     'wbc' => $request->wbc[$i],
 
+                    // Reset verifikasi
+                    'status_verifikasi' => 'menunggu',
+                    'keterangan_verifikasi' => null,
+                    'verified_by' => null,
+                    'verified_at' => null,
+
                 ]);
-            }
+                            }
 
             return redirect()
                 ->route('pengamatan-persemaian-padi.index')
@@ -234,4 +238,25 @@ class PengamatanPersemaianPadiController extends Controller
         return str_replace(',', '.', $value);
     }
     
+    public function prosesVerifikasi(Request $request, $id)
+    {
+        foreach ($request->id_detail as $idDetail) {
+
+            $updated = DetPengamatanPersemaianPadi::where(
+                'id_det_pengamatan_persemaian_padi',
+                $idDetail
+            )->update([
+                'status_verifikasi' => $request->status_verifikasi[$idDetail],
+                'keterangan_verifikasi' => $request->keterangan_verifikasi[$idDetail] ?? null,
+                'verified_by' => session('id_user'),
+                'verified_at' => now()
+            ]);
+
+            dd($idDetail, $updated);
+        }
+
+        return redirect()
+            ->route('pengamatan-persemaian-padi.show', $id)
+            ->with('success', 'Verifikasi berhasil disimpan.');
+    }
 }

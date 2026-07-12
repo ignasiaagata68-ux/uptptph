@@ -26,7 +26,7 @@ class PetugasController extends Controller
     public function create()
     {
         //
-        $user = UserAplikasi::all();
+        $user = UserAplikasi::where('role', 'popt')->get();
         $kecamatan = Kecamatan::all();
 
         return view(

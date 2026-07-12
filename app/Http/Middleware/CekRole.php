@@ -8,18 +8,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CekRole
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  Closure(Request): (Response)  $next
-     */
-    public function handle(Request $request, Closure $next, $role): Response
+    public function handle(Request $request, Closure $next, ...$roles): Response
     {
         if (!session()->has('role')) {
             return redirect('/login');
         }
 
-        if (session('role') != $role) {
+        if (!in_array(session('role'), $roles)) {
             abort(403, 'Akses Ditolak');
         }
 

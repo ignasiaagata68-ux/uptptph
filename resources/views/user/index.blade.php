@@ -1,70 +1,181 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Data User</title>
+@extends('layouts.admin')
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-</head>
-<body>
+@section('title', 'User Aplikasi')
 
-<div class="container mt-4">
+@section('content')
 
-    <h2>Data User</h2>
+<div class="card shadow-sm">
 
-    <a href="{{ route('user-aplikasi.create') }}"
-       class="btn btn-primary mb-3">
-        Tambah Data
-    </a>
+    <div class="card-header d-flex justify-content-between align-items-center">
 
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
+        <h5 class="mb-0">
+            Data User Aplikasi
+        </h5>
+
+        <a href="{{ route('user-aplikasi.create') }}"
+           class="btn btn-primary">
+
+            <i class="bi bi-plus-circle"></i>
+
+            Tambah User
+
+        </a>
+
+    </div>
+
+    <div class="card-body">
+
+        @if(session('success'))
+
+            <div class="alert alert-success">
+
+                {{ session('success') }}
+
+            </div>
+
+        @endif
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-hover align-middle">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th width="60">No</th>
+
+                        <th>Username</th>
+
+                        <th>Role</th>
+
+                        <th>LPHP</th>
+
+                        <th>Kabupaten</th>
+
+                        <th>Kecamatan</th>
+
+                        <th>Status</th>
+
+                        <th width="170">Aksi</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @forelse($data as $item)
+
+                    <tr>
+
+                        <td>{{ $loop->iteration }}</td>
+
+                        <td>{{ $item->username }}</td>
+
+                        <td>
+
+                            <span class="badge bg-primary">
+
+                                {{ strtoupper(str_replace('_',' ',$item->role)) }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            {{ $item->lphp->nama_lphp ?? '-' }}
+
+                        </td>
+
+                        <td>
+
+                            {{ $item->kabupaten->nama_kabupaten_kota ?? '-' }}
+
+                        </td>
+
+                        <td>
+
+                            {{ $item->kecamatan->nama_kecamatan ?? '-' }}
+
+                        </td>
+
+                        <td>
+
+                            @if($item->status=='aktif')
+
+                                <span class="badge bg-success">
+
+                                    Aktif
+
+                                </span>
+
+                            @else
+
+                                <span class="badge bg-danger">
+
+                                    Nonaktif
+
+                                </span>
+
+                            @endif
+
+                        </td>
+
+                        <td>
+
+                            <a href="{{ route('user-aplikasi.edit',$item->id_user) }}"
+                               class="btn btn-warning btn-sm">
+
+                                Edit
+
+                            </a>
+
+                            <form action="{{ route('user-aplikasi.destroy',$item->id_user) }}"
+                                  method="POST"
+                                  class="d-inline">
+
+                                @csrf
+
+                                @method('DELETE')
+
+                                <button class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Hapus user ini?')">
+
+                                    Hapus
+
+                                </button>
+
+                            </form>
+
+                        </td>
+
+                    </tr>
+
+                    @empty
+
+                    <tr>
+
+                        <td colspan="8"
+                            class="text-center">
+
+                            Belum ada data.
+
+                        </td>
+
+                    </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
         </div>
-    @endif
 
-    <table class="table table-bordered table-striped">
-
-        <thead class="table-dark">
-            <tr>
-                <th width="60">ID</th>
-                <th>Username</th>
-                <th>Role</th>
-                <th>Email</th>
-                <th>Id Petugas</th>
-                <th width="1%">Aksi</th>
-            </tr>
-        </thead>
-
-        <tbody>
-
-        @foreach($data as $row)
-
-        <tr>
-
-            <td>{{ $row->id_user }}</td>
-            <td>{{ $row->username }}</td>
-            <td>{{ $row->role }}</td>
-            <td>{{ $row->email }}</td>
-            <td>{{ $row->id_role }}</td>
-
-            <td style="white-space: nowrap;">
-                <a href="{{ route('user-aplikasi.edit', $row->id_user) }}"
-                    class="btn btn-warning btn-sm">
-                    Edit
-                </a>
-
-            </td>
-
-        </tr>
-
-        @endforeach
-
-        </tbody>
-
-    </table>
+    </div>
 
 </div>
 
-</body>
-</html>
+@endsection

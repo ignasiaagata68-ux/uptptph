@@ -9,9 +9,17 @@
 <body>
 
 <div class="container mt-4">
+    <form method="POST"
+      action="{{ route(
+            'keadaan-opt-pada-petak-pengamatan-tetap.proses-verifikasi',
+            $header->id_keadaan_opt_pada_petak_pengamatan_tetap
+      ) }}">
+
+    @csrf
+    {{ session('role') }}
+    <hr>
 
     <h3>Detail Keadaan OPT Pada Petak Pengamatan Tetap</h3>
-    
     <table class="table table-bordered table-striped">
 
         <thead class="table-dark">
@@ -81,36 +89,75 @@
 
             <td>
 
-                @if($row->status_verifikasi == 'benar')
+                @if(session('role') == 'lphp')
 
-                    <span class="badge bg-success">
-                        Benar
-                    </span>
+                    <input
+                        type="hidden"
+                        name="id_detail[]"
+                        value="{{ $row->id_det_keadaan_opt_pada_petak_pengamatan_tetap }}">
+                        
+                    <select
+                        name="status_verifikasi[{{ $row->id_det_keadaan_opt_pada_petak_pengamatan_tetap }}]"
+                        class="form-select form-select-sm">
 
-                @elseif($row->status_verifikasi == 'salah')
+                        <option value="menunggu"
+                            {{ $row->status_verifikasi == 'menunggu' ? 'selected' : '' }}>
+                            Menunggu
+                        </option>
 
-                    <span class="badge bg-danger">
-                        Salah
-                    </span>
+                        <option value="terverifikasi"
+                            {{ $row->status_verifikasi == 'terverifikasi' ? 'selected' : '' }}>
+                            Terverifikasi
+                        </option>
 
-                @elseif($row->status_verifikasi == 'menunggu')
+                        <option value="perlu_perbaikan"
+                            {{ $row->status_verifikasi == 'perlu_perbaikan' ? 'selected' : '' }}>
+                            Perlu Perbaikan
+                        </option>
 
-                    <span class="badge bg-warning text-dark">
-                        Menunggu
-                    </span>
+                    </select>
 
                 @else
 
-                    <span class="badge bg-secondary">
-                        -
-                    </span>
+                    @if($row->status_verifikasi == 'terverifikasi')
+
+                        <span class="badge bg-success">
+                            Terverifikasi
+                        </span>
+
+                    @elseif($row->status_verifikasi == 'perlu_perbaikan')
+
+                        <span class="badge bg-danger">
+                            Perlu Perbaikan
+                        </span>
+
+                    @else
+
+                        <span class="badge bg-warning text-dark">
+                            Menunggu
+                        </span>
+
+                    @endif
 
                 @endif
 
             </td>
 
             <td>
-                {{ $row->keterangan_verifikasi ?? '-' }}
+
+                @if(session('role') == 'lphp')
+
+                    <textarea
+                        name="keterangan_verifikasi[{{ $row->id_det_keadaan_opt_pada_petak_pengamatan_tetap }}]"
+                        class="form-control form-control-sm"
+                        rows="2">{{ $row->keterangan_verifikasi }}</textarea>
+
+                @else
+
+                    {{ $row->keterangan_verifikasi ?? '-' }}
+
+                @endif
+
             </td>
 
         </tr>
@@ -120,31 +167,29 @@
         </tbody>
 
     </table>
-    
-    <br>
+
+    @if(session('role') == 'lphp')
+
     <div class="mb-3">
-    <div class="row mt-5">
 
-    <div class="col-md-4 offset-md-8 text-center">
+        <button
+            type="submit"
+            class="btn btn-success">
 
-    </div>
+            Simpan Verifikasi
 
-</div>
-        <a href="{{ route('keadaan-opt-pada-petak-pengamatan-tetap.index') }}"
-        class="btn btn-secondary">
-            Kembali
-        </a>
+        </button>
 
     </div>
 
+    @endif
 
-</div>
+    </form>
 
-</body>
-</html>
-
-
-</div>
+    <a href="{{ route('keadaan-opt-pada-petak-pengamatan-tetap.index') }}"
+    class="btn btn-secondary">
+        Kembali
+    </a>
 
 </body>
 </html>

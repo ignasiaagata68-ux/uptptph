@@ -1,82 +1,130 @@
 @extends('layouts.admin')
 
-@section('title','Dashboard Pengelola')
+@section('title', 'Dashboard Pengelola')
 
 @section('content')
 
 <div class="container-fluid">
 
-    <!-- Judul -->
-    <div class="mb-4">
+    <!-- HEADER -->
+    <div class="row align-items-center mb-4">
 
-        <h2 class="fw-bold">
-            Dashboard Pengelola Data
-        </h2>
+        <div class="col-md-8">
+            <h2 class="fw-bold mb-1">
+                Dashboard Pengelola Data
+            </h2>
 
-        <p class="text-muted">
-            Selamat Datang,
-            <b>{{ session('username') }}</b>
-        </p>
-
-    </div>
-
-    <!-- Statistik -->
-
-    <div class="row mb-4">
-
-        <div class="col-lg-3 col-md-6 mb-3">
-
-            <div class="stat-card">
-
-                <small>Total Data OPT</small>
-
-                <h2 class="text-success">8</h2>
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-3 col-md-6 mb-3">
-
-            <div class="stat-card">
-
-                <small>Total Data DPI</small>
-
-                <h2 class="text-primary">7</h2>
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-3 col-md-6 mb-3">
-
-            <div class="stat-card">
-
-                <small>Master Data</small>
-
-                <h2 class="text-warning">12</h2>
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-3 col-md-6 mb-3">
-
-            <div class="stat-card">
-
-                <small>User Sistem</small>
-
-                <h2 class="text-danger">4</h2>
-
-            </div>
-
+            <p class="text-muted mb-0">
+                Selamat Datang,
+                <strong>{{ session('username') }}</strong>
+            </p>
         </div>
 
     </div>
 
-    <!-- Banner -->
 
-    <div class="card banner border-0 mb-4">
+    <!-- ===========================
+            STATISTIK
+    ============================ -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <div class="stat-icon icon-green">
+
+                    <i class="bi bi-building"></i>
+
+                </div>
+
+                <div>
+
+                    <small>Kabupaten / Kota</small>
+
+                    <h2>{{ $jumlahKabupaten }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <div class="stat-icon icon-blue">
+
+                    <i class="bi bi-geo-alt-fill"></i>
+
+                </div>
+
+                <div>
+
+                    <small>Kecamatan</small>
+
+                    <h2>{{ $jumlahKecamatan }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <div class="stat-icon icon-orange">
+
+                    <i class="bi bi-house-door-fill"></i>
+
+                </div>
+
+                <div>
+
+                    <small>Desa</small>
+
+                    <h2>{{ $jumlahDesa }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="stat-card">
+
+                <div class="stat-icon icon-purple">
+
+                    <i class="bi bi-person-workspace"></i>
+
+                </div>
+
+                <div>
+
+                    <small>Petugas</small>
+
+                    <h2>{{ $jumlahPetugas }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===========================
+            BANNER
+    ============================ -->
+
+    <div class="card banner mb-4 border-0">
 
         <div class="card-body">
 
@@ -84,27 +132,40 @@
 
                 <div class="col-lg-2 text-center">
 
-                    <img src="{{ asset('images/logo.png') }}">
+                    <img src="{{ asset('images/logo.png') }}" class="img-fluid">
 
                 </div>
 
                 <div class="col-lg-10">
 
-                    <h2>
-                        SISTEM INFORMASI
+                    <h3 class="fw-bold">
+
+                        SISTEM INFORMASI MONITORING
+
+                    </h3>
+
+                    <h2 class="fw-bold">
+
+                        ORGANISME PENGGANGGU TANAMAN
+
                     </h2>
 
                     <h5>
-                        Monitoring Organisme Pengganggu Tanaman
-                        <br>
-                        dan
-                        <br>
-                        Dampak Perubahan Iklim
+
+                        DAN
+
                     </h5>
+
+                    <h2 class="fw-bold">
+
+                        DAMPAK PERUBAHAN IKLIM
+
+                    </h2>
 
                     <p class="mt-3">
 
-                        Unit Perlindungan Tanaman Pangan dan Hortikultura
+                        Unit Pelaksana Teknis Perlindungan Tanaman Pangan
+                        dan Hortikultura
 
                         <br>
 
@@ -120,179 +181,340 @@
 
     </div>
 
-    <!-- Menu -->
 
-    <div class="row">
+    <!-- ===========================
+            QUICK MENU
+    ============================ -->
 
-        <div class="col-lg-9">
+    <div class="row g-4">
 
-            <div class="row">
+        <div class="col-lg-4">
 
-                <div class="col-md-4 mb-4">
+            <a href="{{ url('/master-data') }}" class="btn-dashboard w-100">
 
-                    <a href="/dashboard-pengelola" class="btn-dashboard">
+                <div class="quick-card">
 
-                        <div class="card dashboard-card bg-dashboard">
+                    <div class="quick-icon quick-green">
 
-                            <div class="card-body">
+                        <i class="bi bi-database-fill"></i>
 
-                                <div class="dashboard-icon">
+                    </div>
 
-                                    <i class="bi bi-speedometer2 text-primary"></i>
+                    <h5>
 
-                                </div>
+                        Master Data
 
-                                <h4>Dashboard</h4>
+                    </h5>
 
-                                <p>
-                                    Dashboard OPT dan DPI
-                                </p>
+                    <p>
 
-                            </div>
+                        Kelola seluruh data master sistem.
 
-                        </div>
-
-                    </a>
+                    </p>
 
                 </div>
 
-                <div class="col-md-4 mb-4">
+            </a>
 
-                    <a href="/data-opt" class="btn-dashboard">
+        </div>
 
-                        <div class="card dashboard-card bg-opt">
+        <div class="col-lg-4">
 
-                            <div class="card-body">
+            <a href="{{ url('/data-opt') }}" class="btn-dashboard w-100">
 
-                                <div class="dashboard-icon">
+                <div class="quick-card">
 
-                                    <i class="bi bi-bug-fill text-success"></i>
+                    <div class="quick-icon quick-blue">
 
-                                </div>
+                        <i class="bi bi-pencil-square"></i>
 
-                                <h4>Data OPT</h4>
+                    </div>
 
-                                <p>
-                                    8 Menu Pengamatan
-                                </p>
+                    <h5>
 
-                            </div>
+                        Pencatatan Data
 
-                        </div>
+                    </h5>
 
-                    </a>
+                    <p>
 
-                </div>
+                        Input seluruh data hasil pengamatan lapangan.
 
-                <div class="col-md-4 mb-4">
-
-                    <a href="/data-dpi" class="btn-dashboard">
-
-                        <div class="card dashboard-card bg-dpi">
-
-                            <div class="card-body">
-
-                                <div class="dashboard-icon">
-
-                                    <i class="bi bi-cloud-rain-heavy-fill text-info"></i>
-
-                                </div>
-
-                                <h4>Data DPI</h4>
-
-                                <p>
-                                    7 Menu Pengamatan
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </a>
+                    </p>
 
                 </div>
 
-                <div class="col-md-4 mb-4">
+            </a>
 
-                    <a href="/master-data" class="btn-dashboard">
+        </div>
 
-                        <div class="card dashboard-card bg-master">
+        <div class="col-lg-4">
 
-                            <div class="card-body">
+            <a href="{{ url('/dashboard-opt') }}" class="btn-dashboard w-100">
 
-                                <div class="dashboard-icon">
+                <div class="quick-card">
 
-                                    <i class="bi bi-database-fill text-warning"></i>
+                    <div class="quick-icon quick-green">
 
-                                </div>
+                        <i class="bi bi-bug-fill"></i>
 
-                                <h4>Master Data</h4>
+                    </div>
 
-                                <p>
-                                    Kelola Data Master
-                                </p>
+                    <h5>
 
-                            </div>
+                        Dashboard OPT
 
-                        </div>
+                    </h5>
 
-                    </a>
+                    <p>
 
-                </div>
+                        Monitoring data Organisme Pengganggu Tanaman.
 
-                <div class="col-md-4 mb-4">
-
-                    <a href="/laporan" class="btn-dashboard">
-
-                        <div class="card dashboard-card bg-laporan">
-
-                            <div class="card-body">
-
-                                <div class="dashboard-icon">
-
-                                    <i class="bi bi-file-earmark-text-fill text-danger"></i>
-
-                                </div>
-
-                                <h4>Laporan</h4>
-
-                                <p>
-                                    Laporan OPT & DPI
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </a>
+                    </p>
 
                 </div>
 
-                <div class="col-md-4 mb-4">
+            </a>
 
-                    <a href="/manajemen-sistem" class="btn-dashboard">
+        </div>
 
-                        <div class="card dashboard-card bg-sistem">
+        <div class="col-lg-4">
 
-                            <div class="card-body">
+            <a href="{{ url('/dashboard-dpi') }}" class="btn-dashboard w-100">
 
-                                <div class="dashboard-icon">
+                <div class="quick-card">
 
-                                    <i class="bi bi-gear-fill text-secondary"></i>
+                    <div class="quick-icon quick-cyan">
 
-                                </div>
+                        <i class="bi bi-cloud-rain-heavy-fill"></i>
 
-                                <h4>Manajemen Sistem</h4>
+                    </div>
 
-                                <p>
-                                    User, Role dan Hak Akses
-                                </p>
+                    <h5>
 
-                            </div>
+                        Dashboard DPI
 
-                        </div>
+                    </h5>
 
-                    </a>
+                    <p>
+
+                        Monitoring data Dampak Perubahan Iklim.
+
+                    </p>
+
+                </div>
+
+            </a>
+
+        </div>
+        <div class="col-lg-4">
+
+            <a href="{{ url('/verifikasi') }}" class="btn-dashboard w-100">
+
+                <div class="quick-card">
+
+                    <div class="quick-icon quick-orange">
+
+                        <i class="bi bi-check2-square"></i>
+
+                    </div>
+
+                    <h5>
+
+                        Verifikasi
+
+                    </h5>
+
+                    <p>
+
+                        Verifikasi seluruh data hasil pengamatan sebelum
+                        dipublikasikan.
+
+                    </p>
+
+                </div>
+
+            </a>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <a href="{{ url('/laporan') }}" class="btn-dashboard w-100">
+
+                <div class="quick-card">
+
+                    <div class="quick-icon quick-red">
+
+                        <i class="bi bi-file-earmark-text-fill"></i>
+
+                    </div>
+
+                    <h5>
+
+                        Laporan
+
+                    </h5>
+
+                    <p>
+
+                        Lihat dan cetak laporan hasil pengamatan OPT dan DPI.
+
+                    </p>
+
+                </div>
+
+            </a>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <a href="{{ url('/manajemen-sistem') }}" class="btn-dashboard w-100">
+
+                <div class="quick-card">
+
+                    <div class="quick-icon quick-purple">
+
+                        <i class="bi bi-gear-fill"></i>
+
+                    </div>
+
+                    <h5>
+
+                        Manajemen Sistem
+
+                    </h5>
+
+                    <p>
+
+                        Kelola pengguna dan hak akses aplikasi.
+
+                    </p>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- ===========================
+            INFORMASI
+    ============================ -->
+
+    <div class="row mt-4">
+
+        <!-- Aktivitas -->
+
+        <div class="col-lg-6 mb-4">
+
+            <div class="info-box">
+
+                <div class="card-body">
+
+                    <h5>
+
+                        <i class="bi bi-activity text-success"></i>
+
+                        Aktivitas Sistem
+
+                    </h5>
+
+                    <table class="info-table">
+
+                        <tr>
+
+                            <td>
+
+                                <i class="bi bi-building text-success"></i>
+
+                                Kabupaten
+
+                            </td>
+
+                            <td>
+
+                                {{ $jumlahKabupaten }}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>
+
+                                <i class="bi bi-geo-alt-fill text-primary"></i>
+
+                                Kecamatan
+
+                            </td>
+
+                            <td>
+
+                                {{ $jumlahKecamatan }}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>
+
+                                <i class="bi bi-house-fill text-warning"></i>
+
+                                Desa
+
+                            </td>
+
+                            <td>
+
+                                {{ $jumlahDesa }}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>
+
+                                <i class="bi bi-person-workspace text-danger"></i>
+
+                                Petugas
+
+                            </td>
+
+                            <td>
+
+                                {{ $jumlahPetugas }}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>
+
+                                <i class="bi bi-people-fill text-info"></i>
+
+                                User Sistem
+
+                            </td>
+
+                            <td>
+
+                                {{ $jumlahUser }}
+
+                            </td>
+
+                        </tr>
+
+                    </table>
 
                 </div>
 
@@ -300,49 +522,121 @@
 
         </div>
 
-        <!-- Aktivitas -->
+        <!-- Informasi -->
 
-        <div class="col-lg-3">
+        <div class="col-lg-6 mb-4">
 
-            <div class="card activity">
+            <div class="info-box">
 
                 <div class="card-body">
 
-                    <h5 class="mb-3">
+                    <h5>
 
-                        Aktivitas Sistem
+                        <i class="bi bi-info-circle-fill text-primary"></i>
+
+                        Informasi Sistem
 
                     </h5>
 
-                    <hr>
+                    <table class="info-table">
 
-                    <p>
-                        🟢 Data OPT :
-                        <b>8</b>
-                    </p>
+                        <tr>
 
-                    <p>
-                        🌧 Data DPI :
-                        <b>7</b>
-                    </p>
+                            <td>
 
-                    <p>
-                        📄 Menunggu Verifikasi :
-                        <b>18</b>
-                    </p>
+                                Periode Aktif
 
-                    <p>
-                        ✅ Diverifikasi :
-                        <b>125</b>
-                    </p>
+                            </td>
 
-                    <p>
-                        👤 Login :
-                        <br>
+                            <td>
 
-                        <b>{{ session('username') }}</b>
+                                {{ $periodeAktif->periode_pengamatan ?? '-' }}
 
-                    </p>
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>
+
+                                Tanggal Mulai
+
+                            </td>
+
+                            <td>
+
+                                {{ $periodeAktif->tgl_mulai ?? '-' }}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>
+
+                                Tanggal Selesai
+
+                            </td>
+
+                            <td>
+
+                                {{ $periodeAktif->tgl_selesai ?? '-' }}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>
+
+                                Deadline Pelaporan
+
+                            </td>
+
+                            <td>
+
+                                {{ $periodeAktif->deadline_pelaporan ?? '-' }}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>
+
+                                Login Sebagai
+
+                            </td>
+
+                            <td>
+
+                                {{ session('username') }}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>
+
+                                Role
+
+                            </td>
+
+                            <td>
+
+                                {{ session('role') }}
+
+                            </td>
+
+                        </tr>
+
+                    </table>
 
                 </div>
 

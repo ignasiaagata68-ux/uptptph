@@ -18,9 +18,8 @@ class KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController extends Con
     public function index()
     {
         $data = DB::table(
-        'keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan as k'
+            'keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan as k'
         )
-
 
         ->leftJoin(
             'kabupaten_kota as kab',
@@ -44,10 +43,10 @@ class KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController extends Con
         )
 
         ->leftJoin(
-            'det_keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan as d',
-            'k.id_keadaan_serangan_opt_dan_pengendalian_di_wilayah',
+            'musim_tanam as mt',
+            'k.id_musim_tanam',
             '=',
-            'd.id_keadaan_serangan_opt_dan_pengendalian_di_wilayah'
+            'mt.id_musim_tanam'
         )
 
         ->select(
@@ -55,17 +54,7 @@ class KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController extends Con
             'kab.nama_kabupaten_kota',
             'kec.nama_kecamatan',
             'p.periode_pengamatan',
-            'd.status_verifikasi',
-            'd.keterangan_verifikasi'
-        )
-
-        ->groupBy(
-            'k.id_keadaan_serangan_opt_dan_pengendalian_di_wilayah',
-            'kab.nama_kabupaten_kota',
-            'kec.nama_kecamatan',
-            'p.periode_pengamatan',
-            'd.status_verifikasi',
-            'd.keterangan_verifikasi'
+            'mt.musim_tanam'
         )
 
         ->latest(
@@ -78,8 +67,6 @@ class KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController extends Con
             'keadaan_serangan_opt.index',
             compact('data')
         );
-
-
     }
 
     public function create($id_data)
@@ -298,127 +285,58 @@ class KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController extends Con
 
         ]);
 
-        DB::table(
-            'det_keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan'
-        )
-        ->where(
-            'id_keadaan_serangan_opt_dan_pengendalian_di_wilayah',
-            $id
-        )
-        ->delete();
+        foreach ($request->id_detail as $i => $idDetail) {
 
-        for ($i = 0; $i < count($request->id_desa); $i++) {
+            DetKeadaanSeranganOptDanPengendalianDiWilayahPengamatan::where(
+                'id_det_keadaan_serangan_opt_dan_pengendalian_di_wilayah',
+                $idDetail
+            )->update([
 
-            DetKeadaanSeranganOptDanPengendalianDiWilayahPengamatan::create([
+                'id_desa' => $request->id_desa[$i],
+                'id_komoditas' => $request->id_komoditas[$i],
+                'varietas' => $request->varietas[$i],
+                'luas' => $request->luas[$i],
+                'id_opt' => $request->id_opt[$i],
 
-                'id_keadaan_serangan_opt_dan_pengendalian_di_wilayah' =>
-                    $id,
+                'sisa_periode_sebelumnya_serangan_ringan' => $request->s_r[$i],
+                'sisa_periode_sebelumnya_sisa_serangan_sedang' => $request->s_s[$i],
+                'sisa_sisa_periode_sebelumnya_serangan_berat' => $request->s_b[$i],
+                'sisa_sisa_periode_sebelumnya_serangan_puso' => $request->s_p[$i],
+                'sisa_serangan_jumlah' => $request->s_j[$i],
 
-                'id_tahun' =>
-                    $request->id_tahun[$i],
+                'luas_terkendali' => $request->luas_terkendali[$i],
+                'luas_panen' => $request->luas_panen[$i],
 
-                'id_bulan' =>
-                    $request->id_bulan[$i],
+                'luas_tambah_serangan_ringan' => $request->t_r[$i],
+                'luas_tambah_serangan_sedang' => $request->t_s[$i],
+                'luas_tambah_serangan_berat' => $request->t_b[$i],
+                'luas_tambah_serangan_puso' => $request->t_p[$i],
+                'luas_tambah_serangan_jumlah' => $request->t_j[$i],
 
-                'id_periode' =>
-                    $request->id_periode,
+                'pestisida_kimia' => $request->kimia[$i],
+                'pestisida_hayati' => $request->hayati[$i],
+                'cara_lain' => $request->cara_lain[$i],
+                'jml' => $request->jml[$i],
 
-                'id_kabupaten_kota' =>
-                    $request->id_kabupaten_kota,
+                'luas_keadaan_serangan_ringan' => $request->k_r[$i],
+                'luas_keadaan_serangan_sedang' => $request->k_s[$i],
+                'luas_keadaan_serangan_berat' => $request->k_b[$i],
+                'luas_keadaan_serangan_puso' => $request->k_p[$i],
+                'luas_keadaan_serangan_jumlah' => $request->k_j[$i],
 
-                'id_kecamatan' =>
-                    $request->id_kecamatan,
+                'mt' => $request->mt[$i],
 
-                'id_desa' =>
-                    $request->id_desa[$i],
+                // Reset verifikasi
+                'status_verifikasi' => 'menunggu',
+                'keterangan_verifikasi' => null,
+                'verified_by' => null,
+                'verified_at' => null,
 
-                'id_komoditas' =>
-                    $request->id_komoditas[$i],
-
-                'varietas' =>
-                    $request->varietas[$i],
-
-                'luas' =>
-                    $request->luas[$i],
-
-                'id_opt' =>
-                    $request->id_opt[$i],
-
-                'sisa_periode_sebelumnya_serangan_ringan' =>
-                    $request->s_r[$i],
-
-                'sisa_periode_sebelumnya_sisa_serangan_sedang' =>
-                    $request->s_s[$i],
-
-                'sisa_sisa_periode_sebelumnya_serangan_berat' =>
-                    $request->s_b[$i],
-
-                'sisa_sisa_periode_sebelumnya_serangan_puso' =>
-                    $request->s_p[$i],
-
-                'sisa_serangan_jumlah' =>
-                    $request->s_j[$i],
-
-                'luas_terkendali' =>
-                    $request->luas_terkendali[$i],
-
-                'luas_panen' =>
-                    $request->luas_panen[$i],
-
-                'luas_tambah_serangan_ringan' =>
-                    $request->t_r[$i],
-
-                'luas_tambah_serangan_sedang' =>
-                    $request->t_s[$i],
-
-                'luas_tambah_serangan_berat' =>
-                    $request->t_b[$i],
-
-                'luas_tambah_serangan_puso' =>
-                    $request->t_p[$i],
-
-                'luas_tambah_serangan_jumlah' =>
-                    $request->t_j[$i],
-
-                'pestisida_kimia' =>
-                    $request->kimia[$i],
-
-                'pestisida_hayati' =>
-                    $request->hayati[$i],
-
-                'cara_lain' =>
-                    $request->cara_lain[$i],
-
-                'jml' =>
-                    $request->jml[$i],
-
-                'luas_keadaan_serangan_ringan' =>
-                    $request->k_r[$i],
-
-                'luas_keadaan_serangan_sedang' =>
-                    $request->k_s[$i],
-
-                'luas_keadaan_serangan_berat' =>
-                    $request->k_b[$i],
-
-                'luas_keadaan_serangan_puso' =>
-                    $request->k_p[$i],
-
-                'luas_keadaan_serangan_jumlah' =>
-                    $request->k_j[$i],
-
-                'mt' =>
-                    $request->mt[$i]
-
-            ]);
-        }
-
-        return redirect()
-            ->route('keadaan-serangan-opt.index')
-            ->with(
-                'success',
-                'Data berhasil diupdate'
-            );
+                ]);  
+            }
+                return redirect()
+                    ->route('keadaan-serangan-opt.index')
+                    ->with('success', 'Data berhasil diupdate');
     }
 
     public function store(Request $request)
@@ -572,32 +490,37 @@ class KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController extends Con
                 'Data berhasil disimpan'
             );
     }
-    public function verifikasi($id, $status)
-        {
-            DB::table(
-                'det_keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan'
-            )
-            ->where(
-                'id_det_keadaan_serangan_opt_dan_pengendalian_di_wilayah',
-                $id
-            )
-            ->update([
+    public function prosesVerifikasi(Request $request, $id)
+{
+    foreach ($request->id_detail as $idDetail) {
 
-                'status_verifikasi' => $status,
+        DetKeadaanSeranganOptDanPengendalianDiWilayahPengamatan::where(
+            'id_det_keadaan_serangan_opt_dan_pengendalian_di_wilayah',
+            $idDetail
+        )->update([
 
-                'verified_by' =>
-                    session('id_user'),
+            'status_verifikasi' => $request->status_verifikasi[$idDetail],
 
-                'verified_at' =>
-                    now()
+            'keterangan_verifikasi' =>
+                $request->keterangan_verifikasi[$idDetail] ?? null,
 
-            ]);
+            'verified_by' => session('id_user'),
 
-            return back()->with(
-                'success',
-                'Data berhasil diverifikasi'
-            );
-        }
+            'verified_at' => now()
+
+        ]);
+    }
+
+    return redirect()
+        ->route(
+            'keadaan-serangan-opt.show',
+            $id
+        )
+        ->with(
+            'success',
+            'Verifikasi berhasil disimpan.'
+        );
+}
 
     private function decimal($value)
     {

@@ -64,7 +64,7 @@
 
                 @foreach($user as $u)
 
-                <option value="{{ $u->id_petugas }}">
+                <option value="{{ $u->id_user }}">
                     {{ $u->username }} ({{ $u->role }})
                 </option>
 

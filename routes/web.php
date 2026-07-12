@@ -33,6 +33,7 @@ use App\Http\Controllers\KeadaanCurahHujanController;
 use App\Http\Controllers\PengamatanPenyebaranDanPerkembanganSiputMurbeyController;
 use App\Http\Controllers\LaporanPeringatanDiniController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardPengelolaController;
 
 
 
@@ -64,44 +65,20 @@ Route::middleware('ceklogin')->group(function () {
 
     });
 
-});
 
-Route::middleware([
-    'ceklogin',
-    'cekrole:pengelola_data'
-    ])->group(function () {
+Route::middleware(['ceklogin','cekrole:pengelola_data'])->group(function () {
 
-    Route::get('/master-data', function () {
-        return view('dashboard.master-data');
-    });
+    Route::get('/dashboard-pengelola', [DashboardPengelolaController::class, 'index']);
+    Route::get('/dashboard-opt', function () { return view('dashboard.dashboard-opt'); });
+    Route::get('/dashboard-dpi', function () { return view('dashboard.dashboard-dpi'); });
+    Route::get('/master-data', function () { return view('dashboard.master-data'); });
+    Route::get('/data-opt', function () { return view('dashboard.data-opt'); });
+    Route::get('/data-dpi', function () { return view('dashboard.data-dpi'); });
+    Route::get('/verifikasi', function () { return view('dashboard.verifikasi'); });
+    Route::get('/laporan', function () { return view('dashboard.laporan'); });
+    Route::get('/manajemen-sistem', function () { return view('dashboard.manajemen-sistem'); });
 
-    Route::get('/data-pengamatan', function () {
-    return view('dashboard.data-pengamatan');
-    });
-
-    Route::get('/data-opt', function () {
-    return view('dashboard.data-opt');
-    });
-
-    Route::get('/data-dpi', function () {
-    return view('dashboard.data-dpi');
-    });
-
-    Route::get('/laporan', function () {
-    return view('dashboard.laporan');
-    });
-
-    //DASHBOARD
-    Route::get('/dashboard-pengelola', function () {
-        return view('dashboard.pengelola');
-        
-    });
-
-    Route::get('/manajemen-sistem', function () {
-    return view('dashboard.manajemen-sistem');
-    });
-
-    // MASTER DATA
+    // ================= MASTER DATA =================
     Route::resource('kabupaten', KabupatenKotaController::class);
     Route::resource('kecamatan', KecamatanController::class);
     Route::resource('desa', DesaController::class);
@@ -115,637 +92,187 @@ Route::middleware([
     Route::resource('periode', PeriodeController::class);
     Route::resource('petugas', PetugasController::class);
 
+}); 
+
+
+Route::middleware(['ceklogin','cekrole:pengelola_data,popt,lphp'])->group(function () {
+
     //DATA PENGAMATAN
     Route::resource('data', DataController::class);
     Route::get('/sp/{id_data}',[SpController::class, 'create'])->name('sp.create');
     
     
-
     Route::prefix('pengamatan-persemaian-padi')->group(function () {
 
-        // INDEX
-        Route::get(
-            '/',
-            [PengamatanPersemaianPadiController::class, 'index']
-        )->name('pengamatan-persemaian-padi.index');
-
-        // CREATE
-        Route::get(
-            '/create/{id_data}',
-            [PengamatanPersemaianPadiController::class, 'create']
-        )->name('pengamatan-persemaian-padi.create');
-
-        // STORE
-        Route::post(
-            '/store',
-            [PengamatanPersemaianPadiController::class, 'store']
-        )->name('pengamatan-persemaian-padi.store');
-
-        // DETAIL
-        Route::get(
-            '/show/{id}',
-            [PengamatanPersemaianPadiController::class, 'show']
-        )->name('pengamatan-persemaian-padi.show');
-
-        // EDIT
-        Route::get(
-            '/edit/{id}',
-            [PengamatanPersemaianPadiController::class, 'edit']
-        )->name('pengamatan-persemaian-padi.edit');
-
-        // UPDATE
-        Route::post(
-            '/update/{id}',
-            [PengamatanPersemaianPadiController::class, 'update']
-        )->name('pengamatan-persemaian-padi.update');
-
-        // DELETE
-        Route::delete(
-            '/destroy/{id}',
-            [PengamatanPersemaianPadiController::class, 'destroy']
-        )->name('pengamatan-persemaian-padi.destroy');
-
-        // VERIFIKASI
-        Route::get(
-            '/verifikasi/{id}',
-            [PengamatanPersemaianPadiController::class, 'verifikasi']
-        )->name('pengamatan-persemaian-padi.verifikasi');
-
-        Route::post(
-            '/verifikasi/{id}',
-            [PengamatanPersemaianPadiController::class, 'prosesVerifikasi']
-        )->name('pengamatan-persemaian-padi.proses-verifikasi');
-        
-        Route::get(
-        '/kelompok-tani/{id_desa}',
-        [PengamatanPersemaianPadiController::class, 'getKelompokTani']
-        )->name('pengamatan-persemaian-padi.kelompok-tani');
+        Route::get('/',[PengamatanPersemaianPadiController::class, 'index'])->name('pengamatan-persemaian-padi.index');
+        Route::get('/create/{id_data}',[PengamatanPersemaianPadiController::class, 'create'])->name('pengamatan-persemaian-padi.create');
+        Route::post('/store',[PengamatanPersemaianPadiController::class, 'store'])->name('pengamatan-persemaian-padi.store');
+        Route::get('/show/{id}',[PengamatanPersemaianPadiController::class, 'show'])->name('pengamatan-persemaian-padi.show');
+        Route::get('/edit/{id}',[PengamatanPersemaianPadiController::class, 'edit'])->name('pengamatan-persemaian-padi.edit');
+        Route::post('/update/{id}',[PengamatanPersemaianPadiController::class, 'update'])->name('pengamatan-persemaian-padi.update');
+        Route::delete('/destroy/{id}',[PengamatanPersemaianPadiController::class, 'destroy'])->name('pengamatan-persemaian-padi.destroy');
+        Route::get('/verifikasi/{id}',[PengamatanPersemaianPadiController::class, 'verifikasi'])->name('pengamatan-persemaian-padi.verifikasi');
+        Route::post('/verifikasi/{id}',[PengamatanPersemaianPadiController::class, 'prosesVerifikasi'])->name('pengamatan-persemaian-padi.proses-verifikasi');  
+        Route::get('/kelompok-tani/{id_desa}',[PengamatanPersemaianPadiController::class, 'getKelompokTani'])->name('pengamatan-persemaian-padi.kelompok-tani');
     });  
     
     
     Route::prefix('keadaan-serangan-opt')->group(function () {
 
-    Route::get(
-        '/',
-        [KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'index']
-    )->name('keadaan-serangan-opt.index');
-
-    Route::get(
-        '/create/{id_data}',
-        [KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'create']
-    )->name('keadaan-serangan-opt.create');
-
-    Route::post(
-        '/store',
-        [KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'store']
-    )->name('keadaan-serangan-opt.store');
-
-    Route::get(
-        '/show/{id}',
-        [KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'show']
-    )->name('keadaan-serangan-opt.show');
-
-    Route::get(
-        '/edit/{id}',
-        [KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'edit']
-    )->name('keadaan-serangan-opt.edit');
-
-    Route::post(
-        '/update/{id}',
-        [KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'update']
-    )->name('keadaan-serangan-opt.update');
-
-    Route::get(
-        '/verifikasi/{id}/{status}',
-        [KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'verifikasi']
-    )->name('keadaan-serangan-opt.verifikasi');
-
-});
+        Route::get('/', [KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'index'])->name('keadaan-serangan-opt.index');
+        Route::get('/create/{id_data}', [KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'create'])->name('keadaan-serangan-opt.create');
+        Route::post('/store', [KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'store'])->name('keadaan-serangan-opt.store');
+        Route::get('/show/{id}', [KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'show'])->name('keadaan-serangan-opt.show');
+        Route::get('/edit/{id}', [KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'edit'])->name('keadaan-serangan-opt.edit');
+        Route::post('/update/{id}', [KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'update'])->name('keadaan-serangan-opt.update');
+        Route::post('/proses-verifikasi/{id}',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'prosesVerifikasi'])->name('keadaan-serangan-opt.proses-verifikasi');
+        Route::get('/verifikasi/{id}/{status}',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'verifikasi'])->name('keadaan-serangan-opt.verifikasi');
+    });
     
+
     Route::prefix('keadaan-opt-pada-petak-pengamatan-tetap')->group(function () {
 
-    // INDEX
-    Route::get(
-        '/',
-        [KeadaanOptPadaPetakPengamatanTetapController::class, 'index']
-    )->name('keadaan-opt-pada-petak-pengamatan-tetap.index');
-
-    // CREATE
-    Route::get(
-        '/create/{id_data}',
-        [KeadaanOptPadaPetakPengamatanTetapController::class, 'create']
-    )->name('keadaan-opt-pada-petak-pengamatan-tetap.create');
-
-    // STORE
-    Route::post(
-        '/store',
-        [KeadaanOptPadaPetakPengamatanTetapController::class, 'store']
-    )->name('keadaan-opt-pada-petak-pengamatan-tetap.store');
-
-    // DETAIL
-    Route::get(
-        '/detail/{id}',
-        [KeadaanOptPadaPetakPengamatanTetapController::class, 'detail']
-    )->name('keadaan-opt-pada-petak-pengamatan-tetap.detail');
-
-    // EDIT
-    Route::get(
-        '/edit/{id}',
-        [KeadaanOptPadaPetakPengamatanTetapController::class, 'edit']
-    )->name('keadaan-opt-pada-petak-pengamatan-tetap.edit');
-
-    // UPDATE
-    Route::put(
-        '/update/{id}',
-        [KeadaanOptPadaPetakPengamatanTetapController::class, 'update']
-    )->name('keadaan-opt-pada-petak-pengamatan-tetap.update');
-
-    // VERIFIKASI
-    Route::get(
-        '/verifikasi/{id}',
-        [KeadaanOptPadaPetakPengamatanTetapController::class, 'verifikasi']
-    )->name('keadaan-opt-pada-petak-pengamatan-tetap.verifikasi');
-
-    Route::post(
-        '/simpan-verifikasi/{id}',
-        [KeadaanOptPadaPetakPengamatanTetapController::class, 'simpanVerifikasi']
-    )->name('keadaan-opt-pada-petak-pengamatan-tetap.simpan-verifikasi');
-
-}); 
+        Route::get('/', [KeadaanOptPadaPetakPengamatanTetapController::class, 'index'])->name('keadaan-opt-pada-petak-pengamatan-tetap.index');
+        Route::get('/create/{id_data}', [KeadaanOptPadaPetakPengamatanTetapController::class, 'create'])->name('keadaan-opt-pada-petak-pengamatan-tetap.create');
+        Route::post('/store', [KeadaanOptPadaPetakPengamatanTetapController::class, 'store'])->name('keadaan-opt-pada-petak-pengamatan-tetap.store');
+        Route::get('/detail/{id}', [KeadaanOptPadaPetakPengamatanTetapController::class, 'detail'])->name('keadaan-opt-pada-petak-pengamatan-tetap.detail');
+        Route::get('/edit/{id}', [KeadaanOptPadaPetakPengamatanTetapController::class, 'edit'])->name('keadaan-opt-pada-petak-pengamatan-tetap.edit');
+        Route::put('/update/{id}', [KeadaanOptPadaPetakPengamatanTetapController::class, 'update'])->name('keadaan-opt-pada-petak-pengamatan-tetap.update');
+        Route::post('/proses-verifikasi/{id}',[KeadaanOptPadaPetakPengamatanTetapController::class, 'prosesVerifikasi'])->name('keadaan-opt-pada-petak-pengamatan-tetap.proses-verifikasi');
+    });
     
 
-    Route::prefix('laporan-kerusakan-tanaman-akibat-banjir')
-    ->name('laporan-kerusakan-tanaman-akibat-banjir.')
-    ->group(function () {
+    Route::prefix('laporan-kerusakan-tanaman-akibat-banjir')->name('laporan-kerusakan-tanaman-akibat-banjir.')->group(function () {
 
-        Route::get(
-            '/',
-            [LaporanKerusakanTanamanAkibatBanjirController::class, 'index']
-        )->name('index');
-
-        Route::get(
-            '/create/{id_data}',
-            [LaporanKerusakanTanamanAkibatBanjirController::class, 'create']
-        )->name('create');
-
-        Route::post(
-            '/store',
-            [LaporanKerusakanTanamanAkibatBanjirController::class, 'store']
-        )->name('store');
-
-        Route::get(
-            '/detail/{id}',
-            [LaporanKerusakanTanamanAkibatBanjirController::class, 'detail']
-        )->name('detail');
-
-        Route::get(
-            '/edit/{id}',
-            [LaporanKerusakanTanamanAkibatBanjirController::class, 'edit']
-        )->name('edit');
-
-        Route::post(
-            '/update/{id}',
-            [LaporanKerusakanTanamanAkibatBanjirController::class,'update']
-        )->name('update');
-
-        Route::get(
-            '/verifikasi/{id}/{status}',
-            [LaporanKerusakanTanamanAkibatBanjirController::class, 'verifikasi']
-        )->name('verifikasi');
-
+        Route::get('/',[LaporanKerusakanTanamanAkibatBanjirController::class, 'index'])->name('index');
+        Route::get('/create/{id_data}',[LaporanKerusakanTanamanAkibatBanjirController::class, 'create'])->name('create');
+        Route::post('/store',[LaporanKerusakanTanamanAkibatBanjirController::class, 'store'])->name('store');
+        Route::get('/detail/{id}',[LaporanKerusakanTanamanAkibatBanjirController::class, 'detail'])->name('detail');
+        Route::get('/edit/{id}',[LaporanKerusakanTanamanAkibatBanjirController::class, 'edit'])->name('edit');
+        Route::post('/update/{id}',[LaporanKerusakanTanamanAkibatBanjirController::class,'update'])->name('update');
+        Route::get('/verifikasi/{id}/{status}',[LaporanKerusakanTanamanAkibatBanjirController::class, 'verifikasi'])->name('verifikasi');
     });
 
 
-   Route::prefix('laporan-kerusakan-tanaman-akibat-kekeringan')
-    ->name('laporan-kerusakan-tanaman-akibat-kekeringan.')
-    ->group(function () {
+   Route::prefix('laporan-kerusakan-tanaman-akibat-kekeringan')->name('laporan-kerusakan-tanaman-akibat-kekeringan.')->group(function () {
 
-        Route::get(
-            '/',
-            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'index']
-        )->name('index');
-
-        Route::get(
-            '/create/{id_data}',
-            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'create']
-        )->name('create');
-
-        Route::post(
-            '/store',
-            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'store']
-        )->name('store');
-
-        Route::get(
-            '/detail/{id}',
-            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'detail']
-        )->name('detail');
-
-        Route::get(
-            '/edit/{id}',
-            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'edit']
-        )->name('edit');
-
-        Route::put(
-            '/update/{id}',
-            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'update']
-        )->name('update');
-
-        Route::get(
-            '/verifikasi/{id}/{status}',
-            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'verifikasi']
-        )->name('verifikasi');
-
+        Route::get('/',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'index'])->name('index');
+        Route::get('/create/{id_data}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'create'])->name('create');
+        Route::post('/store',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'store'])->name('store');
+        Route::get('/detail/{id}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'detail'])->name('detail');
+        Route::get('/edit/{id}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'update'])->name('update');
+        Route::get('/verifikasi/{id}/{status}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'verifikasi'])->name('verifikasi');
     });
 
 
+    Route::prefix('informasi-perubahan-kategori-kekeringan')->name('informasi-perubahan-kategori-kekeringan.')->group(function () {
 
-    Route::prefix('informasi-perubahan-kategori-kekeringan')
-    ->name('informasi-perubahan-kategori-kekeringan.')
-    ->group(function () {
-
-        Route::get('/', [InformasiPerubahanKategoriKekeringanController::class, 'index'])
-            ->name('index');
-
-        Route::get('/create/{id_data}', [InformasiPerubahanKategoriKekeringanController::class, 'create'])
-            ->name('create');
-
-        Route::post('/store', [InformasiPerubahanKategoriKekeringanController::class, 'store'])
-            ->name('store');
-
-        Route::get('/detail/{id}', [InformasiPerubahanKategoriKekeringanController::class, 'detail'])
-            ->name('detail');
-
-        Route::get('/edit/{id}', [InformasiPerubahanKategoriKekeringanController::class, 'edit'])
-            ->name('edit');
-
-        Route::put('/update/{id}', [InformasiPerubahanKategoriKekeringanController::class, 'update'])
-            ->name('update');
+        Route::get('/', [InformasiPerubahanKategoriKekeringanController::class, 'index'])->name('index');
+        Route::get('/create/{id_data}', [InformasiPerubahanKategoriKekeringanController::class, 'create'])->name('create');
+        Route::post('/store', [InformasiPerubahanKategoriKekeringanController::class, 'store'])->name('store');
+        Route::get('/detail/{id}', [InformasiPerubahanKategoriKekeringanController::class, 'detail'])->name('detail');
+        Route::get('/edit/{id}', [InformasiPerubahanKategoriKekeringanController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [InformasiPerubahanKategoriKekeringanController::class, 'update'])->name('update');
     });
    
 
-    Route::prefix('laporan-kerusakan-tanaman-akibat-fisiologis')
-    ->name('laporan-kerusakan-tanaman-akibat-fisiologis.')
-    ->group(function () {
+    Route::prefix('laporan-kerusakan-tanaman-akibat-fisiologis')->name('laporan-kerusakan-tanaman-akibat-fisiologis.')->group(function () {
 
-        Route::get(
-            '/',
-            [LaporanKerusakanTanamanAkibatFisiologisController::class, 'index']
-        )->name('index');
-
-        Route::get(
-            '/create/{id_data}',
-            [LaporanKerusakanTanamanAkibatFisiologisController::class, 'create']
-        )->name('create');
-
-        Route::post(
-            '/store',
-            [LaporanKerusakanTanamanAkibatFisiologisController::class, 'store']
-        )->name('store');
-
-        Route::get(
-            '/detail/{id}',
-            [LaporanKerusakanTanamanAkibatFisiologisController::class, 'show']
-        )->name('detail');
-
-        Route::get(
-            '/edit/{id}',
-            [LaporanKerusakanTanamanAkibatFisiologisController::class, 'edit']
-        )->name('edit');
-
-        Route::put(
-            '/update/{id}',
-            [LaporanKerusakanTanamanAkibatFisiologisController::class, 'update']
-        )->name('update');
-
-        Route::get(
-            '/verifikasi/{id}/{status}',
-            [LaporanKerusakanTanamanAkibatFisiologisController::class, 'verifikasi']
-        )->name('verifikasi');
-
+        Route::get('/',[LaporanKerusakanTanamanAkibatFisiologisController::class, 'index'])->name('index');
+        Route::get('/create/{id_data}',[LaporanKerusakanTanamanAkibatFisiologisController::class, 'create'])->name('create');
+        Route::post('/store',[LaporanKerusakanTanamanAkibatFisiologisController::class, 'store'])->name('store');
+        Route::get('/detail/{id}',[LaporanKerusakanTanamanAkibatFisiologisController::class, 'show'])->name('detail');
+        Route::get('/edit/{id}',[LaporanKerusakanTanamanAkibatFisiologisController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}',[LaporanKerusakanTanamanAkibatFisiologisController::class, 'update'])->name('update');
+        Route::get('/verifikasi/{id}/{status}',[LaporanKerusakanTanamanAkibatFisiologisController::class, 'verifikasi'])->name('verifikasi');
     });
 
 
-    Route::prefix('laporan-kerusakan-tanaman-akibat-bencana-alam')
-    ->name('laporan-kerusakan-tanaman-akibat-bencana-alam.')
-    ->group(function () {
+    Route::prefix('laporan-kerusakan-tanaman-akibat-bencana-alam')->name('laporan-kerusakan-tanaman-akibat-bencana-alam.')->group(function () {
 
-        Route::get(
-            '/',
-            [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'index']
-        )->name('index');
-
-        Route::get(
-            '/create/{id_data}',
-            [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'create']
-        )->name('create');
-
-        Route::post(
-            '/store',
-            [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'store']
-        )->name('store');
-
-        Route::get(
-            '/detail/{id}',
-            [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'show']
-        )->name('detail');
-
-        Route::get(
-            '/edit/{id}',
-            [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'edit']
-        )->name('edit');
-
-        Route::put(
-            '/update/{id}',
-            [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'update']
-        )->name('update');
-
-        Route::delete(
-            '/delete/{id}',
-            [LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'destroy']
-        )->name('destroy');
-
+        Route::get('/',[LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'index'])->name('index');
+        Route::get('/create/{id_data}',[LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'create'])->name('create');
+        Route::post('/store',[LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'store'])->name('store');
+        Route::get('/detail/{id}',[LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'show'])->name('detail');
+        Route::get('/edit/{id}',[LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}',[LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}',[LaporanKerusakanTanamanAkibatBencanaAlamController::class, 'destroy'])->name('destroy');
     });
 
     
-    Route::prefix('tangkapan-lampu-perangkap')
-    ->name('tangkapan-lampu-perangkap.')
-    ->group(function () {
+    Route::prefix('tangkapan-lampu-perangkap')->name('tangkapan-lampu-perangkap.')->group(function () {
 
-        Route::get(
-            '/',
-            [TangkapanLampuPerangkapController::class, 'index']
-        )->name('index');
-
-        Route::get(
-            '/create/{id_data}',
-            [TangkapanLampuPerangkapController::class, 'create']
-        )->name('create');
-
-        Route::post(
-            '/store',
-            [TangkapanLampuPerangkapController::class, 'store']
-        )->name('store');
-
-        Route::get(
-            '/detail/{id}',
-            [TangkapanLampuPerangkapController::class, 'show']
-        )->name('detail');
-
-        Route::get(
-            '/edit/{id}',
-            [TangkapanLampuPerangkapController::class, 'edit']
-        )->name('edit');
-
-        Route::put(
-            '/update/{id}',
-            [TangkapanLampuPerangkapController::class, 'update']
-        )->name('update');
-
-        Route::delete(
-            '/delete/{id}',
-            [TangkapanLampuPerangkapController::class, 'destroy'
-        ])->name('destroy');
-
+        Route::get('/',[TangkapanLampuPerangkapController::class, 'index'])->name('index');
+        Route::get('/create/{id_data}',[TangkapanLampuPerangkapController::class, 'create'])->name('create');
+        Route::post('/store',[TangkapanLampuPerangkapController::class, 'store'])->name('store');
+        Route::get('/detail/{id}',[TangkapanLampuPerangkapController::class, 'show'])->name('detail');
+        Route::get('/edit/{id}',[TangkapanLampuPerangkapController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}',[TangkapanLampuPerangkapController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}',[TangkapanLampuPerangkapController::class, 'destroy'])->name('destroy');
     });
 
-    
 
-    // Kumulatif Luas Tambah Tanam Padi
+    Route::prefix('kumulatif-luas-tambah-tanam-padi')->group(function () {
 
-Route::prefix('kumulatif-luas-tambah-tanam-padi')->group(function () {
-
-    Route::get(
-        '/',
-        [KumulatifLuasTambahTanamPadiController::class, 'index']
-    )->name('kumulatif-luas-tambah-tanam-padi.index');
-
-    Route::get(
-        '/create/{id_data}',
-        [KumulatifLuasTambahTanamPadiController::class, 'create']
-    )->name('kumulatif-luas-tambah-tanam-padi.create');
-
-    Route::post(
-            '/store',
-            [KumulatifLuasTambahTanamPadiController::class,'store']
-        )->name('store');
-
-    Route::get(
-        '/detail/{id}',
-        [KumulatifLuasTambahTanamPadiController::class, 'show']
-    )->name('kumulatif-luas-tambah-tanam-padi.show');
-
-    Route::get(
-        '/{id}/edit',
-        [KumulatifLuasTambahTanamPadiController::class, 'edit']
-    )->name('kumulatif-luas-tambah-tanam-padi.edit');
-
-    Route::put(
-        '/{id}',
-        [KumulatifLuasTambahTanamPadiController::class, 'update']
-    )->name('kumulatif-luas-tambah-tanam-padi.update');
-
-    Route::delete(
-        '/{id}',
-        [KumulatifLuasTambahTanamPadiController::class, 'destroy']
-    )->name('kumulatif-luas-tambah-tanam-padi.destroy');
-
-});
+        Route::get('/',[KumulatifLuasTambahTanamPadiController::class, 'index'])->name('kumulatif-luas-tambah-tanam-padi.index');
+        Route::get('/create/{id_data}',[KumulatifLuasTambahTanamPadiController::class, 'create'])->name('kumulatif-luas-tambah-tanam-padi.create');
+        Route::post('/store',[KumulatifLuasTambahTanamPadiController::class,'store'])->name('store');
+        Route::get('/detail/{id}',[KumulatifLuasTambahTanamPadiController::class, 'show'])->name('kumulatif-luas-tambah-tanam-padi.show');
+        Route::get('/{id}/edit',[KumulatifLuasTambahTanamPadiController::class, 'edit'])->name('kumulatif-luas-tambah-tanam-padi.edit');
+        Route::put('/{id}',[KumulatifLuasTambahTanamPadiController::class, 'update'])->name('kumulatif-luas-tambah-tanam-padi.update');
+        Route::delete('/{id}',[KumulatifLuasTambahTanamPadiController::class, 'destroy'])->name('kumulatif-luas-tambah-tanam-padi.destroy');
+    });
 
 
+        Route::get('/penggunaan-pestisida',[PenggunaanPestisidaController::class,'index'])->name('penggunaan-pestisida.index');
+        Route::get('/penggunaan-pestisida/create/{id_data}',[PenggunaanPestisidaController::class,'create'])->name('penggunaan-pestisida.create');
+        Route::post('/penggunaan-pestisida',[PenggunaanPestisidaController::class,'store'])->name('penggunaan-pestisida.store');
+        Route::get('/penggunaan-pestisida/{id}',[PenggunaanPestisidaController::class,'show'])->name('penggunaan-pestisida.show');
+        Route::get('/penggunaan-pestisida/{id}/edit',[PenggunaanPestisidaController::class,'edit'])->name('penggunaan-pestisida.edit');
+        Route::put('/penggunaan-pestisida/{id}',[PenggunaanPestisidaController::class,'update'])->name('penggunaan-pestisida.update');
+        Route::delete('/penggunaan-pestisida/{id}',[PenggunaanPestisidaController::class,'destroy'])->name('penggunaan-pestisida.destroy');
 
 
-    Route::get(
-    '/penggunaan-pestisida',
-    [PenggunaanPestisidaController::class,'index']
-    )->name('penggunaan-pestisida.index');
+    Route::prefix('keadaan-curah-hujan')->group(function () {
 
-    Route::get(
-        '/penggunaan-pestisida/create/{id_data}',
-        [PenggunaanPestisidaController::class,'create']
-    )->name('penggunaan-pestisida.create');
-
-    Route::post(
-        '/penggunaan-pestisida',
-        [PenggunaanPestisidaController::class,'store']
-    )->name('penggunaan-pestisida.store');
-
-    Route::get(
-        '/penggunaan-pestisida/{id}',
-        [PenggunaanPestisidaController::class,'show']
-    )->name('penggunaan-pestisida.show');
-
-    Route::get(
-        '/penggunaan-pestisida/{id}/edit',
-        [PenggunaanPestisidaController::class,'edit']
-    )->name('penggunaan-pestisida.edit');
-
-    Route::put(
-        '/penggunaan-pestisida/{id}',
-        [PenggunaanPestisidaController::class,'update']
-    )->name('penggunaan-pestisida.update');
-
-    Route::delete(
-        '/penggunaan-pestisida/{id}',
-        [PenggunaanPestisidaController::class,'destroy']
-    )->name('penggunaan-pestisida.destroy');
-
-
-
- /*
-|--------------------------------------------------------------------------
-| Keadaan Curah Hujan
-|--------------------------------------------------------------------------
-*/
-
-Route::prefix('keadaan-curah-hujan')->group(function () {
-
-    Route::get(
-        '/',
-        [KeadaanCurahHujanController::class, 'index']
-    )->name('keadaan-curah-hujan.index');
-
-    Route::get(
-        '/create/{id_data}',
-        [KeadaanCurahHujanController::class, 'create']
-    )->name('keadaan-curah-hujan.create');
-
-    Route::post(
-        '/store',
-        [KeadaanCurahHujanController::class, 'store']
-    )->name('keadaan-curah-hujan.store');
-
-    Route::get(
-        '/{id}',
-        [KeadaanCurahHujanController::class, 'show']
-    )->name('keadaan-curah-hujan.show');
-
-    Route::get(
-        '/{id}/edit',
-        [KeadaanCurahHujanController::class, 'edit'
-    ])->name('keadaan-curah-hujan.edit');
-
-    Route::put(
-        '/{id}',
-        [KeadaanCurahHujanController::class, 'update']
-    )->name('keadaan-curah-hujan.update');
-
-    Route::delete(
-        '/{id}',
-        [KeadaanCurahHujanController::class, 'destroy']
-    )->name('keadaan-curah-hujan.destroy');
-
-});
+        Route::get('/',[KeadaanCurahHujanController::class, 'index'])->name('keadaan-curah-hujan.index');
+        Route::get('/create/{id_data}',[KeadaanCurahHujanController::class, 'create'])->name('keadaan-curah-hujan.create');
+        Route::post('/store',[KeadaanCurahHujanController::class, 'store'])->name('keadaan-curah-hujan.store');
+        Route::get('/{id}',[KeadaanCurahHujanController::class, 'show'])->name('keadaan-curah-hujan.show');
+        Route::get('/{id}/edit',[KeadaanCurahHujanController::class, 'edit'])->name('keadaan-curah-hujan.edit');
+        Route::put('/{id}',[KeadaanCurahHujanController::class, 'update'])->name('keadaan-curah-hujan.update');
+        Route::delete('/{id}',[KeadaanCurahHujanController::class, 'destroy'])->name('keadaan-curah-hujan.destroy');
+    });
 
     Route::prefix('pengamatan-penyebaran-dan-perkembangan-siput-murbey')->group(function () {
 
-        Route::get(
-            '/',
-            [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'index']
-        )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.index');
-
-        // CREATE
-        Route::get(
-            '/create/{id_data}',
-            [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'create']
-        )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.create');
-
-        // STORE
-        Route::post(
-            '/store',
-            [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'store']
-        )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.store');
-
-        // DETAIL
-        Route::get(
-            '/detail/{id}',
-            [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'detail']
-        )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.detail');
-
-        // EDIT
-        Route::get(
-                '/edit/{id}',
-                [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'edit']
-            )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.edit');
-
-            // UPDATE
-            Route::put(
-                '/update/{id}',
-                [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'update']
-            )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.update');
-
-            // HAPUS
-            Route::delete(
-                '/destroy/{id}',
-                [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'destroy']
-            )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.destroy');
-
-            // VERIFIKASI
-            Route::get(
-                '/verifikasi/{id}',
-                [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'verifikasi']
-            )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.verifikasi');
-
-            Route::post(
-                '/verifikasi/{id}',
-                [PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'prosesVerifikasi']
-            )->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.proses-verifikasi');
+        Route::get('/',[PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'index'])->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.index');
+        Route::get('/create/{id_data}',[PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'create'])->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.create');
+        Route::post('/store',[PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'store'])->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.store');
+        Route::get('/detail/{id}',[PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'detail'])->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.detail');
+        Route::get('/edit/{id}',[PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'edit'])->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.edit');
+        Route::put('/update/{id}',[PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'update'])->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.update');
+        Route::delete('/destroy/{id}',[PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'destroy'])->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.destroy');
+        Route::get('/verifikasi/{id}',[PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'verifikasi'])->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.verifikasi');
+        Route::post('/verifikasi/{id}',[PengamatanPenyebaranDanPerkembanganSiputMurbeyController::class, 'prosesVerifikasi'])->name('pengamatan-penyebaran-dan-perkembangan-siput-murbey.proses-verifikasi');
     });
 
 
+    Route::prefix('laporan-peringatan-dini')->group(function () {
 
-   
-
-Route::prefix('laporan-peringatan-dini')->group(function () {
-
-    Route::get(
-        '/',
-        [LaporanPeringatanDiniController::class, 'index']
-    )->name('laporan-peringatan-dini.index');
-
-    Route::get(
-        '/create/{id_data}',
-        [LaporanPeringatanDiniController::class, 'create']
-    )->name('laporan-peringatan-dini.create');
-
-    Route::post(
-        '/',
-        [LaporanPeringatanDiniController::class, 'store']
-    )->name('laporan-peringatan-dini.store');
-
-    Route::get(
-        '/detail/{id}',
-        [LaporanPeringatanDiniController::class, 'detail']
-    )->name('laporan-peringatan-dini.detail');
-
-    Route::get(
-        '/edit/{id}',
-        [LaporanPeringatanDiniController::class, 'edit']
-    )->name('laporan-peringatan-dini.edit');
-
-    Route::put(
-        '/{id}',
-        [LaporanPeringatanDiniController::class, 'update']
-    )->name('laporan-peringatan-dini.update');
-
-    Route::delete(
-        '/{id}',
-        [LaporanPeringatanDiniController::class, 'destroy']
-    )->name('laporan-peringatan-dini.destroy');
-
-    Route::get(
-        '/verifikasi/{id}',
-        [LaporanPeringatanDiniController::class, 'verifikasi']
-    )->name('laporan-peringatan-dini.verifikasi');
-
-    Route::post(
-        '/verifikasi/{id}',
-        [LaporanPeringatanDiniController::class, 'prosesVerifikasi']
-    )->name('laporan-peringatan-dini.proses-verifikasi');
-
-    Route::get('/get-opt/{idKomoditas}', [LaporanPeringatanDiniController::class, 'getOpt'])
-    ->name('laporan-peringatan-dini.get-opt');
+        Route::get('/',[LaporanPeringatanDiniController::class, 'index'])->name('laporan-peringatan-dini.index');
+        Route::get('/create/{id_data}',[LaporanPeringatanDiniController::class, 'create'])->name('laporan-peringatan-dini.create');
+        Route::post('/',[LaporanPeringatanDiniController::class, 'store'])->name('laporan-peringatan-dini.store');
+        Route::get('/detail/{id}',[LaporanPeringatanDiniController::class, 'detail'])->name('laporan-peringatan-dini.detail');
+        Route::get('/edit/{id}',[LaporanPeringatanDiniController::class, 'edit'])->name('laporan-peringatan-dini.edit');
+        Route::put('/{id}',[LaporanPeringatanDiniController::class, 'update'])->name('laporan-peringatan-dini.update');
+        Route::delete('/{id}',[LaporanPeringatanDiniController::class, 'destroy'])->name('laporan-peringatan-dini.destroy');
+        Route::get('/verifikasi/{id}',[LaporanPeringatanDiniController::class, 'verifikasi'])->name('laporan-peringatan-dini.verifikasi');
+        Route::post('/verifikasi/{id}',[LaporanPeringatanDiniController::class, 'prosesVerifikasi'])->name('laporan-peringatan-dini.proses-verifikasi');
+        Route::get('/get-opt/{idKomoditas}', [LaporanPeringatanDiniController::class, 'getOpt'])->name('laporan-peringatan-dini.get-opt');
+    });
 });
-
 
 Route::get('/dashboard', [DashboardController::class,'index'])
     ->name('dashboard');
@@ -753,12 +280,10 @@ Route::get('/dashboard', [DashboardController::class,'index'])
 
 
     //MANAJEMEN PENGGUNA
-    Route::middleware('permission:kelola_user')->group(function () {
-        Route::resource('user-aplikasi',UserAplikasiController::class);
-        Route::get('/role', [RoleController::class, 'index']);
-        Route::get('/role/{id}', [RoleController::class, 'show']);
-        Route::post('/role/{id}', [RoleController::class, 'update']);
-        
+    Route::middleware(['ceklogin','cekrole:pengelola_data'])->group(function () {
+        Route::resource('user-aplikasi', UserAplikasiController::class);
+        Route::get('/get-kecamatan/{idKabupaten}', [UserAplikasiController::class, 'getKecamatan'])->name('user-aplikasi.get-kecamatan');
+
     });
 });
 

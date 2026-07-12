@@ -219,7 +219,6 @@
 
         </thead>
         
-        <tbody id="tbody-opt">
             <input type="hidden"
                     name="id_tahun[]"
                     value="{{ $data->id_tahun }}">
@@ -233,6 +232,10 @@
                 value="{{ $data->id_periode }}">
 
             <input type="hidden"
+                name="id_musim_tanam"
+                value="{{ $data->id_musim_tanam }}">
+
+            <input type="hidden"
                 name="id_kabupaten_kota[]"
                 value="{{ $data->petugas->kecamatan->kabupaten->id_kabupaten_kota }}">
 
@@ -240,6 +243,11 @@
                 name="id_kecamatan[]"
                 value="{{ $data->petugas->id_kecamatan }}">
 
+            <input type="hidden"
+                name="id_petugas"
+                value="{{ $data->petugas->id_petugas }}">
+                
+            <tbody id="tbody-opt">
             <tr class="baris-opt">
 
                 <td class="table-danger">
@@ -409,7 +417,7 @@
         <div class="bg-pink p-2">
 
             <strong>
-                {{ $data->petugas->nama_petugas }}
+                {{ $data->petugas->nama }}
             </strong>
 
             <br>
