@@ -20,51 +20,77 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $data = DB::table(
-                'laporan_kerusakan_tanaman_akibat_banjir as l'
-            )
+{
+    $data = DB::table(
+        'laporan_kerusakan_tanaman_akibat_banjir as h'
+    )
 
-            ->leftJoin(
-                'kabupaten_kota as kab',
-                'l.id_kabupaten_kota',
-                '=',
-                'kab.id_kabupaten_kota'
-            )
+    ->leftJoin(
+        'kabupaten_kota as kab',
+        'h.id_kabupaten_kota',
+        '=',
+        'kab.id_kabupaten_kota'
+    )
 
-            ->leftJoin(
-                'kecamatan as kec',
-                'l.id_kecamatan',
-                '=',
-                'kec.id_kecamatan'
-            )
+    ->leftJoin(
+        'kecamatan as kec',
+        'h.id_kecamatan',
+        '=',
+        'kec.id_kecamatan'
+    )
 
-            ->leftJoin(
-                'periode as p',
-                'l.id_periode',
-                '=',
-                'p.id_periode'
-            )
+    ->leftJoin(
+        'periode as p',
+        'h.id_periode',
+        '=',
+        'p.id_periode'
+    )
 
-            ->select(
-                'l.*',
-                'kab.nama_kabupaten_kota',
-                'kec.nama_kecamatan',
-                'p.periode_pengamatan'
-            )
+    ->leftJoin(
+        'musim_tanam as mt',
+        'h.id_musim_tanam',
+        '=',
+        'mt.id_musim_tanam'
+    )
 
-            ->latest(
-                'l.id_laporan_kerusakan_tanaman_akibat_banjir'
-            )
+    ->leftJoin(
+        'det_laporan_kerusakan_tanaman_akibat_banjir as d',
+        'h.id_laporan_kerusakan_tanaman_akibat_banjir',
+        '=',
+        'd.id_laporan_kerusakan_tanaman_akibat_banjir'
+    )
 
-            ->get();
+    ->select(
+        'h.*',
+        'kab.nama_kabupaten_kota',
+        'kec.nama_kecamatan',
+        'p.periode_pengamatan',
+        'mt.musim_tanam',
 
-        return view(
-            'laporan_kerusakan_tanaman_akibat_banjir.index',
-            compact('data')
-        );
-    }
+        DB::raw('MIN(d.status_verifikasi) as status_verifikasi'),
 
+        DB::raw('GROUP_CONCAT(DISTINCT d.keterangan_verifikasi SEPARATOR ", ") as keterangan_verifikasi')
+    )
+
+    ->groupBy(
+        'h.id_laporan_kerusakan_tanaman_akibat_banjir',
+        'kab.nama_kabupaten_kota',
+        'kec.nama_kecamatan',
+        'p.periode_pengamatan',
+        'mt.musim_tanam'
+    )
+
+    ->latest(
+        'h.id_laporan_kerusakan_tanaman_akibat_banjir'
+    )
+
+    ->get();
+
+    return view(
+        'laporan_kerusakan_tanaman_akibat_banjir.index',
+        compact('data')
+    );
+}
     /**
      * Show the form for creating a new resource.
      */
@@ -430,9 +456,15 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
         ]);
     }
 
-    return redirect()
-        ->route('laporan-kerusakan-tanaman-akibat-banjir.detail', $id)
-        ->with('success', 'Data berhasil diperbarui');
+   return redirect()
+    ->route(
+        'laporan-kerusakan-tanaman-akibat-banjir.detail',
+        $id
+    )
+    ->with(
+        'success',
+        'Data berhasil diperbarui.'
+    );
 }
     private function decimal($value)
     {
@@ -449,4 +481,39 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
     {
         //
     }
+
+    public function prosesVerifikasi(Request $request, $id)
+{
+    foreach ($request->id_detail as $idDetail) {
+
+        DetLaporanKerusakanTanamanAkibatBanjir::where(
+            'id_det_laporan_kerusakan_tanaman_akibat_banjir',
+            $idDetail
+        )->update([
+
+            'status_verifikasi' =>
+                $request->status_verifikasi[$idDetail],
+
+            'keterangan_verifikasi' =>
+                $request->keterangan_verifikasi[$idDetail] ?? null,
+
+            'verified_by' =>
+                session('id_user'),
+
+            'verified_at' =>
+                now()
+
+        ]);
+    }
+
+    return redirect()
+        ->route(
+            'laporan-kerusakan-tanaman-akibat-banjir.detail',
+            $id
+        )
+        ->with(
+            'success',
+            'Verifikasi berhasil disimpan.'
+        );
+}
 }

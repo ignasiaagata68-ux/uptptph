@@ -1186,3 +1186,90 @@ MASTER DATA DROPDOWN
     transform:rotate(180deg);
 
 }
+
+/* ===========================
+   QUICK MENU
+=========================== */
+
+.quick-menu{
+    cursor:pointer;
+    border:none;
+    border-radius:14px;
+    transition:all .25s ease;
+}
+
+.quick-menu:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+
+}
+
+.quick-menu i{
+
+    transition:.25s;
+
+}
+
+.quick-menu:hover i{
+
+    transform:scale(1.18);
+
+}
+
+/* =====================================
+   UKURAN FONT DASHBOARD
+===================================== */
+
+.card-header{
+
+    font-size:30px;
+
+    font-weight:800;
+
+}
+
+.card-body{
+
+    font-size:30px;
+
+}
+
+.table{
+
+    font-size:30px;
+
+}
+
+.sidebar a{
+
+    font-size:30px;
+
+}
+
+.quick-menu h6{
+
+    font-size:30px;
+
+    font-weight:700;
+
+}
+
+.quick-menu small{
+
+    font-size:30px;
+
+}
+
+h2{
+
+    font-size:40px;
+
+}
+
+h5{
+
+    font-size:30px;
+
+}

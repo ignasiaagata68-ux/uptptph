@@ -65,4 +65,13 @@ class Data extends Model
             'id_musim_tanam'
         );
     }
+
+    public function pengiriman()
+    {
+        return $this->hasMany(
+            PengirimanLaporan::class,
+            'id_data',
+            'id_data'
+        );
+    }
 }

@@ -100,6 +100,23 @@
 <body>
 
 <div class="container mt-4">
+    @if(session('success'))
+
+    <div class="alert alert-success">
+
+        {{ session('success') }}
+
+    </div>
+
+    @endif
+
+    <form method="POST"
+    action="{{ route(
+    'laporan-kerusakan-tanaman-akibat-kekeringan.proses-verifikasi',
+    $header->id_laporan_kerusakan_tanaman_akibat_kekeringan
+    ) }}">
+
+    @csrf
     <div class="header-form">
 
     <table class="tbl-info-kiri">
@@ -184,12 +201,12 @@
         Koordinat
     </th>
 
-    <th colspan="2" class="bg-biru">
-        
+    <th class="bg-biru">
+        Status Verifikasi
     </th>
 
-    <th colspan="2" class="bg-biru">
-        
+    <th class="bg-biru">
+        Keterangan
     </th>
 
 </tr>
@@ -277,80 +294,50 @@
 </tr>
 
 </thead>
-        <tbody id="tbody-kekeringan">
+      <tbody>
 
-        @foreach($detail as $d)
+@foreach($detail as $d)
 
-        <tr class="baris-kekeringan">
-            <!-- THN -->
-            <td class="table-danger">{{ $d->id_tahun }}</td>
+<tr>
 
-            <!-- BLN -->
-            <td class="table-danger">{{ $d->id_bulan }}</td>
+    <td>TEST</td>
+    <td>{{ $d->id_det_laporan_kerusakan_tanaman_akibat_kekeringan }}</td>
+    <td>{{ $d->id_desa }}</td>
+    <td>{{ $d->id_komoditas }}</td>
 
-            <!-- PRD -->
-            <td class="table-danger">{{ $d->id_periode }}</td>
+</tr>
 
-            <!-- KAB -->
-            <td class="bg-hijau">{{ $header->nama_kabupaten_kota }}</td>
+@endforeach
 
-            <!-- KEC -->
-            <td class="bg-hijau">{{ $header->nama_kecamatan }}</td>
-
-            <!-- DES -->
-            <td class="table-success">{{ $d->desa->nama_desa ?? '-' }}</td>
-
-            <!-- TAN -->
-            <td>{{ $d->komoditas->komoditas ?? '-' }}</td>
-            <td>{{ $d->var }}</td>
-            <td>{{ $d->umr }}</td>
-            <td>{{ $d->lst }}</td>
-            <td>{{ $d->was }}</td>
-            <td>{{ $d->sp_r }}</td>
-            <td>{{ $d->sp_s }}</td>
-            <td>{{ $d->sp_b }}</td>
-            <td>{{ $d->sp_ps }}</td>
-            <td>{{ $d->sp_pl }}</td>
-            <td>{{ $d->sp_j }}</td>
-            <td>{{ $d->lt_r }}</td>
-            <td>{{ $d->lt_s }}</td>
-            <td>{{ $d->lt_b }}</td>
-            <td>{{ $d->lt_p }}</td>
-            <td>{{ $d->lt_j }}</td>
-            <td>{{ $d->lk_r }}</td>
-            <td>{{ $d->lk_s }}</td>
-            <td>{{ $d->lk_b }}</td>
-            <td>{{ $d->lk_p }}</td>
-            <td>{{ $d->lk_j }}</td>
-            <td>{{ $d->upy }}</td>
-            <td>{{ $d->l_upy }}</td>
-            <td>{{ $d->lat }}</td>
-            <td>{{ $d->long }}</td>
-            <td>
-                @if($d->status_verifikasi == 'benar')
-                    <span class="badge bg-success">Benar</span>
-                @elseif($d->status_verifikasi == 'salah')
-                    <span class="badge bg-danger">Salah</span>
-                @else
-                    <span class="badge bg-warning">Menunggu</span>
-                @endif
-            </td>
-            <td>{{ $d->keterangan_verifikasi }}</td>
-
-
-        </tr>
-        @endforeach
-    </tbody>
-      
+</tbody> 
 </table>
-</div>
-    <div>
-        <a href="{{ route('laporan-kerusakan-tanaman-akibat-kekeringan.index')}}"
-            class="btn btn-secondary">
 
-                Kembali
-        </a>
-    </div>
+@if(session('role') == 'lphp')
+
+<div class="mt-3">
+
+    <button
+        type="submit"
+        class="btn btn-success">
+
+        Simpan Verifikasi
+
+    </button>
+
+</div>
+
+@endif
+
+</form>
+
+<a href="{{ route('laporan-kerusakan-tanaman-akibat-kekeringan.index') }}"
+class="btn btn-secondary">
+
+    Kembali
+
+</a>
+
+</div>
 </body>
 </div>
 </html>

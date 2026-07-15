@@ -305,84 +305,137 @@
         </div>
         </li>
 
-            <li>
+         @if(session('role') == 'pengelola_data')
 
+        <li>
 
-                <a href="{{ url('/dashboard-opt') }}"
-                class="{{ request()->is('dashboard-opt') ? 'active' : '' }}">
+            <a href="{{ url('/dashboard-opt') }}"
+            class="{{ request()->is('dashboard-opt') ? 'active' : '' }}">
 
-                    <i class="bi bi-bar-chart-fill"></i>
+                <i class="bi bi-bar-chart-fill"></i>
 
-                    Dashboard OPT
+                Dashboard OPT
 
-                </a>
+            </a>
 
-            </li>
+        </li>
 
-            <li>
+        @endif
 
-                <a href="{{ url('/dashboard-dpi') }}"
-                class="{{ request()->is('dashboard-dpi') ? 'active' : '' }}">
+        @if(session('role') == 'pengelola_data')
 
-                    <i class="bi bi-cloud-rain-heavy-fill"></i>
+        <li>
 
-                    Dashboard DPI
+            <a href="{{ url('/dashboard-dpi') }}"
+            class="{{ request()->is('dashboard-dpi') ? 'active' : '' }}">
 
-                </a>
+                <i class="bi bi-cloud-rain-heavy-fill"></i>
 
-            </li>
+                Dashboard DPI
+
+            </a>
+
+        </li>
+
+        @endif
       
-            <li>
+        @if(session('role') == 'pengelola_data')
 
-                <a href="{{ url('/verifikasi') }}"
-                class="{{ request()->is('verifikasi') ? 'active' : '' }}">
+        <li>
 
-                    <i class="bi bi-check2-square"></i>
+            <a href="{{ url('/verifikasi') }}"
+            class="{{ request()->is('verifikasi') ? 'active' : '' }}">
 
-                    Verifikasi
+                <i class="bi bi-check2-square"></i>
+
+                Verifikasi
+
+            </a>
+
+        </li>
+
+        @endif
+
+        @if(session('role') == 'pengelola_data')
+
+        <li>
+
+            <a href="{{ url('/laporan') }}"
+            class="{{ request()->is('laporan') ? 'active' : '' }}">
+
+                <i class="bi bi-file-earmark-text-fill"></i>
+
+                Laporan
+
+            </a>
+
+        </li>
+
+        @endif
+
+        @if(session('role') == 'pengelola_data')
+
+        <li>
+
+            <a data-bs-toggle="collapse"
+                href="#sistemMenu">
+
+                <i class="bi bi-gear-fill"></i>
+
+                <span>Manajemen Sistem</span>
+
+                <i class="bi bi-chevron-down ms-auto"></i>
 
                 </a>
 
-            </li>
-
-            <li>
-
-                <a href="{{ url('/laporan') }}"
-                class="{{ request()->is('laporan') ? 'active' : '' }}">
-
-                    <i class="bi bi-file-earmark-text-fill"></i>
-
-                    Laporan
-
-                </a>
-
-            </li>
-
-            <li>
-
-                <a data-bs-toggle="collapse"
-                    href="#sistemMenu"
-                    aria-expanded="{{ request()->is('user-aplikasi*','role*','permission*','hak-akses*') ? 'true' : 'false' }}">
-
-                    <i class="bi bi-gear-fill"></i>
-
-                    <span>Manajemen Sistem</span>
-
-                    <i class="bi bi-chevron-down ms-auto"></i>
-
-                </a>
-
-                <div class="collapse {{ request()->is('user-aplikasi*','role*','permission*','hak-akses*') ? 'show' : '' }}"
+                <div class="collapse"
                     id="sistemMenu">
 
                     <ul class="submenu">
 
-                        <li><a href="/user-aplikasi">User Aplikasi</a></li>
+                        <li>
+                            <a href="/user-aplikasi">
+                                User Aplikasi
+                            </a>
+                        </li>
+
                     </ul>
 
                 </div>
 
             </li>
+
+            @endif
+
+            @if(session('role') == 'popt')
+
+            <li>
+
+                <a href="{{ url('/riwayat-pencatatan') }}">
+
+                    <i class="bi bi-clock-history"></i>
+
+                    Riwayat Pencatatan
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="{{ url('/notifikasi-lphp') }}">
+
+                    <i class="bi bi-bell-fill"></i>
+
+                    Notifikasi LPHP
+
+                </a>
+
+            </li>
+
+            @endif
+
+           
         </ul>
 
         <div class="sidebar-footer">

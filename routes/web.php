@@ -97,6 +97,8 @@ Route::middleware(['ceklogin','cekrole:pengelola_data'])->group(function () {
 
 Route::middleware(['ceklogin','cekrole:pengelola_data,popt,lphp'])->group(function () {
 
+    Route::get('/dashboard-popt',[DashboardController::class, 'index'])->name('dashboard-popt');
+
     //DATA PENGAMATAN
     Route::resource('data', DataController::class);
     Route::get('/sp/{id_data}',[SpController::class, 'create'])->name('sp.create');
@@ -149,7 +151,8 @@ Route::middleware(['ceklogin','cekrole:pengelola_data,popt,lphp'])->group(functi
         Route::post('/store',[LaporanKerusakanTanamanAkibatBanjirController::class, 'store'])->name('store');
         Route::get('/detail/{id}',[LaporanKerusakanTanamanAkibatBanjirController::class, 'detail'])->name('detail');
         Route::get('/edit/{id}',[LaporanKerusakanTanamanAkibatBanjirController::class, 'edit'])->name('edit');
-        Route::post('/update/{id}',[LaporanKerusakanTanamanAkibatBanjirController::class,'update'])->name('update');
+        Route::post('/update/{id}',[LaporanKerusakanTanamanAkibatBanjirController::class, 'update'])->name('update');
+        Route::post('/proses-verifikasi/{id}',[LaporanKerusakanTanamanAkibatBanjirController::class, 'prosesVerifikasi'])->name('proses-verifikasi');
         Route::get('/verifikasi/{id}/{status}',[LaporanKerusakanTanamanAkibatBanjirController::class, 'verifikasi'])->name('verifikasi');
     });
 
@@ -162,7 +165,7 @@ Route::middleware(['ceklogin','cekrole:pengelola_data,popt,lphp'])->group(functi
         Route::get('/detail/{id}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'detail'])->name('detail');
         Route::get('/edit/{id}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'edit'])->name('edit');
         Route::put('/update/{id}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'update'])->name('update');
-        Route::get('/verifikasi/{id}/{status}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'verifikasi'])->name('verifikasi');
+        Route::post('/proses-verifikasi/{id}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'prosesVerifikasi'])->name('proses-verifikasi');
     });
 
 
@@ -288,28 +291,6 @@ Route::get('/dashboard', [DashboardController::class,'index'])
 });
 
  
-
-Route::middleware(['ceklogin','cekrole:popt'])->group(function () {
-
-    Route::get('/dashboard-popt', function () {
-
-        return '
-        <h1>Dashboard POPT</h1>
-        <hr>
-
-        Login sebagai : '.session('username').'<br>
-        Role : '.session('role').'<br><br>
-
-        Menu Input Data POPT
-
-        <br><br>
-
-        <a href="/logout">Logout</a>
-        ';
-    });
-
-});
-
 
 Route::middleware(['ceklogin','cekrole:lphp'])->group(function () {
 

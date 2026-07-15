@@ -100,6 +100,28 @@
 <body>
 
 <div class="container mt-4">
+    @if(session('success'))
+
+<div class="alert alert-success alert-dismissible fade show">
+
+    {{ session('success') }}
+
+    <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert">
+    </button>
+
+</div>
+
+@endif
+    <form method="POST"
+        action="{{ route(
+            'laporan-kerusakan-tanaman-akibat-banjir.proses-verifikasi',
+            $header->id_laporan_kerusakan_tanaman_akibat_banjir
+        ) }}">
+
+    @csrf
     <div class="header-form">
 
     <table class="tbl-info-kiri">
@@ -290,6 +312,7 @@
                 <th class="bg-kuning">LONG</th>
                 <th class="bg-kuning">status</th>
                 <th class="bg-kuning">Keterangan</th>
+                <th class="bg-kuning">Aksi</th>
                 
             </tr>
 
@@ -378,14 +401,71 @@
                 <td>{{ $d->koordinat_latitude }}</td>
                 <td>{{ $d->koordinat_longitude }}</td>
                 <td>
-                    @if($d->status_verifikasi == 'benar')
-                        <span class="badge bg-success">Benar</span>
-                    @elseif($d->status_verifikasi == 'salah')
-                        <span class="badge bg-danger">Salah</span>
+
+                    @if(session('role') == 'lphp')
+
+                        <select
+                            name="status_verifikasi[{{ $d->id_det_laporan_kerusakan_tanaman_akibat_banjir }}]"
+                            class="form-select form-select-sm">
+
+                            <option value="menunggu"
+                            {{ $d->status_verifikasi == 'menunggu' ? 'selected' : '' }}>
+                                Menunggu
+                            </option>
+
+                            <option value="terverifikasi"
+                            {{ $d->status_verifikasi == 'terverifikasi' ? 'selected' : '' }}>
+                                Terverifikasi
+                            </option>
+
+                            <option value="perlu_perbaikan"
+                            {{ $d->status_verifikasi == 'perlu_perbaikan' ? 'selected' : '' }}>
+                                Perlu Perbaikan
+                            </option>
+
+                        </select>
+
                     @else
-                        <span class="badge bg-warning">Menunggu</span>
+
+                        @if($d->status_verifikasi == 'terverifikasi')
+
+                            <span class="badge bg-success">
+                                Terverifikasi
+                            </span>
+
+                        @elseif($d->status_verifikasi == 'perlu_perbaikan')
+
+                            <span class="badge bg-danger">
+                                Perlu Perbaikan
+                            </span>
+
+                        @else
+
+                            <span class="badge bg-warning text-dark">
+                                Menunggu
+                            </span>
+
+                        @endif
+
                     @endif
-                </td>
+
+                    </td>
+                    <td>
+
+                        @if(session('role') == 'lphp')
+
+                           <textarea
+                                name="keterangan_verifikasi[{{ $d->id_det_laporan_kerusakan_tanaman_akibat_banjir }}]"
+                                class="form-control form-control-sm">
+                            {{ $d->keterangan_verifikasi }}
+                            </textarea>
+                        @else
+
+                            {{ $d->keterangan_verifikasi ?? '-' }}
+
+                        @endif
+
+                    </td>
                 
 
         </tr>
@@ -395,6 +475,21 @@
     </tbody>
 
 </table>
+        @if(session('role') == 'lphp')
+
+        <div class="mb-3">
+
+            <button
+                type="submit"
+                class="btn btn-success">
+
+                Simpan Verifikasi
+
+            </button>
+
+        </div>
+
+        @endif
 
         </button>
 
@@ -404,7 +499,7 @@
         </a>
 
     </div>
-
+</form>
 </body>
 </div>
 </html>
