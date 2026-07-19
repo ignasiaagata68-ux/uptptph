@@ -64,9 +64,8 @@
 
             </thead>
 
-            <tbody>
+            <tbody id="tbodyData">
                 @foreach($detail as $d)
-                @if($d->status_verifikasi == 'perlu_perbaikan')
                 <tr>
 
                     <input
@@ -136,9 +135,11 @@
                                     {{ $m->nama_ma }}
 
                                 </option>
+
                             @endforeach
 
                         </select>
+                    </td>
 
                     <td>
                         <input
@@ -180,7 +181,6 @@
                     </td>
 
                 </tr>
-                @endif
                 @endforeach
 
             </tbody>
@@ -192,8 +192,13 @@
             class="btn btn-warning">
             Update
         </button>
-
-        <a href="{{ route('pengamatan-persemaian-padi.index') }}"
+        <button
+            type="button"
+            id="tambahBaris"
+            class="btn btn-success mb-3">
+            + Tambah Baris
+        </button>
+        <a href="{{route('pengamatan-persemaian-padi.show',$header->id_pengamatan_persemaian_padi)}}"
            class="btn btn-secondary">
             Kembali
         </a>
@@ -201,6 +206,43 @@
     </form>
 
 </div>
+<script>
 
+document.getElementById('tambahBaris').addEventListener('click', function () {
+
+    let tbody = document.getElementById('tbodyData');
+
+    let baris = tbody.querySelector("tr");
+
+    let row = baris.cloneNode(true);
+
+    // kosongkan semua input
+   row.querySelectorAll('input').forEach(function(input){
+
+    if(input.name=="id_detail[]"){
+
+        input.value='';
+
+    }else{
+
+        input.value='';
+
+    }
+
+});
+
+
+    // reset select
+    row.querySelectorAll("select").forEach(function(select){
+
+        select.selectedIndex=0;
+
+    });
+
+    tbody.appendChild(row);
+
+});
+
+</script>
 </body>
 </html>

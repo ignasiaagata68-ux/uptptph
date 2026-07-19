@@ -466,8 +466,26 @@
                         @endif
 
                     </td>
-                
+                    <td>
 
+                        @if(
+                            session('role') == 'popt'
+                            && $d->status_verifikasi == 'perlu_perbaikan'
+                        )
+
+                            <a href="{{ route(
+                                'laporan-kerusakan-tanaman-akibat-banjir.edit',
+                                $d->id_det_laporan_kerusakan_tanaman_akibat_banjir
+                            ) }}"
+                            class="btn btn-warning btn-sm">
+
+                                Edit
+
+                            </a>
+
+                        @endif
+
+                    </td>
         </tr>
 
         @endforeach
@@ -494,9 +512,26 @@
         </button>
 
         <a href="{{ route('laporan-kerusakan-tanaman-akibat-banjir.index') }}"
-        class="btn btn-secondary">
-            Kembali
-        </a>
+            class="btn btn-secondary">
+                Kembali
+            </a>
+
+            @if(
+                session('role') == 'popt'
+                && collect($detail)->every(function ($item) {
+                    return $item->status_verifikasi == 'menunggu';
+                })
+            )
+
+            <a href="{{ route(
+                'laporan-kerusakan-tanaman-akibat-banjir.edit',
+                $header->id_laporan_kerusakan_tanaman_akibat_banjir
+            ) }}"
+            class="btn btn-warning">
+                Edit
+            </a>
+
+            @endif
 
     </div>
 </form>

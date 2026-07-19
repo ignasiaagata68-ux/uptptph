@@ -34,6 +34,7 @@ use App\Http\Controllers\PengamatanPenyebaranDanPerkembanganSiputMurbeyControlle
 use App\Http\Controllers\LaporanPeringatanDiniController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardPengelolaController;
+use App\Http\Controllers\PengirimanLaporanController;
 
 
 
@@ -102,8 +103,11 @@ Route::middleware(['ceklogin','cekrole:pengelola_data,popt,lphp'])->group(functi
     //DATA PENGAMATAN
     Route::resource('data', DataController::class);
     Route::get('/sp/{id_data}',[SpController::class, 'create'])->name('sp.create');
+    Route::post('/sp/{id_data}/kirim', [SpController::class, 'kirim'])->name('sp.kirim');
     
-    
+
+    Route::get('/pengiriman-laporan', [PengirimanLaporanController::class, 'index'])->name('pengiriman-laporan.index');
+
     Route::prefix('pengamatan-persemaian-padi')->group(function () {
 
         Route::get('/',[PengamatanPersemaianPadiController::class, 'index'])->name('pengamatan-persemaian-padi.index');
@@ -129,6 +133,9 @@ Route::middleware(['ceklogin','cekrole:pengelola_data,popt,lphp'])->group(functi
         Route::post('/update/{id}', [KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'update'])->name('keadaan-serangan-opt.update');
         Route::post('/proses-verifikasi/{id}',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'prosesVerifikasi'])->name('keadaan-serangan-opt.proses-verifikasi');
         Route::get('/verifikasi/{id}/{status}',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'verifikasi'])->name('keadaan-serangan-opt.verifikasi');
+        Route::get('/get-opt/{idKomoditas}', [KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'getOpt'])->name('keadaan-serangan-opt.get-opt');
+        Route::get('/edit-revisi/{idDetail}',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'editRevisi'])->name('keadaan-serangan-opt.edit-revisi');
+        Route::post('/update-revisi/{idDetail}',[KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController::class, 'updateRevisi'])->name('keadaan-serangan-opt.update-revisi');
     });
     
 
@@ -154,7 +161,7 @@ Route::middleware(['ceklogin','cekrole:pengelola_data,popt,lphp'])->group(functi
         Route::post('/update/{id}',[LaporanKerusakanTanamanAkibatBanjirController::class, 'update'])->name('update');
         Route::post('/proses-verifikasi/{id}',[LaporanKerusakanTanamanAkibatBanjirController::class, 'prosesVerifikasi'])->name('proses-verifikasi');
         Route::get('/verifikasi/{id}/{status}',[LaporanKerusakanTanamanAkibatBanjirController::class, 'verifikasi'])->name('verifikasi');
-    });
+        });
 
 
    Route::prefix('laporan-kerusakan-tanaman-akibat-kekeringan')->name('laporan-kerusakan-tanaman-akibat-kekeringan.')->group(function () {
@@ -291,48 +298,20 @@ Route::get('/dashboard', [DashboardController::class,'index'])
 });
 
  
-
-Route::middleware(['ceklogin','cekrole:lphp'])->group(function () {
+Route::middleware(['ceklogin', 'cekrole:lphp'])->group(function () {
 
     Route::get('/dashboard-lphp', function () {
-
-        return '
-        <h1>Dashboard LPHP</h1>
-        <hr>
-
-        Login sebagai : '.session('username').'<br>
-        Role : '.session('role').'<br><br>
-
-        Menu Input Data LPHP
-
-        <br><br>
-
-        <a href="/logout">Logout</a>
-        ';
+        return view('dashboard.lphp');
     });
-
-    
 
 });
 
-Route::middleware(['ceklogin','cekrole:pimpinan'])->group(function () {
+Route::middleware(['ceklogin', 'cekrole:pimpinan'])->group(function () {
 
     Route::get('/dashboard-pimpinan', function () {
-
-        return '
-        <h1>Dashboard Pimpinan</h1>
-        <hr>
-
-        Login sebagai : '.session('username').'<br>
-        Role : '.session('role').'<br><br>
-
-        Menu Laporan
-
-        <br><br>
-
-        <a href="/logout">Logout</a>
-        ';
+        return view('dashboard.pimpinan');
     });
+
 });
 
 Route::get('/login', [AuthController::class, 'login']);

@@ -15,7 +15,7 @@ class KeadaanSeranganOptDanPengendalianDiWilayahPengamatan extends Model
     public $timestamps = false;
 
     protected $fillable = [
-
+        'id_data',
         'id_kecamatan',
         'id_kabupaten_kota',
         'id_periode',

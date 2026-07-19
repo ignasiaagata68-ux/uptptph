@@ -64,11 +64,9 @@
         (Padi/Jagung)
     </h5>
 
-    <form action="{{ route('keadaan-serangan-opt.update',
-        $header->id_keadaan_serangan_opt_dan_pengendalian_di_wilayah) }}"
-      method="POST">
+    <form action="{{ route('keadaan-serangan-opt.update', $header->id_keadaan_serangan_opt_dan_pengendalian_di_wilayah) }}" method="POST">
 
-        @csrf
+    @csrf
 
         <div class="row mb-3">
 
@@ -265,7 +263,6 @@
 
         <tbody id="tbody-opt">
             @foreach($detail as $d)
-            @if($d->status_verifikasi == 'perlu_perbaikan')
             <tr>
                 <input
                     type="hidden"
@@ -317,8 +314,9 @@
             <!-- DESA -->
             <td class="bg-hijau">
 
-                <select name="id_desa[]" class="form-select">
+                <select name="id_desa[]" class="form-select desa">
 
+                <option value="">-- Pilih DESA --</option>
                 @foreach($desa as $desaItem)
 
                 <option value="{{ $desaItem->id_desa }}"
@@ -337,7 +335,9 @@
             <!-- KOMODITAS -->
             <td class="bg-hijau">
 
-                <select name="id_komoditas[]" class="form-select">
+                <select name="id_komoditas[]" class="form-select komoditas">
+
+                <option value="">-- Pilih KOMODITAS --</option>
 
                 @foreach($komoditas as $k)
 
@@ -372,22 +372,23 @@
 
                 <!-- OPT -->
                 <td class="bg-hijau">
+                    <select name="id_opt[]" class="form-select opt">
 
-                    <select name="id_opt[]" class="form-select">
+                    <option value="">-- Pilih OPT --</option>
 
                     @foreach($opt as $o)
 
-                    <option value="{{ $o->id_opt }}"
-                        {{ $o->id_opt == $d->id_opt ? 'selected' : '' }}>
+                        <option
+                            value="{{ $o->id_opt }}"
+                            {{ $o->id_opt == $d->id_opt ? 'selected' : '' }}>
 
-                        {{ $o->nama_opt }}
+                            {{ $o->nama_opt }}
 
-                    </option>
+                        </option>
 
                     @endforeach
 
-                    </select>
-
+                </select>
                 </td>
 
                 <!-- S_R -->
@@ -573,7 +574,6 @@
                 </td>
 
             </tr>
-            @endif
             @endforeach
 
         </tbody>
@@ -584,20 +584,25 @@
 
 <div class="mt-3">
 
+    @if($detail->count() > 1)
+
     <button type="button"
             id="tambahBaris"
             class="btn btn-primary">
-            Tambah Baris
+        Tambah Baris
     </button>
+
+    @endif
 
     <button type="submit"
             class="btn btn-success">
         Update
     </button>
 
-    <a href="{{ route('keadaan-serangan-opt.index') }}"
-       class="btn btn-secondary">
-        Kembali
+    <a href="{{ route(
+        'keadaan-serangan-opt.show',$header->id_keadaan_serangan_opt_dan_pengendalian_di_wilayah) }}"
+        class="btn btn-secondary">
+            Kembali
     </a>
 
 </div>
@@ -662,7 +667,15 @@ document.getElementById('tambahBaris').addEventListener('click', function(){
 
     console.log(tbody);
     console.log(tbody.lastElementChild);
-    let row = tbody.lastElementChild.cloneNode(true);
+    if(tbody.rows.length==0){
+
+        alert('Tidak ada baris');
+
+        return;
+
+    }
+
+    let row = tbody.rows[0].cloneNode(true);
 
     row.querySelectorAll('input').forEach(function(input){
 
@@ -672,10 +685,20 @@ document.getElementById('tambahBaris').addEventListener('click', function(){
 
     });
 
+    row.querySelectorAll('input').forEach(function(input){
+
+    if(input.classList.contains('readonly')){
+
+    input.value=0;
+
+    }
+
+    });
+
     let idDetail = row.querySelector('input[name="id_detail[]"]');
 
     if (idDetail) {
-        idDetail.remove();
+        idDetail.value = "";
     }
 
     row.querySelectorAll('select').forEach(function(select){
@@ -688,6 +711,33 @@ document.getElementById('tambahBaris').addEventListener('click', function(){
 
 });
 
+</script>
+<script>
+    document.addEventListener('change', function(e){
+
+        if(!e.target.classList.contains('komoditas')) return;
+
+        let row = e.target.closest('tr');
+        let optSelect = row.querySelector('.opt');
+        let idKomoditas = e.target.value;
+
+        fetch('/keadaan-serangan-opt/get-opt/' + idKomoditas)
+            .then(res => res.json())
+            .then(data => {
+
+                optSelect.innerHTML = '<option value="">-- Pilih OPT --</option>';
+
+                data.forEach(function(opt){
+
+                    optSelect.innerHTML += `
+                        <option value="${opt.id_opt}">
+                            ${opt.nama_opt}
+                        </option>`;
+                });
+
+            });
+
+    });
 </script>
 </body>
 </html>

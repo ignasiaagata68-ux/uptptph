@@ -197,18 +197,12 @@
                         class="form-select"
                         required>
 
-                        <option value="">
-                            -- Pilih Kelompok Tani --
-                        </option>
+                        <option value="">-- Pilih Kelompok Tani --</option>
 
-                        @foreach($kelompokTani as $kt)
-
-                            <option value="{{ $kt->id_kelompok_tani }}">
-
-                                {{ $kt->nama_kelompok }}
-
+                        @foreach($kelompokTani as $k)
+                            <option value="{{ $k->id_kelompok_tani }}">
+                                {{ $k->nama_kelompok }}
                             </option>
-
                         @endforeach
 
                     </select>
@@ -242,7 +236,7 @@
                     <input
                     type="date"
                     name="tgl_pengamatan"
-                    value="{{ date('Y-m-d') }}">
+                    value="{{ $data->tanggal_laporan }}">
 
                 </td>
 
@@ -568,15 +562,26 @@
 
                 </button>
 
+                @if($statusLaporan->status == 'Draft' || $statusLaporan->status == 'Perlu Perbaikan')
+
                 <button
                     type="submit"
                     class="btn btn-success">
-
                     Simpan
-
                 </button>
 
-                <a href="{{ route('pengamatan-persemaian-padi.index') }}"
+            @else
+
+                <button
+                    type="button"
+                    class="btn btn-success"
+                    disabled>
+                    Simpan
+                </button>
+
+            @endif
+
+                <a href="{{ route('sp.create', $data->id_data) }}"
                     class="btn btn-secondary">
                     Kembali
                 </a>
@@ -803,6 +808,34 @@
         });
 
     </script>
+   <script>
+document.getElementById('id_desa').addEventListener('change', function () {
+
+    let idDesa = this.value;
+
+    fetch("{{ url('pengamatan-persemaian-padi/kelompok-tani') }}/" + idDesa)
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        let select = document.getElementById('id_kelompok_tani');
+
+        select.innerHTML = '<option value="">-- Pilih Kelompok Tani --</option>';
+
+        data.forEach(function(item){
+
+            select.innerHTML +=
+                `<option value="${item.id_kelompok_tani}">
+                    ${item.nama_kelompok}
+                </option>`;
+
+        });
+
+    });
+
+});
+</script>
 </body>
 </html>
 

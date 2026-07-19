@@ -306,7 +306,7 @@
             <tbody id="tbody-banjir">
 
                 @foreach($detail as $d)
-
+      
                 <input type="hidden"
                     name="id_tahun[]"
                     value="{{ $d->id_tahun }}">
@@ -500,7 +500,7 @@
                         name="luas_tambah_terkena[]"
                         value="{{ $d->luas_tambah_terkena }}"
                         class="form-control lt_t"
-                        style="min-width:100px;">
+                        style="min-width:150px;">
                 </td>
 
                 <!-- LT_P -->
@@ -510,7 +510,7 @@
                         name="luas_tambah_puso[]"
                         value="{{ $d->luas_tambah_puso }}"
                         class="form-control lt_p"
-                        style="min-width:100px;">
+                        style="min-width:150px;">
                 </td>
 
                 <!-- LK_T -->
@@ -519,6 +519,7 @@
                         name="luas_keadaan_terkena[]"
                         value="{{ $d->luas_keadaan_terkena }}"
                         class="form-control lk_t"
+                        style="min-width:150px;"
                         readonly>
                 </td>
 
@@ -532,7 +533,7 @@
                         value="{{ $d->luas_keadaan_puso }}"
                         class="form-control lk_p"
                         readonly
-                        style="min-width:100px;">
+                        style="min-width:150px;">
                 </td>
 
                 <!-- UPY -->
@@ -652,44 +653,45 @@
 </form>
 
 </body>
-    <script>
+<script>
+    document.getElementById('tambahBaris').addEventListener('click', function () {
 
-document.getElementById('tambahBaris')
-.addEventListener('click', function(){
+    let tbody = document.getElementById('tbody-banjir');
 
-    let tbody =
-        document.getElementById('tbody-banjir');
+    if (tbody.rows.length == 0) {
+        alert('Tidak ada baris');
+        return;
+    }
 
-    let contohBaris =
-        document.querySelector('.baris-banjir');
+    let row = tbody.rows[0].cloneNode(true);
 
-    let barisBaru =
-        contohBaris.cloneNode(true);
+    // Kosongkan input
+    row.querySelectorAll('input').forEach(function (input) {
 
-    barisBaru.querySelectorAll('input')
-    .forEach(function(input){
+        if (input.type === 'hidden') {
 
-        if(input.type === 'hidden'){
-
-            if(input.name == 'id_detail[]'){
+            if (input.name === 'id_detail[]') {
                 input.value = '';
             }
 
-            return;
+        } else {
+
+            input.value = '';
+
         }
+
     });
 
-    barisBaru.querySelectorAll('select')
-    .forEach(function(select){
+    // Reset semua select
+    row.querySelectorAll('select').forEach(function (select) {
 
         select.selectedIndex = 0;
 
     });
 
-    tbody.appendChild(barisBaru);
+    tbody.appendChild(row);
 
 });
-
 </script>
 <script>
 

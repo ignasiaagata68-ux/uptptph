@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <title>SP - Surat Pengantar</title>
 
-```
 <style>
 
     body{
@@ -47,11 +46,34 @@
         text-align:center;
     }
 
+    table a{
+    color:black;
+    text-decoration:none;
+    font-weight:bold;
+    }
+
+    table a:hover{
+        color:blue;
+        text-decoration:underline;
+    }
+
 </style>
-```
+
 
 </head>
 <body>
+    @if(session('success'))
+    <div style="
+        background:#d4edda;
+        color:#155724;
+        border:1px solid #c3e6cb;
+        padding:10px;
+        margin-bottom:15px;
+        font-weight:bold;
+        ">
+            {{ session('success') }}
+        </div>
+    @endif
 
 
 <div class="judul">
@@ -165,90 +187,147 @@
 
 </table>
 
-<br><br>
+    <br><br>
 
-Dengan ini kami laporkan bahwa berdasarkan hasil pengamatan periode,
+    Dengan ini kami laporkan bahwa berdasarkan hasil pengamatan periode,
 
-<br>
+    <br>
 
-<span class="pink">
-    {{ $data->periode->periode_pengamatan }}
-</span>
+    <span class="pink">
+        {{ $data->periode->periode_pengamatan }}
+    </span>
 
-yang terdiri dari laporan :
+    yang terdiri dari laporan :
 
-<br><br>
-
+    <br><br>
 <table>
 
     <tr>
-        <td>1. Pengamatan persemaian padi</td>
+        <td>
+            <a href="{{ route('pengamatan-persemaian-padi.create',$data->id_data) }}">
+                1. Pengamatan Persemaian Padi
+            </a>
+        </td>
         <td class="checklist">V</td>
     </tr>
 
     <tr>
-        <td>2. Keadaan Serangan OPT Pangan dan Luas Pengendalian ( Pengamatan Keliling )</td>
+        <td>
+            <a href="{{ route('keadaan-serangan-opt.create',$data->id_data) }}">
+                2. Keadaan Serangan OPT Pangan dan Luas Pengendalian (Pengamatan Keliling)
+            </a>
+        </td>
+        <td class="checklist">
+            {{ $adaKeadaanSerangan ? '✓' : '-' }}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <a href="{{ route('keadaan-opt-pada-petak-pengamatan-tetap.create',$data->id_data) }}">
+                3. Keadaan OPT Pada Petak Pengamatan Tetap
+            </a>
+        </td>
         <td class="checklist">V</td>
     </tr>
 
     <tr>
-        <td>3. Keadaan OPT Pada Petak Pengamatan Tetap</td>
+        <td>
+            <a href="{{ route('laporan-kerusakan-tanaman-akibat-banjir.create',$data->id_data) }}">
+                4. Kerusakan Tanaman Akibat Banjir
+            </a>
+        </td>
         <td class="checklist">V</td>
     </tr>
 
     <tr>
-        <td>4. Kerusakan Tanaman Akibat Banjir</td>
+        <td>
+            <a href="{{ route('laporan-kerusakan-tanaman-akibat-kekeringan.create',$data->id_data) }}">
+                5. Kerusakan Tanaman Akibat Kekeringan
+            </a>
+        </td>
         <td class="checklist">V</td>
     </tr>
 
     <tr>
-        <td>5. Kerusakan Tanaman Akibat Kekeringan</td>
+        <td>
+            <a href="{{ route('informasi-perubahan-kategori-kekeringan.create',$data->id_data) }}">
+                6. Perubahan Kategori Kekeringan
+            </a>
+        </td>
         <td class="checklist">V</td>
     </tr>
 
     <tr>
-        <td>6. Perubahan Kategori Kekeringan</td>
+        <td>
+            <a href="{{ route('laporan-kerusakan-tanaman-akibat-fisiologis.create',$data->id_data) }}">
+                7. Kerusakan Tanaman Akibat Gangguan Fisiologis
+            </a>
+        </td>
         <td class="checklist">V</td>
     </tr>
 
     <tr>
-        <td>7. Kerusakan Tanaman Akibat Gangguan Fisiologis</td>
+        <td>
+            <a href="{{ route('laporan-kerusakan-tanaman-akibat-bencana-alam.create',$data->id_data) }}">
+                8. Kerusakan Tanaman Akibat Bencana Alam
+            </a>
+        </td>
         <td class="checklist">V</td>
     </tr>
 
     <tr>
-        <td>8. Kerusakan Tanaman Akibat Bencana Alam</td>
-        <td class="checklist">V</td>
-    </tr>
-
-    <tr>
-        <td>9. Tangkapan Lampu Perangkap</td>
+        <td>
+            <a href="{{ route('tangkapan-lampu-perangkap.create',$data->id_data) }}">
+                9. Tangkapan Lampu Perangkap
+            </a>
+        </td>
         <td class="checklist">-</td>
     </tr>
 
     <tr>
-        <td>10. Kumulatif Luas Tambah Tanam Padi</td>
+        <td>
+            <a href="{{ route('kumulatif-luas-tambah-tanam-padi.create',$data->id_data) }}">
+                10. Kumulatif Luas Tambah Tanam Padi
+            </a>
+        </td>
         <td class="checklist">V</td>
     </tr>
 
     <tr>
-        <td>11. Penggunaan Pestisida</td>
+        <td>
+            <a href="{{ route('penggunaan-pestisida.create',$data->id_data) }}">
+                11. Penggunaan Pestisida
+            </a>
+        </td>
         <td class="checklist">V</td>
     </tr>
 
     <tr>
-        <td>12. Keadaan Curah Hujan</td>
+        <td>
+            <a href="{{ route('keadaan-curah-hujan.create',$data->id_data) }}">
+                12. Keadaan Curah Hujan
+            </a>
+        </td>
         <td class="checklist">V</td>
     </tr>
 
     <tr>
-        <td>13. Pengamatan Penyebaran dan Perkembangan Siput Murbei</td>
+        <td>
+            <a href="{{ route('pengamatan-penyebaran-dan-perkembangan-siput-murbey.create',$data->id_data) }}">
+                13. Pengamatan Penyebaran dan Perkembangan Siput Murbei
+            </a>
+        </td>
         <td class="checklist">V</td>
     </tr>
 
     <tr>
-        <td>14. Laporan Peringatan Dini</td>
-        <td class="checklist"></td>
+        <td>
+            <a href="{{ route('laporan-peringatan-dini.create',$data->id_data) }}">
+                14. Laporan Peringatan Dini
+            </a>
+        </td>
+        <td class="checklist">V</td>
     </tr>
 
 </table>
@@ -290,17 +369,21 @@ Tembusan Kepada Yth.
     </b>
 
 </div>
-<div class="text-end mt-4">
+</body>
+@if(session('role') == 'popt')
 
-    <a
-        href="{{ route('pengamatan-persemaian-padi.create',$data->id_data) }}"
-        class="btn btn-primary">
+<div style="margin-top:20px; text-align:center;">
+    <form action="{{ route('sp.kirim', $data->id_data) }}" method="POST">
+        @csrf
 
-        Next >>
-
-    </a>
-
+        <button type="submit">
+            Kirim ke LPHP
+        </button>
+    </form>
 </div>
 
+@endif
+
 </body>
+</form>
 </html>

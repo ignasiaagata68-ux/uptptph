@@ -68,6 +68,10 @@
           method="POST">
 
         @csrf
+        <input
+            type="hidden"
+            name="id_data"
+            value="{{ $data->id_data }}">
 
         <div class="row mb-3">
 
@@ -347,8 +351,7 @@
             <!-- KOMODITAS -->
             <td class="bg-hijau">
 
-                <select name="id_komoditas[]"
-                        class="form-select">
+                <select name="id_komoditas[]" class="form-select komoditas">
 
                     <option value="">
                         Pilih
@@ -383,21 +386,8 @@
                 <!-- OPT -->
                 <td class="bg-hijau">
 
-                    <select name="id_opt[]"
-                            class="form-select">
-
-                        <option value="">
-                            Pilih
-                        </option>
-
-                        @foreach($opt as $o)
-
-                        <option value="{{ $o->id_opt }}">
-                            {{ $o->nama_opt }}
-                        </option>
-
-                        @endforeach
-
+                    <select name="id_opt[]" class="form-select opt" disabled>
+                        <option value="">-- Pilih Komoditas Terlebih Dahulu --</option>
                     </select>
 
                 </td>
@@ -644,6 +634,46 @@ document.addEventListener('input', function(e){
     tbody.appendChild(row);
 
     });
+</script>
+<script>
+document.addEventListener('change', function (e) {
+
+    if (!e.target.classList.contains('komoditas')) return;
+
+    let row = e.target.closest('tr');
+
+    let idKomoditas = e.target.value;
+
+    let optSelect = row.querySelector('.opt');
+
+    optSelect.disabled = true;
+
+    optSelect.innerHTML =
+        '<option>Loading...</option>';
+
+    fetch('/keadaan-serangan-opt/get-opt/' + idKomoditas)
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        optSelect.innerHTML =
+            '<option value="">-- Pilih OPT --</option>';
+
+        data.forEach(function(opt){
+
+            optSelect.innerHTML +=
+                `<option value="${opt.id_opt}">
+                    ${opt.nama_opt}
+                </option>`;
+
+        });
+
+        optSelect.disabled = false;
+
+    });
+
+});
 </script>
 </body>
 </head>

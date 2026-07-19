@@ -65,6 +65,9 @@
       action="{{ route('keadaan-serangan-opt.proses-verifikasi', $header->id_keadaan_serangan_opt_dan_pengendalian_di_wilayah) }}">
 
     @csrf
+    <div class="alert alert-info">
+        Role : {{ session('role') }}
+    </div>
     <h3>Detail Keadaan Serangan OPT dan Pengendaliannya</h3>
     <div class="table-responsive">
 
@@ -217,48 +220,38 @@
 
                     </td>
 
-                    <td>
+                <td>
 
-                        @if(session('role') == 'lphp')
+                    @if(session('role') == 'lphp')
 
-                            <textarea
-                                name="keterangan_verifikasi[{{ $d->id_det_keadaan_serangan_opt_dan_pengendalian_di_wilayah }}]"
-                                class="form-control form-control-sm"
-                                rows="2">{{ $d->keterangan_verifikasi }}</textarea>
+                        <textarea
+                            name="keterangan_verifikasi[{{ $d->id_det_keadaan_serangan_opt_dan_pengendalian_di_wilayah }}]"
+                            class="form-control form-control-sm"
+                            rows="2">{{ $d->keterangan_verifikasi }}</textarea>
 
-                        @else
+                    @else
 
-                            {{ $d->keterangan_verifikasi ?? '-' }}
+                        {{ $d->keterangan_verifikasi ?? '-' }}
 
-                        @endif
+                    @endif
 
-                    </td>
-                    <td>
+                </td>
 
-                        @if(session('role') == 'popt')
+                <td>
 
-                            @if($d->status_verifikasi == 'perlu_perbaikan')
+                    @if(
+                        session('role') == 'popt'
+                        && $d->status_verifikasi == 'perlu_perbaikan'
+                    )
 
-                                <a href="{{ route('keadaan-serangan-opt.edit', $header->id_keadaan_serangan_opt_dan_pengendalian_di_wilayah) }}"
-                                class="btn btn-warning btn-sm">
+                        <a href="{{ route('keadaan-serangan-opt.edit', $d->id_det_keadaan_serangan_opt_dan_pengendalian_di_wilayah) }}"
+                        class="btn btn-warning btn-sm">
+                            Edit
+                        </a>
 
-                                    Edit
+                    @endif
 
-                                </a>
-
-                            @else
-
-                                -
-
-                            @endif
-
-                        @else
-
-                            -
-
-                        @endif
-
-                    </td>
+                </td>
 
                 </tr>
 
@@ -288,10 +281,10 @@
 
     </form>
 
-    <a href="{{ route('keadaan-serangan-opt.index') }}"
-    class="btn btn-secondary">
-        Kembali
-    </a>
+        <a href="{{ route('sp.create',$header->id_data) }}"
+            class="btn btn-secondary">
+            Kembali
+        </a>
 
 </div>
 

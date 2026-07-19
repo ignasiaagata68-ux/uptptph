@@ -226,11 +226,25 @@
 
 </form>
 
-
-    <a href="{{ route('pengamatan-persemaian-padi.index') }}"
-       class="btn btn-secondary">
-        Kembali
+    <a href="{{ route('sp.create', $header->id_data) }}"
+        class="btn btn-secondary">
+         Kembali
     </a>
+
+    @if(
+        $statusPengiriman &&
+        (
+            $statusPengiriman->status == 'Draft' ||
+            $statusPengiriman->status == 'Perlu Perbaikan'
+        )
+    )
+
+    <a href="{{ route('pengamatan-persemaian-padi.edit', $header->id_pengamatan_persemaian_padi) }}"
+        class="btn btn-warning">
+        Edit
+    </a>
+
+    @endif
 
 </div>
 

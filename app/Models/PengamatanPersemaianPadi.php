@@ -8,7 +8,7 @@ use App\Models\Petugas;
 use App\Models\Kecamatan;
 use App\Models\Desa;
 use App\Models\kelompokTani;
-
+use App\Models\Data;
 
 class PengamatanPersemaianPadi extends Model
 {
@@ -20,6 +20,7 @@ class PengamatanPersemaianPadi extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'id_data',
         'id_kabupaten_kota',
         'id_kecamatan',
         'id_desa',
@@ -87,6 +88,15 @@ class PengamatanPersemaianPadi extends Model
             DetPengamatanPersemaianPadi::class,
             'id_pengamatan_persemaian_padi',
             'id_pengamatan_persemaian_padi'
+        );
+    }
+
+    public function data()
+    {
+        return $this->belongsTo(
+            Data::class,
+            'id_data',
+            'id_data'
         );
     }
 }

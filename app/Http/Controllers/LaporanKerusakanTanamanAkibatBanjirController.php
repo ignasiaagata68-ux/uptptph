@@ -10,9 +10,14 @@ use App\Models\Desa;
 use App\Models\Komoditas;
 use App\Models\KabupatenKota;
 use App\Models\Kecamatan;
+use App\Models\MusimTanam;
+use App\Models\Petugas;
+use App\Models\Opt;
+use App\Models\Periode;
 
 use App\Models\LaporanKerusakanTanamanAkibatBanjir;
 use App\Models\DetLaporanKerusakanTanamanAkibatBanjir;
+use App\Models\PengirimanLaporan;
 
 class LaporanKerusakanTanamanAkibatBanjirController extends Controller
 {
@@ -21,6 +26,11 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
      */
     public function index()
 {
+    $petugas = Petugas::where(
+        'id_user',
+        session('id_user')
+    )->first();
+
     $data = DB::table(
         'laporan_kerusakan_tanaman_akibat_banjir as h'
     )
@@ -51,6 +61,11 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
         'h.id_musim_tanam',
         '=',
         'mt.id_musim_tanam'
+    )
+
+    ->where(
+        'k.id_kecamatan',
+        $petugas->id_kecamatan
     )
 
     ->leftJoin(
@@ -97,6 +112,20 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
     public function create($id_data)
     {
         //
+        $header = LaporanKerusakanTanamanAkibatBanjir::where(
+            'id_data',
+            $id_data
+        )->first();
+
+        if ($header) {
+
+            return redirect()->route(
+                'laporan-kerusakan-tanaman-akibat-banjir.detail',
+                $header->id_laporan_kerusakan_tanaman_akibat_banjir
+            );
+
+        }
+
          $data = Data::with([
             'petugas.kecamatan.kabupaten',
             'tahun',
@@ -124,21 +153,27 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
      */
     public function store(Request $request)
     {
-        $header =
-        LaporanKerusakanTanamanAkibatBanjir::create([
+        $header = LaporanKerusakanTanamanAkibatBanjir::firstOrCreate(
 
-            'id_periode' =>
-                $request->id_periode[0],
+            [
+                'id_data' => $request->id_data
+            ],
 
-            'id_kabupaten_kota' =>
-                $request->id_kabupaten_kota[0],
+            [
+                'id_periode' =>
+                    $request->id_periode[0],
 
-            'id_kecamatan' =>
-                $request->id_kecamatan[0],
+                'id_kabupaten_kota' =>
+                    $request->id_kabupaten_kota[0],
 
-            'id_musim_tanam' =>
-                1
-        ]);
+                'id_kecamatan' =>
+                    $request->id_kecamatan[0],
+
+                'id_musim_tanam' =>
+                    1
+            ]
+
+        );
 
         for($i = 0; $i < count($request->id_desa); $i++)
         {
@@ -233,6 +268,15 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
 
         }
 
+        PengirimanLaporan::where('id_data', $request->id_data)
+        ->update([
+            'status' => 'menunggu',
+            'tanggal_kirim' => now(),
+            'tanggal_verifikasi' => null,
+            'id_user_lphp' => null,
+            'komentar' => null,
+        ]);
+
         return redirect()
             ->route(
                 'laporan-kerusakan-tanaman-akibat-banjir.index'
@@ -313,17 +357,24 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
         )
         ->get();
 
+        $statusPengiriman = PengirimanLaporan::where(
+            'id_data',
+            $header->id_data
+        )->first();
+
         return view(
             'laporan_kerusakan_tanaman_akibat_banjir.detail',
             compact(
                 'header',
-                'detail'
+                'detail',
+                'statusPengiriman'
             )
         );
     }
     
     public function edit($id)
 {
+
     $header = DB::table('laporan_kerusakan_tanaman_akibat_banjir as l')
 
         ->leftJoin(
@@ -368,15 +419,16 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
         )
 
         ->first();
+        
 
-    $detail = DB::table(
-        'det_laporan_kerusakan_tanaman_akibat_banjir'
-    )
-    ->where(
-        'id_laporan_kerusakan_tanaman_akibat_banjir',
-        $id
-    )
-    ->get();
+        $detail = DB::table(
+            'det_laporan_kerusakan_tanaman_akibat_banjir'
+        )
+        ->where(
+            'id_laporan_kerusakan_tanaman_akibat_banjir',
+           $id
+        )
+        ->get();
 
     $desa = Desa::all();
 
@@ -396,14 +448,16 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
     /**
      * Update the specified resource in storage.
      */
-  public function update(Request $request, $id)
+ public function update(Request $request, $id)
 {
-    DB::table('det_laporan_kerusakan_tanaman_akibat_banjir')
-        ->where(
-            'id_laporan_kerusakan_tanaman_akibat_banjir',
-            $id
-        )
-        ->delete();
+    $header = LaporanKerusakanTanamanAkibatBanjir::findOrFail($id);
+
+    $header->update([
+        'id_periode'        => $request->id_periode[0],
+        'id_kabupaten_kota' => $request->id_kabupaten_kota[0],
+        'id_kecamatan'      => $request->id_kecamatan[0],
+        'id_musim_tanam'    => 1,
+    ]);
 
     for ($i = 0; $i < count($request->id_desa); $i++) {
 
@@ -414,15 +468,15 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
             continue;
         }
 
-        DetLaporanKerusakanTanamanAkibatBanjir::create([
+        $data = [
 
             'id_laporan_kerusakan_tanaman_akibat_banjir' => $id,
 
-            'id_tahun' => $request->id_tahun[$i],
-            'id_bulan' => $request->id_bulan[$i],
-            'id_periode' => $request->id_periode[$i],
-            'id_kabupaten_kota' => $request->id_kabupaten_kota[$i],
-            'id_kecamatan' => $request->id_kecamatan[$i],
+            'id_tahun' => $request->id_tahun[0],
+            'id_bulan' => $request->id_bulan[0],
+            'id_periode' => $request->id_periode[0],
+            'id_kabupaten_kota' => $request->id_kabupaten_kota[0],
+            'id_kecamatan' => $request->id_kecamatan[0],
             'id_desa' => $request->id_desa[$i],
             'id_komoditas' => $request->id_komoditas[$i],
 
@@ -433,16 +487,17 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
             'luas_waspada' => $this->decimal($request->luas_waspada[$i]),
 
             'sps_surut_luas' => $this->decimal($request->sps_surut_luas[$i]),
-            'sps_surut_ket' => $request->sps_surut_ket[$i],
+            'sps_surut_ket' => $request->sps_surut_ket[$i], 
 
             'sps_puso_luas' => $this->decimal($request->sps_puso_luas[$i]),
-            'sps_puso_ket' => $request->sps_puso_ket[$i],
+            'sps_puso_ket' => $request->sps_puso_ket[$i],  
 
             'luas_tambah_terkena' => $this->decimal($request->luas_tambah_terkena[$i]),
             'luas_tambah_puso' => $this->decimal($request->luas_tambah_puso[$i]),
 
             'luas_keadaan_terkena' => $this->decimal($request->luas_keadaan_terkena[$i]),
             'luas_keadaan_puso' => $this->decimal($request->luas_keadaan_puso[$i]),
+
             'penangan_upaya' => $request->penangan_upaya[$i],
             'penangan_jumlah' => $this->decimal($request->penangan_jumlah[$i]),
 
@@ -453,19 +508,35 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
             'keterangan_verifikasi' => null,
             'verified_by' => null,
             'verified_at' => null,
-        ]);
+        ];
+
+        if (!empty($request->id_detail[$i])) {
+
+            $detail = DetLaporanKerusakanTanamanAkibatBanjir::findOrFail(
+                $request->id_detail[$i]
+            );
+
+            $detail->update($data);
+
+        } else {
+
+            DetLaporanKerusakanTanamanAkibatBanjir::create($data);
+
+        }
     }
 
-   return redirect()
-    ->route(
-        'laporan-kerusakan-tanaman-akibat-banjir.detail',
-        $id
-    )
-    ->with(
-        'success',
-        'Data berhasil diperbarui.'
-    );
+    return redirect()
+        ->route(
+            'laporan-kerusakan-tanaman-akibat-banjir.detail',
+            $id
+        )
+        ->with(
+            'success',
+            'Data berhasil diperbarui.'
+        );
 }
+
+    
     private function decimal($value)
     {
         if ($value === null || $value === '') {
@@ -506,6 +577,10 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
         ]);
     }
 
+    $header = LaporanKerusakanTanamanAkibatBanjir::findOrFail($id);
+
+    $this->cekStatusPengiriman($header->id_data);
+
     return redirect()
         ->route(
             'laporan-kerusakan-tanaman-akibat-banjir.detail',
@@ -516,4 +591,65 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
             'Verifikasi berhasil disimpan.'
         );
 }
+
+    private function cekStatusPengiriman($idData)
+    {
+        $statusPersemaian = DB::table(
+        'det_pengamatan_persemaian_padi as d'
+        )
+        ->join(
+            'pengamatan_persemaian_padi as h',
+            'h.id_pengamatan_persemaian_padi',
+            '=',
+            'd.id_pengamatan_persemaian_padi'
+        )
+        ->where('h.id_data', $idData)
+        ->pluck('d.status_verifikasi');
+
+        $statusBanjir = DB::table(
+            'det_laporan_kerusakan_tanaman_akibat_banjir as d'
+        )
+        ->join(
+            'laporan_kerusakan_tanaman_akibat_banjir as h',
+            'h.id_laporan_kerusakan_tanaman_akibat_banjir',
+            '=',
+            'd.id_laporan_kerusakan_tanaman_akibat_banjir'
+        )
+        ->where(
+            'h.id_data',
+            $idData
+        )
+        ->pluck('d.status_verifikasi');
+
+        $statusSemua = $statusBanjir
+            ->merge($statusPersemaian);
+
+        if ($statusSemua->contains('perlu_perbaikan')) {
+
+            PengirimanLaporan::where('id_data', $idData)
+                ->update([
+                    'status' => 'perlu_perbaikan'
+                ]);
+
+            return;
+        }
+
+        if ($statusSemua->contains('menunggu')) {
+
+            PengirimanLaporan::where('id_data', $idData)
+                ->update([
+                    'status' => 'menunggu'
+                ]);
+
+            return;
+        }
+
+        $pengiriman = PengirimanLaporan::where('id_data', $idData)->first();
+
+        $pengiriman->status = 'terverifikasi';
+        $pengiriman->tanggal_verifikasi = now();
+        $pengiriman->id_user_lphp = session('id_user');
+
+        $pengiriman->save();
+    }
 }

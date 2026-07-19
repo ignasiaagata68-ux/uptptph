@@ -99,7 +99,6 @@ class DataController extends Controller
         );
 
     }
-
     // Jika belum ada, tampilkan form Data
     return view(
         'data.create',
@@ -130,7 +129,22 @@ class DataController extends Controller
         'tanggal_laporan' => 'required'
     ]);
 
+    $data = Data::where('id_petugas', $request->id_petugas)
+    ->where('id_tahun', $request->id_tahun)
+    ->where('id_bulan', $request->id_bulan)
+    ->where('id_periode', $request->id_periode)
+    ->first();
+
+    if ($data) {
+
+        return redirect()->route(
+            'sp.create',
+            $data->id_data
+        );
+
+    }
     $data = Data::create([
+
     'id_petugas'      => $request->id_petugas,
     'id_tahun'        => $request->id_tahun,
     'id_bulan'        => $request->id_bulan,

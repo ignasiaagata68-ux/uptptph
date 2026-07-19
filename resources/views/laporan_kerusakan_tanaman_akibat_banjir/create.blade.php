@@ -147,149 +147,154 @@
 
     @csrf
 
+    <input
+        type="hidden"
+        name="id_data"
+        value="{{ $data->id_data }}">
+
         <table class="table table-bordered">
         <thead>
 
-<tr>
+    <tr>
 
-    <th rowspan="3" class="bg-biru">Tahun</th>
-    <th rowspan="3" class="bg-biru">Bulan</th>
-    <th rowspan="3" class="bg-biru">Periode</th>
+        <th rowspan="3" class="bg-biru">Tahun</th>
+        <th rowspan="3" class="bg-biru">Bulan</th>
+        <th rowspan="3" class="bg-biru">Periode</th>
 
-    <th rowspan="3" class="bg-biru">Kab/Kota</th>
-    <th rowspan="3" class="bg-biru">Kecamatan</th>
-    <th rowspan="3" class="bg-biru">Desa</th>
-    <th rowspan="3" class="bg-biru">Tanaman</th>
+        <th rowspan="3" class="bg-biru">Kab/Kota</th>
+        <th rowspan="3" class="bg-biru">Kecamatan</th>
+        <th rowspan="3" class="bg-biru">Desa</th>
+        <th rowspan="3" class="bg-biru">Tanaman</th>
 
-    <th rowspan="3" class="bg-biru">Var</th>
-    <th rowspan="3" class="bg-biru">Umur<br>(Hst)</th>
+        <th rowspan="3" class="bg-biru">Var</th>
+        <th rowspan="3" class="bg-biru">Umur<br>(Hst)</th>
 
-    <th rowspan="3" class="bg-biru">Luas Tanam<br>(Ha)</th>
-    <th rowspan="3" class="bg-biru">Luas Waspada<br>(Ha)</th>
+        <th rowspan="3" class="bg-biru">Luas Tanam<br>(Ha)</th>
+        <th rowspan="3" class="bg-biru">Luas Waspada<br>(Ha)</th>
 
-    <th colspan="4" class="bg-biru">
-        Sisa Periode Sebelumnya / Perubahan Kriteria
-    </th>
+        <th colspan="4" class="bg-biru">
+            Sisa Periode Sebelumnya / Perubahan Kriteria
+        </th>
 
-    <th colspan="2" class="bg-biru">
-        Luas Tambah Pada<br>
-        Periode Laporan (Ha)
-    </th>
+        <th colspan="2" class="bg-biru">
+            Luas Tambah Pada<br>
+            Periode Laporan (Ha)
+        </th>
 
-    <th colspan="2" class="bg-biru">
-        Luas Keadaan Pada<br>
-        Periode Laporan (Ha)
-    </th>
+        <th colspan="2" class="bg-biru">
+            Luas Keadaan Pada<br>
+            Periode Laporan (Ha)
+        </th>
 
-    <th colspan="2" class="bg-biru">
-        Penanganan
-    </th>
+        <th colspan="2" class="bg-biru">
+            Penanganan
+        </th>
 
-    <th colspan="2" class="bg-biru">
-        Koordinat
-    </th>
+        <th colspan="2" class="bg-biru">
+            Koordinat
+        </th>
 
-</tr>
+    </tr>
 
-<tr>
+    <tr>
 
-    <th colspan="2" class="bg-biru">
-        Surut
-    </th>
+        <th colspan="2" class="bg-biru">
+            Surut
+        </th>
 
-    <th colspan="2" class="bg-biru">
-        Puso
-    </th>
+        <th colspan="2" class="bg-biru">
+            Puso
+        </th>
 
-    <th rowspan="2" class="bg-biru">
-        Terkena
-    </th>
+        <th rowspan="2" class="bg-biru">
+            Terkena
+        </th>
 
-    <th rowspan="2" class="bg-biru">
-        Puso
-    </th>
+        <th rowspan="2" class="bg-biru">
+            Puso
+        </th>
 
-    <th rowspan="2" class="bg-biru">
-        Terkena
-    </th>
+        <th rowspan="2" class="bg-biru">
+            Terkena
+        </th>
 
-    <th rowspan="2" class="bg-biru">
-        Puso
-    </th>
+        <th rowspan="2" class="bg-biru">
+            Puso
+        </th>
 
-    <th rowspan="2" class="bg-biru">
-        Upaya
-    </th>
+        <th rowspan="2" class="bg-biru">
+            Upaya
+        </th>
 
-    <th rowspan="2" class="bg-biru">
-        Jumlah
-    </th>
+        <th rowspan="2" class="bg-biru">
+            Jumlah
+        </th>
 
-    <th rowspan="2" class="bg-biru">
-        Latitude
-    </th>
+        <th rowspan="2" class="bg-biru">
+            Latitude
+        </th>
 
-    <th rowspan="2" class="bg-biru">
-        Longitude
-    </th>
+        <th rowspan="2" class="bg-biru">
+            Longitude
+        </th>
 
-</tr>
+    </tr>
 
-<tr>
+    <tr>
 
-    <th class="bg-biru">
-        Luas (Ha)
-    </th>
+        <th class="bg-biru">
+            Luas (Ha)
+        </th>
 
-    <th class="bg-biru">
-        Ket (Periode)
-    </th>
+        <th class="bg-biru">
+            Ket (Periode)
+        </th>
 
-    <th class="bg-biru">
-        Luas (Ha)
-    </th>
+        <th class="bg-biru">
+            Luas (Ha)
+        </th>
 
-    <th class="bg-biru">
-        Ket (Periode)
-    </th>
+        <th class="bg-biru">
+            Ket (Periode)
+        </th>
 
-</tr>
+    </tr>
 
-<tr>
+    <tr>
 
-    <th class="bg-kuning">THN</th>
-    <th class="bg-kuning">BLN</th>
-    <th class="bg-kuning">PRD</th>
+        <th class="bg-kuning">THN</th>
+        <th class="bg-kuning">BLN</th>
+        <th class="bg-kuning">PRD</th>
 
-    <th class="bg-kuning">KAB</th>
-    <th class="bg-kuning">KEC</th>
-    <th class="bg-kuning">DES</th>
-    <th class="bg-kuning">TAN</th>
+        <th class="bg-kuning">KAB</th>
+        <th class="bg-kuning">KEC</th>
+        <th class="bg-kuning">DES</th>
+        <th class="bg-kuning">TAN</th>
 
-    <th class="bg-kuning">VAR</th>
-    <th class="bg-kuning">UMR</th>
+        <th class="bg-kuning">VAR</th>
+        <th class="bg-kuning">UMR</th>
 
-    <th class="bg-kuning">LST</th>
-    <th class="bg-kuning">WAS</th>
+        <th class="bg-kuning">LST</th>
+        <th class="bg-kuning">WAS</th>
 
-    <th class="bg-kuning">LSRT</th>
-    <th class="bg-kuning">K_S</th>
+        <th class="bg-kuning">LSRT</th>
+        <th class="bg-kuning">K_S</th>
 
-    <th class="bg-kuning">LPSO</th>
-    <th class="bg-kuning">K_P</th>
+        <th class="bg-kuning">LPSO</th>
+        <th class="bg-kuning">K_P</th>
 
-    <th class="bg-kuning">LT_T</th>
-    <th class="bg-kuning">LT_P</th>
+        <th class="bg-kuning">LT_T</th>
+        <th class="bg-kuning">LT_P</th>
 
-    <th class="bg-kuning bg-pink">LK_T</th>
-    <th class="bg-kuning bg-pink">LK_P</th>
+        <th class="bg-kuning bg-pink">LK_T</th>
+        <th class="bg-kuning bg-pink">LK_P</th>
 
-    <th class="bg-kuning">UPY</th>
-    <th class="bg-kuning">J_UPY</th>
+        <th class="bg-kuning">UPY</th>
+        <th class="bg-kuning">J_UPY</th>
 
-    <th class="bg-kuning">LAT</th>
-    <th class="bg-kuning">LONG</th>
-</tr>
+        <th class="bg-kuning">LAT</th>
+        <th class="bg-kuning">LONG</th>
+    </tr>
 
 </thead>
         <tbody id="tbody-banjir">
