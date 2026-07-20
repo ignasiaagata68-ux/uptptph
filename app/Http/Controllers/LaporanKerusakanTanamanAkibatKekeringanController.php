@@ -682,8 +682,8 @@ public function prosesVerifikasi(Request $request, $id)
 
     $header = LaporanKerusakanTanamanAkibatKekeringan::findOrFail($id);
 
-    app(SpController::class)
-        ->cekStatusPengiriman($header->id_data);
+    $spController = new SpController();
+    $spController->cekStatusPengiriman($header->id_data);
 
     return redirect()
         ->route(
@@ -697,66 +697,6 @@ public function prosesVerifikasi(Request $request, $id)
     }   
 
 
-  private function cekStatusPengiriman($idData)
-{
-    $statusPersemaian = DB::table(
-        'det_pengamatan_persemaian_padi as d'
-    )
-    ->join(
-        'pengamatan_persemaian_padi as h',
-        'h.id_pengamatan_persemaian_padi',
-        '=',
-        'd.id_pengamatan_persemaian_padi'
-    )
-    ->where('h.id_data', $idData)
-    ->pluck('d.status_verifikasi');
-
-    $statusKekeringan = DB::table(
-        'det_laporan_kerusakan_tanaman_akibat_kekeringan as d'
-    )
-    ->join(
-        'laporan_kerusakan_tanaman_akibat_kekeringan as h',
-        'h.id_laporan_kerusakan_tanaman_akibat_kekeringan',
-        '=',
-        'd.id_laporan_kerusakan_tanaman_akibat_kekeringan'
-    )
-    ->where(
-        'h.id_data',
-        $idData
-    )
-    ->pluck('d.status_verifikasi');
-
-    $statusSemua = $statusKekeringan
-        ->merge($statusPersemaian);
-
-    if ($statusSemua->contains('perlu_perbaikan')) {
-
-        PengirimanLaporan::where('id_data', $idData)
-            ->update([
-                'status' => 'perlu_perbaikan'
-            ]);
-
-        return;
-    }
-
-    if ($statusSemua->contains('menunggu')) {
-
-        PengirimanLaporan::where('id_data', $idData)
-            ->update([
-                'status' => 'menunggu'
-            ]);
-
-        return;
-    }
-
-    $pengiriman = PengirimanLaporan::where('id_data', $idData)->first();
-
-    $pengiriman->status = 'terverifikasi';
-    $pengiriman->tanggal_verifikasi = now();
-    $pengiriman->id_user_lphp = session('id_user');
-
-    $pengiriman->save();
-}
 public function editPerbaikan($id)
 {
     $detail = DetLaporanKerusakanTanamanAkibatKekeringan::findOrFail($id);
@@ -825,6 +765,7 @@ public function editPerbaikan($id)
         )
     );
 }
+
 public function updatePerbaikan(Request $request, $id)
 {
     $detail = DetLaporanKerusakanTanamanAkibatKekeringan::findOrFail($id);
@@ -916,6 +857,13 @@ public function updatePerbaikan(Request $request, $id)
             'verified_at' => null,
 
     ]);
+
+    $header = LaporanKerusakanTanamanAkibatKekeringan::findOrFail(
+    $detail->id_laporan_kerusakan_tanaman_akibat_kekeringan
+    );
+
+    $spController = new SpController();
+    $spController->cekStatusPengiriman($header->id_data);
     
     return redirect()
         ->route(

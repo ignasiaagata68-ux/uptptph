@@ -159,11 +159,6 @@
                 Simpan
             </button>
 
-            <a href="{{ url('/det-pengamatan/create') }}"
-            class="btn btn-primary">
-                Next →
-            </a>
-
         </div>
 
     </form>

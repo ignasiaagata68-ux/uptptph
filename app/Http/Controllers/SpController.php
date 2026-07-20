@@ -80,13 +80,25 @@ class SpController extends Controller
     ->pluck('d.status_verifikasi');
 
     $statusKeadaanSerangan = DB::table(
-        'det_keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan as d'
+    'det_keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan as d'
     )
     ->join(
         'keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan as h',
-        'h.id_keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan',
+        'h.id_keadaan_serangan_opt_dan_pengendalian_di_wilayah',
         '=',
-        'd.id_keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan'
+        'd.id_keadaan_serangan_opt_dan_pengendalian_di_wilayah'
+    )
+    ->where('h.id_data', $idData)
+    ->pluck('d.status_verifikasi');
+
+    $statusBanjir = DB::table(
+    'det_laporan_kerusakan_tanaman_akibat_banjir as d'
+    )
+    ->join(
+        'laporan_kerusakan_tanaman_akibat_banjir as h',
+        'h.id_laporan_kerusakan_tanaman_akibat_banjir',
+        '=',
+        'd.id_laporan_kerusakan_tanaman_akibat_banjir'
     )
     ->where('h.id_data', $idData)
     ->pluck('d.status_verifikasi');
@@ -106,8 +118,15 @@ class SpController extends Controller
     $statusSemua = collect()
         ->merge($statusPersemaian)
         ->merge($statusKeadaanSerangan)
-        ->merge($statusKekeringan);
-
+        ->merge($statusKekeringan)
+        ->merge($statusBanjir);
+    
+//     dd(
+//     $statusPersemaian->all(),
+//     $statusKeadaanSerangan->all(),
+//     $statusBanjir->all(),
+//     $statusKekeringan->all()
+// );
     if ($statusSemua->contains('perlu_perbaikan')) {
 
         PengirimanLaporan::where('id_data', $idData)

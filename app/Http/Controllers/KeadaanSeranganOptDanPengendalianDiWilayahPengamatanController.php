@@ -9,6 +9,7 @@ use App\Models\Opt;
 use App\Models\MusimTanam;
 use App\Models\Periode;
 use App\Models\Petugas;
+use App\Http\Controllers\SpController;
 use App\Models\KeadaanSeranganOptDanPengendalianDiWilayahPengamatan;
 use App\Models\DetKeadaanSeranganOptDanPengendalianDiWilayahPengamatan;
 use Illuminate\Http\Request;
@@ -498,6 +499,9 @@ for ($i = 0; $i < $total; $i++) {
 
     }
 }
+
+    $spController = new SpController();
+    $spController->cekStatusPengiriman($header->id_data);
     return redirect()
         ->route('keadaan-serangan-opt.show', $id)
         ->with('success', 'Data berhasil diupdate');
@@ -678,7 +682,8 @@ for ($i = 0; $i < $total; $i++) {
         }
 
         $header = KeadaanSeranganOptDanPengendalianDiWilayahPengamatan::findOrFail($id);
-        $this->cekStatusPengiriman($header->id_data);
+        $spController = new SpController();
+        $spController->cekStatusPengiriman($header->id_data);
         return redirect()
             ->route(
                 'keadaan-serangan-opt.show',
@@ -708,81 +713,5 @@ for ($i = 0; $i < $total; $i++) {
         return response()->json($opt);
     }
 
-    private function cekStatusPengiriman($idData)
-{
-    $statusPersemaian = DB::table(
-        'det_pengamatan_persemaian_padi as d'
-    )
-    ->join(
-        'pengamatan_persemaian_padi as h',
-        'h.id_pengamatan_persemaian_padi',
-        '=',
-        'd.id_pengamatan_persemaian_padi'
-    )
-    ->where('h.id_data', $idData)
-    ->pluck('d.status_verifikasi');
-
-    $statusKeadaanSerangan = DB::table(
-    'det_keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan as d'
-    )
-    ->join(
-        'keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan as h',
-        'h.id_keadaan_serangan_opt_dan_pengendalian_di_wilayah',
-        '=',
-        'd.id_keadaan_serangan_opt_dan_pengendalian_di_wilayah'
-    )
-    ->where(
-        'h.id_data',
-        $idData
-    )
-    ->pluck('d.status_verifikasi');
-
-    $statusKekeringan = DB::table(
-    'det_laporan_kerusakan_tanaman_akibat_kekeringan as d'
-    )
-    ->join(
-        'laporan_kerusakan_tanaman_akibat_kekeringan as h',
-        'h.id_laporan_kerusakan_tanaman_akibat_kekeringan',
-        '=',
-        'd.id_laporan_kerusakan_tanaman_akibat_kekeringan'
-    )
-    ->where(
-        'h.id_data',
-        $idData
-    )
-    ->pluck('d.status_verifikasi');
-
-    $statusSemua = $statusKeadaanSerangan
-        ->merge($statusPersemaian)
-        ->merge($statusKekeringan);
-
-    if ($statusSemua->contains('perlu_perbaikan')) {
-
-        PengirimanLaporan::where('id_data', $idData)
-            ->update([
-                'status' => 'perlu_perbaikan'
-            ]);
-
-        return;
-    }
-
-    if ($statusSemua->contains('menunggu')) {
-
-        PengirimanLaporan::where('id_data', $idData)
-            ->update([
-                'status' => 'menunggu'
-            ]);
-
-        return;
-    }
-
-   $pengiriman = PengirimanLaporan::where('id_data', $idData)->first();
-
-    $pengiriman->status = 'terverifikasi';
-    $pengiriman->tanggal_verifikasi = now();
-    $pengiriman->id_user_lphp = session('id_user');
-
-    $pengiriman->save();
-
-    }
+    
 }   

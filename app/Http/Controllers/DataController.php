@@ -17,20 +17,56 @@ class DataController extends Controller
     /**
      * Display a listing of the resource.
      */
+    // public function index()
+    // {
+    //     //
+    //      $data = Data::with([
+    //     'petugas',
+    //     'tahun',
+    //     'bulan',
+    //     'periode',
+    //     'musimTanam'
+    // ])->get();
+
+    // return view('data.index', compact('data'));
+    // }
     public function index()
     {
-        //
-         $data = Data::with([
-        'petugas',
-        'tahun',
-        'bulan',
-        'periode',
-        'musimTanam'
-    ])->get();
+        if (session('role') == 'popt') {
 
-    return view('data.index', compact('data'));
+            $petugas = Petugas::where(
+                'id_user',
+                session('id_user')
+            )->first();
+
+            $data = Data::with([
+                'petugas',
+                'tahun',
+                'bulan',
+                'periode',
+                'musimTanam'
+            ])
+            ->where('id_petugas', $petugas->id_petugas)
+            ->latest('id_data')
+            ->get();
+
+        } else {
+
+            // LPHP dan Pengelola melihat semua data
+            $data = Data::with([
+                'petugas',
+                'tahun',
+                'bulan',
+                'periode',
+                'musimTanam'
+            ])
+            ->latest('id_data')
+            ->get();
+
+        }
+
+        return view('data.index', compact('data'));
     }
-
     /**
      * Show the form for creating a new resource.
      */

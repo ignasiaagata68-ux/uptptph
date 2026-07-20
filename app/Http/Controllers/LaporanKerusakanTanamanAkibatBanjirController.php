@@ -14,6 +14,8 @@ use App\Models\MusimTanam;
 use App\Models\Petugas;
 use App\Models\Opt;
 use App\Models\Periode;
+use App\Http\Controllers\SpController;
+
 
 use App\Models\LaporanKerusakanTanamanAkibatBanjir;
 use App\Models\DetLaporanKerusakanTanamanAkibatBanjir;
@@ -578,7 +580,8 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
 
     $header = LaporanKerusakanTanamanAkibatBanjir::findOrFail($id);
 
-    $this->cekStatusPengiriman($header->id_data);
+    $spController = new SpController();
+    $spController->cekStatusPengiriman($header->id_data);
 
     return redirect()
         ->route(
@@ -591,70 +594,8 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
         );
 }
 
-    private function cekStatusPengiriman($idData)
-    {
-        $statusPersemaian = DB::table(
-        'det_pengamatan_persemaian_padi as d'
-        )
-        ->join(
-            'pengamatan_persemaian_padi as h',
-            'h.id_pengamatan_persemaian_padi',
-            '=',
-            'd.id_pengamatan_persemaian_padi'
-        )
-        ->where('h.id_data', $idData)
-        ->pluck('d.status_verifikasi');
-
-        $statusBanjir = DB::table(
-            'det_laporan_kerusakan_tanaman_akibat_banjir as d'
-        )
-        ->join(
-            'laporan_kerusakan_tanaman_akibat_banjir as h',
-            'h.id_laporan_kerusakan_tanaman_akibat_banjir',
-            '=',
-            'd.id_laporan_kerusakan_tanaman_akibat_banjir'
-        )
-        ->where(
-            'h.id_data',
-            $idData
-        )
-        ->pluck('d.status_verifikasi');
-
-        $statusSemua = $statusBanjir
-            ->merge($statusPersemaian);
-
-        if ($statusSemua->contains('perlu_perbaikan')) {
-
-            PengirimanLaporan::where('id_data', $idData)
-                ->update([
-                    'status' => 'perlu_perbaikan'
-                ]);
-
-            return;
-        }
-
-        if ($statusSemua->contains('menunggu')) {
-
-            PengirimanLaporan::where('id_data', $idData)
-                ->update([
-                    'status' => 'menunggu'
-                ]);
-
-            return;
-        }
-
-        $pengiriman = PengirimanLaporan::where('id_data', $idData)->first();
-
-        $pengiriman->status = 'terverifikasi';
-        $pengiriman->tanggal_verifikasi = now();
-        $pengiriman->id_user_lphp = session('id_user');
-
-        $pengiriman->save();
-    }
-
     public function editPerbaikan($id)
 {
-    dd('MASUK EDIT PERBAIKAN');
     $detail = DetLaporanKerusakanTanamanAkibatBanjir::findOrFail($id);
 
     $header = DB::table('laporan_kerusakan_tanaman_akibat_banjir as l')
@@ -701,7 +642,6 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
         )
 
         ->first();
-        dd($header);
 
     $detail = collect([$detail]);
 
@@ -753,6 +693,12 @@ public function updatePerbaikan(Request $request, $id)
         'verified_at'             => null,
     ]);
     
+    $header = LaporanKerusakanTanamanAkibatBanjir::findOrFail(
+    $detail->id_laporan_kerusakan_tanaman_akibat_banjir
+    );
+
+    $spController = new SpController();
+    $spController->cekStatusPengiriman($header->id_data);
     return redirect()
         ->route(
             'laporan-kerusakan-tanaman-akibat-banjir.detail',

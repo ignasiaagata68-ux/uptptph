@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Models\PengamatanPersemaianPadi;
 use App\Models\DetPengamatanPersemaianPadi;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\SpController;
 
 class PengamatanPersemaianPadiController extends Controller
 {
@@ -351,6 +352,12 @@ public function update(Request $request, $id)
             ]);
 
         }
+
+        $header = PengamatanPersemaianPadi::findOrFail($id);
+
+        $spController = new SpController();
+        $spController->cekStatusPengiriman($header->id_data);
+
 
         return redirect()
             ->route('pengamatan-persemaian-padi.show', $id)
