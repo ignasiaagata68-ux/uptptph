@@ -142,10 +142,13 @@
 
 </div>
 
-<form action="{{ route('laporan-kerusakan-tanaman-akibat-kekeringan.update', $header->id_laporan_kerusakan_tanaman_akibat_kekeringan) }}"
-      method="POST">
-      
+<form action="{{ route(
+    'laporan-kerusakan-tanaman-akibat-kekeringan.update-perbaikan',
+    $detail[0]->id_det_laporan_kerusakan_tanaman_akibat_kekeringan
+) }}" method="POST">
+
     @csrf
+    @method('PUT')
 
         <table class="table table-bordered">
         <thead>
@@ -635,22 +638,12 @@
         </div>
 
         <div class="mt-3">
-        
-        <button
-            type="button"
-            id="tambahBaris"
-            class="btn btn-primary">
-
-            Tambah Baris
-
-        </button>
-
 
         <button
             type="submit"
             class="btn btn-success">
 
-            Update
+            Simpan
 
         </button>
 
@@ -667,46 +660,6 @@
 </form>
 
 </body>
-<script>
-    document.getElementById('tambahBaris').addEventListener('click', function () {
-
-    let tbody = document.getElementById('tbody-kekeringan');
-
-    if (tbody.rows.length == 0) {
-        alert('Tidak ada baris');
-        return;
-    }
-
-    let row = tbody.rows[0].cloneNode(true);
-
-    // Kosongkan input
-    row.querySelectorAll('input').forEach(function (input) {
-
-        if (input.type === 'hidden') {
-
-            if (input.name === 'id_detail[]') {
-                input.value = '';
-            }
-
-        } else {
-
-            input.value = '';
-
-        }
-
-    });
-
-    // Reset semua select
-    row.querySelectorAll('select').forEach(function (select) {
-
-        select.selectedIndex = 0;
-
-    });
-
-    tbody.appendChild(row);
-
-});
-</script>
     <script>
 
 document.addEventListener('input', function(e){

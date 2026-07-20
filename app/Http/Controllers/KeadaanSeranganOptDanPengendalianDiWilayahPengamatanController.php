@@ -242,41 +242,115 @@ class KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController extends Con
         );
     }
 
-  public function edit($id)
+ public function edit($id)
 {
-    
-    
+    // Cek dulu apakah yang dikirim adalah id_detail
+    $detailPerbaikan = DetKeadaanSeranganOptDanPengendalianDiWilayahPengamatan::find($id);
+
+    if ($detailPerbaikan) {
+
+        // Ambil id header dari detail
+        $idHeader = $detailPerbaikan->id_keadaan_serangan_opt_dan_pengendalian_di_wilayah;
+
+        $header = DB::table(
+            'keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan as k'
+        )
+        ->leftJoin(
+            'data as d',
+            'k.id_data',
+            '=',
+            'd.id_data'
+        )
+        ->leftJoin(
+            'petugas as pt',
+            'd.id_petugas',
+            '=',
+            'pt.id_petugas'
+        )
+        ->leftJoin(
+            'kecamatan as kec',
+            'pt.id_kecamatan',
+            '=',
+            'kec.id_kecamatan'
+        )
+        ->leftJoin(
+            'kabupaten_kota as kab',
+            'kec.id_kabupaten_kota',
+            '=',
+            'kab.id_kabupaten_kota'
+        )
+        ->leftJoin(
+            'periode as p',
+            'k.id_periode',
+            '=',
+            'p.id_periode'
+        )
+        ->leftJoin(
+            'musim_tanam as mt',
+            'k.id_musim_tanam',
+            '=',
+            'mt.id_musim_tanam'
+        )
+        ->where(
+            'k.id_keadaan_serangan_opt_dan_pengendalian_di_wilayah',
+            $idHeader
+        )
+        ->select(
+            'k.*',
+            'kab.nama_kabupaten_kota',
+            'kec.nama_kecamatan',
+            'p.periode_pengamatan',
+            'mt.musim_tanam'
+        )
+        ->first();
+
+        $detail = collect([$detailPerbaikan]);
+
+        $desa = Desa::all();
+        $komoditas = Komoditas::all();
+        $opt = Opt::all();
+
+        return view(
+            'keadaan_serangan_opt.edit',
+            compact(
+                'header',
+                'detail',
+                'desa',
+                'komoditas',
+                'opt'
+            )
+        );
+    }
+
+    // ===== Edit normal =====
+
     $header = DB::table(
         'keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan as k'
     )
     ->leftJoin(
-    'data as d',
-    'k.id_data',
-    '=',
-    'd.id_data'
+        'data as d',
+        'k.id_data',
+        '=',
+        'd.id_data'
     )
-
     ->leftJoin(
         'petugas as pt',
         'd.id_petugas',
         '=',
         'pt.id_petugas'
     )
-
     ->leftJoin(
         'kecamatan as kec',
         'pt.id_kecamatan',
         '=',
         'kec.id_kecamatan'
     )
-
     ->leftJoin(
         'kabupaten_kota as kab',
         'kec.id_kabupaten_kota',
         '=',
         'kab.id_kabupaten_kota'
     )
-    
     ->leftJoin(
         'periode as p',
         'k.id_periode',
@@ -302,17 +376,15 @@ class KeadaanSeranganOptDanPengendalianDiWilayahPengamatanController extends Con
     )
     ->first();
 
-
-   $detail = DB::table(
-    'det_keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan'
+    $detail = DB::table(
+        'det_keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan'
     )
     ->where(
-        'id_det_keadaan_serangan_opt_dan_pengendalian_di_wilayah',
-        $detailDipilih->id_det_keadaan_serangan_opt_dan_pengendalian_di_wilayah
+        'id_keadaan_serangan_opt_dan_pengendalian_di_wilayah',
+        $id
     )
     ->get();
 
-    // HANYA desa milik kecamatan header
     $desa = Desa::where(
         'id_kecamatan',
         $header->id_kecamatan
@@ -665,8 +737,24 @@ for ($i = 0; $i < $total; $i++) {
     )
     ->pluck('d.status_verifikasi');
 
+    $statusKekeringan = DB::table(
+    'det_laporan_kerusakan_tanaman_akibat_kekeringan as d'
+    )
+    ->join(
+        'laporan_kerusakan_tanaman_akibat_kekeringan as h',
+        'h.id_laporan_kerusakan_tanaman_akibat_kekeringan',
+        '=',
+        'd.id_laporan_kerusakan_tanaman_akibat_kekeringan'
+    )
+    ->where(
+        'h.id_data',
+        $idData
+    )
+    ->pluck('d.status_verifikasi');
+
     $statusSemua = $statusKeadaanSerangan
-        ->merge($statusPersemaian);
+        ->merge($statusPersemaian)
+        ->merge($statusKekeringan);
 
     if ($statusSemua->contains('perlu_perbaikan')) {
 

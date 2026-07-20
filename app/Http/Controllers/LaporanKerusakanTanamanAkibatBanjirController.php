@@ -374,42 +374,48 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
     
     public function edit($id)
 {
+    // Cek dulu apakah yang dikirim adalah id_detail
+    $detailPerbaikan = DetLaporanKerusakanTanamanAkibatBanjir::find($id);
+
+    if ($detailPerbaikan) {
+
+        // Ambil id header dari detail
+        $idHeader = $detailPerbaikan->id_laporan_kerusakan_tanaman_akibat_banjir;
+
+        $header = DB::table('laporan_kerusakan_tanaman_akibat_banjir as l')
+            ->leftJoin('kabupaten_kota as kab','l.id_kabupaten_kota','=','kab.id_kabupaten_kota')
+            ->leftJoin('kecamatan as kec','l.id_kecamatan','=','kec.id_kecamatan')
+            ->leftJoin('periode as p','l.id_periode','=','p.id_periode')
+            ->leftJoin('musim_tanam as mt','l.id_musim_tanam','=','mt.id_musim_tanam')
+            ->where('l.id_laporan_kerusakan_tanaman_akibat_banjir',$idHeader)
+            ->select(
+                'l.*',
+                'kab.nama_kabupaten_kota',
+                'kec.nama_kecamatan',
+                'p.periode_pengamatan',
+                'mt.musim_tanam'
+            )
+            ->first();
+
+        $detail = collect([$detailPerbaikan]);
+
+        $desa = Desa::all();
+        $komoditas = Komoditas::all();
+
+        return view(
+            'laporan_kerusakan_tanaman_akibat_banjir.edit_perbaikan',
+            compact('header','detail','desa','komoditas')
+        );
+    }
+
+    // ===== Edit normal =====
 
     $header = DB::table('laporan_kerusakan_tanaman_akibat_banjir as l')
-
-        ->leftJoin(
-            'kabupaten_kota as kab',
-            'l.id_kabupaten_kota',
-            '=',
-            'kab.id_kabupaten_kota'
-        )
-
-        ->leftJoin(
-            'kecamatan as kec',
-            'l.id_kecamatan',
-            '=',
-            'kec.id_kecamatan'
-        )
-
-        ->leftJoin(
-            'periode as p',
-            'l.id_periode',
-            '=',
-            'p.id_periode'
-        )
-
-        ->leftJoin(
-            'musim_tanam as mt',
-            'l.id_musim_tanam',
-            '=',
-            'mt.id_musim_tanam'
-        )
-
-        ->where(
-            'l.id_laporan_kerusakan_tanaman_akibat_banjir',
-            $id
-        )
-
+        ->leftJoin('kabupaten_kota as kab','l.id_kabupaten_kota','=','kab.id_kabupaten_kota')
+        ->leftJoin('kecamatan as kec','l.id_kecamatan','=','kec.id_kecamatan')
+        ->leftJoin('periode as p','l.id_periode','=','p.id_periode')
+        ->leftJoin('musim_tanam as mt','l.id_musim_tanam','=','mt.id_musim_tanam')
+        ->where('l.id_laporan_kerusakan_tanaman_akibat_banjir',$id)
         ->select(
             'l.*',
             'kab.nama_kabupaten_kota',
@@ -417,21 +423,13 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
             'p.periode_pengamatan',
             'mt.musim_tanam'
         )
-
         ->first();
-        
 
-        $detail = DB::table(
-            'det_laporan_kerusakan_tanaman_akibat_banjir'
-        )
-        ->where(
-            'id_laporan_kerusakan_tanaman_akibat_banjir',
-           $id
-        )
+    $detail = DB::table('det_laporan_kerusakan_tanaman_akibat_banjir')
+        ->where('id_laporan_kerusakan_tanaman_akibat_banjir',$id)
         ->get();
 
     $desa = Desa::all();
-
     $komoditas = Komoditas::all();
 
     return view(
@@ -440,11 +438,12 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
             'header',
             'detail',
             'desa',
-            'komoditas'
-        )
+            'komoditas',
+            'idDetail'
+
+            )
     );
 }
-
     /**
      * Update the specified resource in storage.
      */
@@ -652,4 +651,113 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
 
         $pengiriman->save();
     }
+
+    public function editPerbaikan($id)
+{
+    dd('MASUK EDIT PERBAIKAN');
+    $detail = DetLaporanKerusakanTanamanAkibatBanjir::findOrFail($id);
+
+    $header = DB::table('laporan_kerusakan_tanaman_akibat_banjir as l')
+
+        ->leftJoin(
+            'kabupaten_kota as kab',
+            'l.id_kabupaten_kota',
+            '=',
+            'kab.id_kabupaten_kota'
+        )
+
+        ->leftJoin(
+            'kecamatan as kec',
+            'l.id_kecamatan',
+            '=',
+            'kec.id_kecamatan'
+        )
+
+        ->leftJoin(
+            'periode as p',
+            'l.id_periode',
+            '=',
+            'p.id_periode'
+        )
+
+        ->leftJoin(
+            'musim_tanam as mt',
+            'l.id_musim_tanam',
+            '=',
+            'mt.id_musim_tanam'
+        )
+
+        ->where(
+            'l.id_laporan_kerusakan_tanaman_akibat_banjir',
+            $detail->id_laporan_kerusakan_tanaman_akibat_banjir
+        )
+
+        ->select(
+            'l.*',
+            'kab.nama_kabupaten_kota',
+            'kec.nama_kecamatan',
+            'p.periode_pengamatan',
+            'mt.musim_tanam'
+        )
+
+        ->first();
+        dd($header);
+
+    $detail = collect([$detail]);
+
+    $desa = Desa::all();
+    $komoditas = Komoditas::all();
+
+    $idDetail = $detail->id_det_laporan_kerusakan_tanaman_akibat_banjir;
+
+    return view(
+        'laporan_kerusakan_tanaman_akibat_banjir.edit_perbaikan',
+        compact(
+            'header',
+            'detail',
+            'idDetail',
+            'desa',
+            'komoditas'
+        )
+    );
+}
+
+public function updatePerbaikan(Request $request, $id)
+{
+    $detail = DetLaporanKerusakanTanamanAkibatBanjir::findOrFail($id);
+
+    $detail->update([
+        'id_desa'                 => $request->id_desa[0],
+        'id_komoditas'            => $request->id_komoditas[0],
+        'var'                     => $request->var[0],
+        'umur'                    => $request->umur[0],
+        'luas_tanam'              => $request->luas_tanam[0],
+        'luas_waspada'            => $request->luas_waspada[0],
+        'sps_surut_luas'          => $request->sps_surut_luas[0],
+        'sps_surut_ket'           => $request->sps_surut_ket[0],
+        'sps_puso_luas'           => $request->sps_puso_luas[0],
+        'sps_puso_ket'            => $request->sps_puso_ket[0],
+        'luas_tambah_terkena'     => $request->luas_tambah_terkena[0],
+        'luas_tambah_puso'        => $request->luas_tambah_puso[0],
+        'luas_keadaan_terkena'    => $request->luas_keadaan_terkena[0],
+        'luas_keadaan_puso'       => $request->luas_keadaan_puso[0],
+        'penangan_upaya'          => $request->penangan_upaya[0],
+        'penangan_jumlah'         => $request->penangan_jumlah[0],
+        'koordinat_latitude'      => $request->koordinat_latitude[0],
+        'koordinat_longitude'     => $request->koordinat_longitude[0],
+
+        // reset status verifikasi
+        'status_verifikasi'       => 'menunggu',
+        'keterangan_verifikasi'   => null,
+        'verified_by'             => null,
+        'verified_at'             => null,
+    ]);
+    
+    return redirect()
+        ->route(
+            'laporan-kerusakan-tanaman-akibat-banjir.detail',
+            $detail->id_laporan_kerusakan_tanaman_akibat_banjir
+        )
+        ->with('success', 'Data perbaikan berhasil disimpan.');
+}
 }

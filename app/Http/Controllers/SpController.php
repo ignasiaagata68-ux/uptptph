@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Data;
 use App\Models\PengirimanLaporan;
 use App\Models\KeadaanSeranganOptDanPengendalianDiWilayahPengamatan;
+use App\Models\LaporanKerusakanTanamanAkibatBanjir;
+use App\Models\LaporanKerusakanTanamanAkibatKekeringan;
 
 
 class SpController extends Controller
@@ -27,10 +29,19 @@ class SpController extends Controller
 
         $adaKeadaanSerangan = $keadaanSerangan != null;
 
+        $kekeringan = LaporanKerusakanTanamanAkibatKekeringan::where(
+            'id_data',
+            $id_data
+        )->first();
+
+        $adaKekeringan = $kekeringan != null;
+
         return view('sp.create', compact(
             'data',
             'keadaanSerangan',
-            'adaKeadaanSerangan'
+            'adaKeadaanSerangan',
+            'kekeringan',
+            'adaKekeringan'
         ));
     }
 
@@ -54,62 +65,76 @@ class SpController extends Controller
             ->with('success', 'Laporan berhasil dikirim ke LPHP.');
     }
 
-    private function cekStatusPengiriman($idData)
-    {
-        $statusPersemaian = DB::table(
-            'det_pengamatan_persemaian_padi as d'
-        )
-        ->join(
-            'pengamatan_persemaian_padi as h',
-            'h.id_pengamatan_persemaian_padi',
-            '=',
-            'd.id_pengamatan_persemaian_padi'
-        )
-        ->where('h.id_data', $idData)
-        ->pluck('d.status_verifikasi');
+    public function cekStatusPengiriman($idData)
+{
+    $statusPersemaian = DB::table(
+        'det_pengamatan_persemaian_padi as d'
+    )
+    ->join(
+        'pengamatan_persemaian_padi as h',
+        'h.id_pengamatan_persemaian_padi',
+        '=',
+        'd.id_pengamatan_persemaian_padi'
+    )
+    ->where('h.id_data', $idData)
+    ->pluck('d.status_verifikasi');
 
-        $statusKeadaanSerangan = DB::table(
-            'det_keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan as d'
-        )
-        ->join(
-            'keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan as h',
-            'h.id_keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan',
-            '=',
-            'd.id_keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan'
-        )
-        ->where('h.id_data', $idData)
-        ->pluck('d.status_verifikasi');
+    $statusKeadaanSerangan = DB::table(
+        'det_keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan as d'
+    )
+    ->join(
+        'keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan as h',
+        'h.id_keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan',
+        '=',
+        'd.id_keadaan_serangan_opt_dan_pengendalian_di_wilayah_pengamatan'
+    )
+    ->where('h.id_data', $idData)
+    ->pluck('d.status_verifikasi');
 
-        $statusSemua = $statusKeadaanSerangan
-            ->merge($statusPersemaian);
-        
-        if ($statusSemua->contains('perlu_perbaikan')) {
+    $statusKekeringan = DB::table(
+        'det_laporan_kerusakan_tanaman_akibat_kekeringan as d'
+    )
+    ->join(
+        'laporan_kerusakan_tanaman_akibat_kekeringan as h',
+        'h.id_laporan_kerusakan_tanaman_akibat_kekeringan',
+        '=',
+        'd.id_laporan_kerusakan_tanaman_akibat_kekeringan'
+    )
+    ->where('h.id_data', $idData)
+    ->pluck('d.status_verifikasi');
 
-            PengirimanLaporan::where('id_data', $idData)
-                ->update([
-                    'status' => 'perlu_perbaikan'
-                ]);
+    $statusSemua = collect()
+        ->merge($statusPersemaian)
+        ->merge($statusKeadaanSerangan)
+        ->merge($statusKekeringan);
 
-            return;
-        }
-
-        if ($statusSemua->contains('menunggu')) {
-
-            PengirimanLaporan::where('id_data', $idData)
-                ->update([
-                    'status' => 'menunggu'
-                ]);
-
-            return;
-        }
+    if ($statusSemua->contains('perlu_perbaikan')) {
 
         PengirimanLaporan::where('id_data', $idData)
+            ->update([
+                'status' => 'perlu_perbaikan'
+            ]);
+
+        return;
+    }
+
+    if ($statusSemua->contains('menunggu')) {
+
+        PengirimanLaporan::where('id_data', $idData)
+            ->update([
+                'status' => 'menunggu'
+            ]);
+
+        return;
+    }
+
+    PengirimanLaporan::where('id_data', $idData)
         ->update([
             'status' => 'terverifikasi',
             'tanggal_verifikasi' => now(),
             'id_user_lphp' => session('id_user')
         ]);
-    }
+}
 
     
 

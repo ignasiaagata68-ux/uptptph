@@ -157,22 +157,58 @@ Route::middleware(['ceklogin','cekrole:pengelola_data,popt,lphp'])->group(functi
         Route::get('/create/{id_data}',[LaporanKerusakanTanamanAkibatBanjirController::class, 'create'])->name('create');
         Route::post('/store',[LaporanKerusakanTanamanAkibatBanjirController::class, 'store'])->name('store');
         Route::get('/detail/{id}',[LaporanKerusakanTanamanAkibatBanjirController::class, 'detail'])->name('detail');
+        // Edit seluruh laporan
         Route::get('/edit/{id}',[LaporanKerusakanTanamanAkibatBanjirController::class, 'edit'])->name('edit');
         Route::post('/update/{id}',[LaporanKerusakanTanamanAkibatBanjirController::class, 'update'])->name('update');
-        Route::post('/proses-verifikasi/{id}',[LaporanKerusakanTanamanAkibatBanjirController::class, 'prosesVerifikasi'])->name('proses-verifikasi');
+        // Edit khusus data yang perlu perbaikan
+        Route::get('/edit-perbaikan/{id}',[LaporanKerusakanTanamanAkibatBanjirController::class, 'editPerbaikan'])->name('edit-perbaikan');
+        Route::post('/update-perbaikan/{id}',[LaporanKerusakanTanamanAkibatBanjirController::class, 'updatePerbaikan'])->name('update-perbaikan');
+        Route::post('/proses-verifikasi/{id}',[LaporanKerusakanTanamanAkibatBanjirController::class, 'prosesVerifikasi']) ->name('proses-verifikasi');
         Route::get('/verifikasi/{id}/{status}',[LaporanKerusakanTanamanAkibatBanjirController::class, 'verifikasi'])->name('verifikasi');
-        });
+
+    });
 
 
    Route::prefix('laporan-kerusakan-tanaman-akibat-kekeringan')->name('laporan-kerusakan-tanaman-akibat-kekeringan.')->group(function () {
-
         Route::get('/',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'index'])->name('index');
         Route::get('/create/{id_data}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'create'])->name('create');
         Route::post('/store',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'store'])->name('store');
         Route::get('/detail/{id}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'detail'])->name('detail');
-        Route::get('/edit/{id}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'edit'])->name('edit');
-        Route::put('/update/{id}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'update'])->name('update');
-        Route::post('/proses-verifikasi/{id}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'prosesVerifikasi'])->name('proses-verifikasi');
+
+        // Edit (normal & edit perbaikan lewat method edit())
+        Route::get(
+            '/edit/{id}',
+            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'edit']
+        )->name('edit');
+
+        // Update seluruh laporan
+        Route::put(
+            '/update/{id}',
+            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'update']
+        )->name('update');
+
+        // (Opsional) Jika masih memakai method editPerbaikan
+        Route::get(
+            '/edit-perbaikan/{id}',
+            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'editPerbaikan']
+        )->name('edit-perbaikan');
+
+        // Update khusus perbaikan
+        Route::put(
+            '/update-perbaikan/{id}',
+            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'updatePerbaikan']
+        )->name('update-perbaikan');
+
+        // Verifikasi
+        Route::post(
+            '/proses-verifikasi/{id}',
+            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'prosesVerifikasi']
+        )->name('proses-verifikasi');
+
+        Route::get(
+            '/verifikasi/{id}/{status}',
+            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'verifikasi']
+        )->name('verifikasi');
     });
 
 

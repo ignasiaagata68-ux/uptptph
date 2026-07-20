@@ -115,13 +115,6 @@
 </div>
 
 @endif
-    <form method="POST"
-        action="{{ route(
-            'laporan-kerusakan-tanaman-akibat-banjir.proses-verifikasi',
-            $header->id_laporan_kerusakan_tanaman_akibat_banjir
-        ) }}">
-
-    @csrf
     <div class="header-form">
 
     <table class="tbl-info-kiri">
@@ -164,6 +157,14 @@
 
 </div>
 
+<form action="{{ route(
+    'laporan-kerusakan-tanaman-akibat-banjir.update-perbaikan',
+    $detail->first()->id_det_laporan_kerusakan_tanaman_akibat_banjir
+) }}" method="POST">
+
+    @csrf
+
+
         <table class="table table-bordered">
         <thead>
             <tr>
@@ -203,8 +204,6 @@
                 <th colspan="2" class="bg-biru">
                     Koordinat
                 </th>
-                <th class="bg-biru"></th>
-                <th class="bg-biru"></th>
 
             </tr>
 
@@ -249,12 +248,7 @@
                 <th rowspan="2" class="bg-biru">
                     Longitude
                 </th>
-                <th rowspan="2" class="bg-biru">
-                    
-                </th>
-                <th rowspan="2" class="bg-biru">
-                    
-                </th>
+
             </tr>
 
             <tr>
@@ -310,17 +304,13 @@
 
                 <th class="bg-kuning">LAT</th>
                 <th class="bg-kuning">LONG</th>
-                <th class="bg-kuning">status</th>
-                <th class="bg-kuning">Keterangan</th>
-                <th class="bg-kuning">Aksi</th>
-                
             </tr>
 
         </thead>
             <tbody id="tbody-banjir">
 
                 @foreach($detail as $d)
-
+      
                 <input type="hidden"
                     name="id_tahun[]"
                     value="{{ $d->id_tahun }}">
@@ -380,112 +370,215 @@
                 </td>
 
                 <!-- DES -->
-                <td>{{ $d->desa->nama_desa ?? '-' }}</td>
+                <td class="table-success">
+                    <select
+                        name="id_desa[]"
+                        class="form-select"
+                        style="min-width:200px;">
+
+                        <option value="">
+                            Pilih Desa
+                        </option>
+
+                        @foreach($desa as $desaItem)
+
+                        <option
+                            value="{{ $desaItem->id_desa }}"
+                            {{ $d->id_desa == $desaItem->id_desa ? 'selected' : '' }}>
+
+                            {{ $desaItem->nama_desa }}
+
+                        </option>
+
+                        @endforeach
+                    </select>
+                </td>
+
                 <!-- TAN -->
-                <td>{{ $d->komoditas->komoditas ?? '-' }}</td>
+                <td class="table-success">
+                    <select
+                        name="id_komoditas[]"
+                        class="form-select"
+                        style="min-width:200px;">
+
+                        <option value="">
+                            Pilih Komoditas
+                        </option>
+                        @foreach($komoditas as $k)
+
+                        <option
+                            value="{{ $k->id_komoditas }}"
+                            {{ $d->id_komoditas == $k->id_komoditas ? 'selected' : '' }}>
+
+                            {{ $k->komoditas }}
+
+                        </option>
+
+                        @endforeach
+                    </select>
+
+                </td>
                 <!-- VAR -->
-                <td>{{ $d->var }}</td>
-                <td>{{ $d->umur }}</td>
-                <td>{{ $d->luas_tanam }}</td>
-                <td>{{ $d->luas_waspada }}</td>
-                <td>{{ $d->sps_surut_luas }}</td>
-                <td>{{ $d->sps_surut_ket }}</td>
-                <td>{{ $d->sps_puso_luas }}</td>
-                <td>{{ $d->sps_puso_ket }}</td>
-                <td>{{ $d->luas_tambah_terkena }}</td>
-                <td>{{ $d->luas_tambah_puso }}</td>
-                <td>{{ $d->luas_keadaan_terkena }}</td>
-                <td>{{ $d->luas_keadaan_puso }}</td>
-                <td>{{ $d->penangan_upaya }}</td>
-                <td>{{ $d->penangan_jumlah }}</td>
-                <td>{{ $d->koordinat_latitude }}</td>
-                <td>{{ $d->koordinat_longitude }}</td>
                 <td>
+                    <input
+                        type="text"
+                        name="var[]"
+                        value="{{ $d->var }}"
+                        class="form-control"
+                        style="min-width:100px;">
+                </td>
 
-                    @if(session('role') == 'lphp')
+                <!-- UMR -->
+                <td>
+                    <input
+                        type="text"
+                        name="umur[]"
+                        value="{{ $d->umur }}"
+                        class="form-control"
+                        style="min-width:100px;">
+                </td>
 
-                        <select
-                            name="status_verifikasi[{{ $d->id_det_laporan_kerusakan_tanaman_akibat_banjir }}]"
-                            class="form-select form-select-sm">
+                <!-- LST -->
+                <td>
+                    <input type="number"
+                        step="0.01"
+                        name="luas_tanam[]"
+                        value="{{ $d->luas_tanam }}"
+                        class="form-control"
+                        style="min-width:100px;">
+                </td>
 
-                            <option value="menunggu"
-                            {{ $d->status_verifikasi == 'menunggu' ? 'selected' : '' }}>
-                                Menunggu
-                            </option>
+                <!-- WAS -->
+                <td>
+                    <input type="number"
+                        step="0.01"
+                        name="luas_waspada[]"
+                        value="{{ $d->luas_waspada }}"
+                        class="form-control"
+                        style="min-width:100px;">
+                </td>
 
-                            <option value="terverifikasi"
-                            {{ $d->status_verifikasi == 'terverifikasi' ? 'selected' : '' }}>
-                                Terverifikasi
-                            </option>
+                <!-- LSRT -->
+                <td>
+                    <input type="number"
+                        step="0.01"
+                        name="sps_surut_luas[]"
+                        value="{{ $d->sps_surut_luas }}"
+                        class="form-control"
+                        style="min-width:100px;">
+                </td>
 
-                            <option value="perlu_perbaikan"
-                            {{ $d->status_verifikasi == 'perlu_perbaikan' ? 'selected' : '' }}>
-                                Perlu Perbaikan
-                            </option>
+                <!-- K_S -->
+                <td>
+                    <input type="text"
+                        name="sps_surut_ket[]"
+                        value="{{ $d->sps_surut_ket }}"
+                        class="form-control"
+                        style="min-width:100px;">
+                </td>
 
-                        </select>
+                <!-- LPSO -->
+                <td>
+                    <input type="number"
+                        step="0.01"
+                        name="sps_puso_luas[]"
+                        value="{{ $d->sps_puso_luas }}"
+                        class="form-control"
+                        style="min-width:100px;">
+                </td>
 
-                    @else
+                <!-- K_P -->
+                <td>
+                    <input type="text"
+                        name="sps_puso_ket[]"
+                        value="{{ $d->sps_puso_ket }}"
+                        class="form-control"
+                        style="min-width:100px;">
+                </td>
 
-                        @if($d->status_verifikasi == 'terverifikasi')
+                <!-- LT_T -->
+                <td>
+                    <input
+                        type="number"
+                        step="0.01"
+                        name="luas_tambah_terkena[]"
+                        value="{{ $d->luas_tambah_terkena }}"
+                        class="form-control lt_t"
+                        style="min-width:150px;">
+                </td>
 
-                            <span class="badge bg-success">
-                                Terverifikasi
-                            </span>
+                <!-- LT_P -->
+                <td>
+                    <input type="number"
+                        step="0.01"
+                        name="luas_tambah_puso[]"
+                        value="{{ $d->luas_tambah_puso }}"
+                        class="form-control lt_p"
+                        style="min-width:150px;">
+                </td>
 
-                        @elseif($d->status_verifikasi == 'perlu_perbaikan')
+                <!-- LK_T -->
+                <td class="bg-pink">
+                    <input
+                        name="luas_keadaan_terkena[]"
+                        value="{{ $d->luas_keadaan_terkena }}"
+                        class="form-control lk_t"
+                        style="min-width:150px;"
+                        readonly>
+                </td>
 
-                            <span class="badge bg-danger">
-                                Perlu Perbaikan
-                            </span>
 
-                        @else
+                <!-- LK_P -->
+                <td class="bg-pink">
+                    <input
+                        type="number"
+                        step="0.01"
+                        name="luas_keadaan_puso[]"
+                        value="{{ $d->luas_keadaan_puso }}"
+                        class="form-control lk_p"
+                        readonly
+                        style="min-width:150px;">
+                </td>
 
-                            <span class="badge bg-warning text-dark">
-                                Menunggu
-                            </span>
+                <!-- UPY -->
+                <td>
+                    <input type="text"
+                        name="penangan_upaya[]"
+                        class="form-control"
+                        value="{{ $d->penangan_upaya }}"
+                        style="min-width:100px;">
+                </td>
 
-                        @endif
+                <!-- J_UPY -->
+                <td>
+                    <input type="number"
+                        step="0.01"
+                        name="penangan_jumlah[]"
+                        value="{{ $d->penangan_jumlah }}"
+                        class="form-control"
+                        style="min-width:100px;">
+                </td>
 
-                    @endif
+                <!-- LAT -->
+                <td>
+                    <input type="number"
+                        step="0.000000"
+                        name="koordinat_latitude[]"
+                        value="{{ $d->koordinat_latitude }}"
+                        class="form-control"
+                        style="min-width:100px;">
+                </td>
 
-                    </td>
-                    <td>
+                <!-- LONG -->
+                <td>
+                    <input type="number"
+                        step="0.000000"
+                        name="koordinat_longitude[]"
+                        value="{{ $d->koordinat_longitude }}"
+                        class="form-control"
+                        style="min-width:100px;">
+                </td>
 
-                        @if(session('role') == 'lphp')
-
-                           <textarea
-                                name="keterangan_verifikasi[{{ $d->id_det_laporan_kerusakan_tanaman_akibat_banjir }}]"
-                                class="form-control form-control-sm">
-                            {{ $d->keterangan_verifikasi }}
-                            </textarea>
-                        @else
-
-                            {{ $d->keterangan_verifikasi ?? '-' }}
-
-                        @endif
-
-                    </td>
-                    <td>
-
-                        @if(
-                            session('role') == 'popt'
-                            && $d->status_verifikasi == 'perlu_perbaikan'
-                        )
-
-                            <a href="{{ route(
-                                'laporan-kerusakan-tanaman-akibat-banjir.edit',
-                                $d->id_det_laporan_kerusakan_tanaman_akibat_banjir
-                            ) }}"
-                            class="btn btn-warning btn-sm">
-
-                                Edit
-
-                            </a>
-
-                        @endif
-
-                    </td>
         </tr>
 
         @endforeach
@@ -493,49 +586,101 @@
     </tbody>
 
 </table>
-        @if(session('role') == 'lphp')
 
-        <div class="mb-3">
+        <div class="row mt-5">
 
-            <button
-                type="submit"
-                class="btn btn-success">
+            <div class="col-md-6">
+        </div>
 
-                Simpan Verifikasi
+        <div class="col-md-6 text-center">
 
-            </button>
+        <div class="bg-pink p-2">
+
+            <strong>
+                {{ $header->nama_kecamatan }},
+                {{ now()->translatedFormat('d F Y') }}
+            </strong>
+
+            <br>
+
+            POPT Kec.
+            {{ $header->nama_kecamatan }}
 
         </div>
 
-        @endif
+        <br><br><br>
 
+        <div class="bg-pink p-2">
+
+            <strong>
+                ................................
+            </strong>
+
+            <br>
+
+            NIP :
+            ................................
+
+        </div>
+    </div>
+</div>
+
+        <div class="mt-3">
+
+        <button type="submit" class="btn btn-success">
+            Update
         </button>
 
-        <a href="{{ route('sp.create',$header->id_data) }}"
-            class="btn btn-secondary">
+        <a href="{{ route('laporan-kerusakan-tanaman-akibat-banjir.index')}}"
+        class="btn btn-secondary">
+
             Kembali
+
         </a>
 
-            @if(
-                session('role') == 'popt'
-                && collect($detail)->every(function ($item) {
-                    return $item->status_verifikasi == 'menunggu';
-                })
-            )
-
-            <a href="{{ route(
-                'laporan-kerusakan-tanaman-akibat-banjir.edit',
-                $header->id_laporan_kerusakan_tanaman_akibat_banjir
-            ) }}"
-            class="btn btn-warning">
-                Edit
-            </a>
-
-            @endif
-
     </div>
+
+
 </form>
+
 </body>
+
+<script>
+
+document.addEventListener('input', function(e){
+
+    let row =
+        e.target.closest('tr');
+
+    if(!row) return;
+
+    let lt_t =
+        row.querySelector('.lt_t');
+
+    let lt_p =
+        row.querySelector('.lt_p');
+
+    let lk_t =
+        row.querySelector('.lk_t');
+
+    let lk_p =
+        row.querySelector('.lk_p');
+
+    if(lt_t && lk_t)
+    {
+        lk_t.value =
+            lt_t.value || 0;
+    }
+
+    if(lt_p && lk_p)
+    {
+        lk_p.value =
+            lt_p.value || 0;
+    }
+
+});
+
+</script>
 </div>
 </html>
 

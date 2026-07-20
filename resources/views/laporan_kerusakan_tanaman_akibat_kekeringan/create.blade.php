@@ -267,326 +267,330 @@
 
 </thead>
         <tbody id="tbody-kekeringan">
+           <input
+                type="hidden"
+                name="id_data"
+                value="{{ $data->id_data }}"> 
 
-<input type="hidden"
-    name="id_tahun[]"
-    value="{{ $data->id_tahun }}">
+            <input type="hidden"
+                name="id_tahun[]"
+                value="{{ $data->id_tahun }}">
 
-<input type="hidden"
-    name="id_bulan[]"
-    value="{{ $data->id_bulan }}">
+            <input type="hidden"
+                name="id_bulan[]"
+                value="{{ $data->id_bulan }}">
 
-<input type="hidden"
-    name="id_periode[]"
-    value="{{ $data->id_periode }}">
-    
-<input
-    type="hidden"
-    name="id_musim_tanam"
-    value="{{ $data->id_musim_tanam }}">
+            <input type="hidden"
+                name="id_periode[]"
+                value="{{ $data->id_periode }}">
+                
+            <input
+                type="hidden"
+                name="id_musim_tanam"
+                value="{{ $data->id_musim_tanam }}">
 
-<tr class="baris-kekeringan">
+        <tr class="baris-kekeringan">
 
-    <!-- THN -->
-    <td class="table-danger">
-        {{ $data->tahun->tahun }}
-    </td>
+            <!-- THN -->
+            <td class="table-danger">
+                {{ $data->tahun->tahun }}
+            </td>
 
-    <!-- BLN -->
-    <td class="table-danger">
-        {{ $data->bulan->bulan }}
-    </td>
+            <!-- BLN -->
+            <td class="table-danger">
+                {{ $data->bulan->bulan }}
+            </td>
 
-    <!-- PRD -->
-    <td class="table-danger">
-        {{ $data->periode->id_periode }}
-    </td>
+            <!-- PRD -->
+            <td class="table-danger">
+                {{ $data->periode->id_periode }}
+            </td>
 
-    <!-- KAB -->
-    <td class="bg-hijau">
+            <!-- KAB -->
+            <td class="bg-hijau">
 
-        {{ $data->petugas->kecamatan->kabupaten->nama_kabupaten_kota }}
+                {{ $data->petugas->kecamatan->kabupaten->nama_kabupaten_kota }}
 
-        <input
-            type="hidden"
-            name="id_kabupaten_kota[]"
-            value="{{ $data->petugas->kecamatan->kabupaten->id_kabupaten_kota }}">
-    </td>
+                <input
+                    type="hidden"
+                    name="id_kabupaten_kota[]"
+                    value="{{ $data->petugas->kecamatan->kabupaten->id_kabupaten_kota }}">
+            </td>
 
-    <!-- KEC -->
-    <td class="bg-hijau">
+            <!-- KEC -->
+            <td class="bg-hijau">
 
-        {{ $data->petugas->kecamatan->nama_kecamatan }}
+                {{ $data->petugas->kecamatan->nama_kecamatan }}
 
-        <input
-            type="hidden"
-            name="id_kecamatan[]"
-            value="{{ $data->petugas->id_kecamatan }}">
-    </td>
+                <input
+                    type="hidden"
+                    name="id_kecamatan[]"
+                    value="{{ $data->petugas->id_kecamatan }}">
+            </td>
 
-    <!-- DES -->
-    <td class="table-success">
-        <select
-            name="id_desa[]"
-            class="form-select"
-            style="min-width:200px;">
+            <!-- DES -->
+            <td class="table-success">
+                <select
+                    name="id_desa[]"
+                    class="form-select"
+                    style="min-width:200px;">
 
-            <option value="">Pilih Desa</option>
+                    <option value="">Pilih Desa</option>
 
-            @foreach($desa as $d)
-                <option value="{{ $d->id_desa }}">
-                    {{ $d->nama_desa }}
-                </option>
-            @endforeach
+                    @foreach($desa as $d)
+                        <option value="{{ $d->id_desa }}">
+                            {{ $d->nama_desa }}
+                        </option>
+                    @endforeach
 
-        </select>
-    </td>
+                </select>
+            </td>
 
-    <!-- TAN -->
-    <td class="table-success">
-        <select
-            name="id_komoditas[]"
-            class="form-select"
-            style="min-width:200px;">
+            <!-- TAN -->
+            <td class="table-success">
+                <select
+                    name="id_komoditas[]"
+                    class="form-select"
+                    style="min-width:200px;">
 
-            <option value="">Pilih Komoditas</option>
+                    <option value="">Pilih Komoditas</option>
 
-            @foreach($komoditas as $k)
-                <option value="{{ $k->id_komoditas }}">
-                    {{ $k->komoditas }}
-                </option>
-            @endforeach
+                    @foreach($komoditas as $k)
+                        <option value="{{ $k->id_komoditas }}">
+                            {{ $k->komoditas }}
+                        </option>
+                    @endforeach
 
-        </select>
-    </td>
+                </select>
+            </td>
 
-    <!-- VAR -->
-    <td>
-        <input type="text"
-            name="var[]"
-            class="form-control"
-            style="min-width:100px;">
-    </td>
+            <!-- VAR -->
+            <td>
+                <input type="text"
+                    name="var[]"
+                    class="form-control"
+                    style="min-width:100px;">
+            </td>
 
-    <!-- UMR -->
-    <td>
-        <input type="text"
-            name="umr[]"
-            class="form-control"
-            style="min-width:100px;">
-    </td>
+            <!-- UMR -->
+            <td>
+                <input type="text"
+                    name="umr[]"
+                    class="form-control"
+                    style="min-width:100px;">
+            </td>
 
-    <!-- LST -->
-    <td>
-        <input type="number"
-            step="0.01"
-            name="lst[]"
-            class="form-control"
-            style="min-width:100px;">
-    </td>
+            <!-- LST -->
+            <td>
+                <input type="number"
+                    step="0.01"
+                    name="lst[]"
+                    class="form-control"
+                    style="min-width:100px;">
+            </td>
 
-    <!-- WAS -->
-    <td>
-        <input type="number"
-            step="0.01"
-            name="was[]"
-            class="form-control"
-            style="min-width:100px;">
-    </td>
+            <!-- WAS -->
+            <td>
+                <input type="number"
+                    step="0.01"
+                    name="was[]"
+                    class="form-control"
+                    style="min-width:100px;">
+            </td>
 
-    <!-- SP_R -->
-    <td>
-        <input type="number"
-            step="0.01"
-            name="sp_r[]"
-            class="form-control sp_r"
-            style="min-width:100px;">
-    </td>
+            <!-- SP_R -->
+            <td>
+                <input type="number"
+                    step="0.01"
+                    name="sp_r[]"
+                    class="form-control sp_r"
+                    style="min-width:100px;">
+            </td>
 
-    <!-- SP_S -->
-    <td>
-        <input type="number"
-            step="0.01"
-            name="sp_s[]"
-            class="form-control sp_s"
-            style="min-width:100px;">
-    </td>
+            <!-- SP_S -->
+            <td>
+                <input type="number"
+                    step="0.01"
+                    name="sp_s[]"
+                    class="form-control sp_s"
+                    style="min-width:100px;">
+            </td>
 
-    <!-- SP_B -->
-    <td>
-        <input type="number"
-            step="0.01"
-            name="sp_b[]"
-            class="form-control sp_b"
-            style="min-width:100px;">
-    </td>
+            <!-- SP_B -->
+            <td>
+                <input type="number"
+                    step="0.01"
+                    name="sp_b[]"
+                    class="form-control sp_b"
+                    style="min-width:100px;">
+            </td>
 
-    <!-- SP_PS -->
-    <td>
-        <input type="number"
-            step="0.01"
-            name="sp_ps[]"
-            class="form-control sp_ps"
-            style="min-width:100px;">
-    </td>
+            <!-- SP_PS -->
+            <td>
+                <input type="number"
+                    step="0.01"
+                    name="sp_ps[]"
+                    class="form-control sp_ps"
+                    style="min-width:100px;">
+            </td>
 
-    <!-- SP_PL -->
-    <td>
-        <input type="number"
-            step="0.01"
-            name="sp_pl[]"
-            class="form-control sp_pl"
-            style="min-width:100px;">
-    </td>
+            <!-- SP_PL -->
+            <td>
+                <input type="number"
+                    step="0.01"
+                    name="sp_pl[]"
+                    class="form-control sp_pl"
+                    style="min-width:100px;">
+            </td>
 
-    <!-- SP_J -->
-    <td class="bg-pink">
-        <input type="number"
-            name="sp_j[]"
-            class="form-control sp_j"
-            readonly
-            value="0"
-            style="min-width:100px;">
-    </td>
+            <!-- SP_J -->
+            <td class="bg-pink">
+                <input type="number"
+                    name="sp_j[]"
+                    class="form-control sp_j"
+                    readonly
+                    value="0"
+                    style="min-width:100px;">
+            </td>
 
-    <!-- LT_R -->
-    <td>
-        <input type="number"
-            step="0.01"
-            name="lt_r[]"
-            class="form-control lt_r"
-            style="min-width:100px;">
-    </td>
+            <!-- LT_R -->
+            <td>
+                <input type="number"
+                    step="0.01"
+                    name="lt_r[]"
+                    class="form-control lt_r"
+                    style="min-width:100px;">
+            </td>
 
-    <!-- LT_S -->
-    <td>
-        <input type="number"
-            step="0.01"
-            name="lt_s[]"
-            class="form-control lt_s"
-            style="min-width:100px;">
-    </td>
+            <!-- LT_S -->
+            <td>
+                <input type="number"
+                    step="0.01"
+                    name="lt_s[]"
+                    class="form-control lt_s"
+                    style="min-width:100px;">
+            </td>
 
-    <!-- LT_B -->
-    <td>
-        <input type="number"
-            step="0.01"
-            name="lt_b[]"
-            class="form-control lt_b"
-            style="min-width:100px;">
-    </td>
+            <!-- LT_B -->
+            <td>
+                <input type="number"
+                    step="0.01"
+                    name="lt_b[]"
+                    class="form-control lt_b"
+                    style="min-width:100px;">
+            </td>
 
-    <!-- LT_P -->
-    <td>
-        <input type="number"
-            step="0.01"
-            name="lt_p[]"
-            class="form-control lt_p"
-            style="min-width:100px;">
-    </td>
+            <!-- LT_P -->
+            <td>
+                <input type="number"
+                    step="0.01"
+                    name="lt_p[]"
+                    class="form-control lt_p"
+                    style="min-width:100px;">
+            </td>
 
-    <!-- LT_J -->
-    <td class="bg-pink">
-        <input type="number"
-            name="lt_j[]"
-            class="form-control lt_j"
-            readonly
-            value="0"
-            style="min-width:100px;">
-    </td>
+            <!-- LT_J -->
+            <td class="bg-pink">
+                <input type="number"
+                    name="lt_j[]"
+                    class="form-control lt_j"
+                    readonly
+                    value="0"
+                    style="min-width:100px;">
+            </td>
 
-    <!-- LK_R -->
-    <td class="bg-pink">
-        <input type="number"
-            name="lk_r[]"
-            class="form-control lk_r"
-            readonly
-            value="0"
-            style="min-width:120px;">
-    </td>
+            <!-- LK_R -->
+            <td class="bg-pink">
+                <input type="number"
+                    name="lk_r[]"
+                    class="form-control lk_r"
+                    readonly
+                    value="0"
+                    style="min-width:120px;">
+            </td>
 
-    <!-- LK_S -->
-    <td class="bg-pink">
-        <input type="number"
-            name="lk_s[]"
-            class="form-control lk_s"
-            readonly
-            value="0"
-            style="min-width:120px;">
-    </td>
+            <!-- LK_S -->
+            <td class="bg-pink">
+                <input type="number"
+                    name="lk_s[]"
+                    class="form-control lk_s"
+                    readonly
+                    value="0"
+                    style="min-width:120px;">
+            </td>
 
-    <!-- LK_B -->
-    <td class="bg-pink">
-        <input type="number"
-            name="lk_b[]"
-            class="form-control lk_b"
-            readonly
-            value="0"
-            style="min-width:120px;">
-    </td>
+            <!-- LK_B -->
+            <td class="bg-pink">
+                <input type="number"
+                    name="lk_b[]"
+                    class="form-control lk_b"
+                    readonly
+                    value="0"
+                    style="min-width:120px;">
+            </td>
 
-    <!-- LK_P -->
-    <td class="bg-pink">
-        <input type="number"
-            name="lk_p[]"
-            class="form-control lk_p"
-            readonly
-            value="0"
-            style="min-width:120px;">
-    </td>
+            <!-- LK_P -->
+            <td class="bg-pink">
+                <input type="number"
+                    name="lk_p[]"
+                    class="form-control lk_p"
+                    readonly
+                    value="0"
+                    style="min-width:120px;">
+            </td>
 
-    <!-- LK_J -->
-    <td class="bg-pink">
-        <input type="number"
-            name="lk_j[]"
-            class="form-control lk_j"
-            readonly
-            value="0"
-            style="min-width:120px;">
-    </td>
+            <!-- LK_J -->
+            <td class="bg-pink">
+                <input type="number"
+                    name="lk_j[]"
+                    class="form-control lk_j"
+                    readonly
+                    value="0"
+                    style="min-width:120px;">
+            </td>
 
-    <!-- UPY -->
-    <td>
-        <input
-            type="number"
-            step="0.01"
-            name="upy[]"
-            class="form-control"
-            style="min-width:120px;">
-    </td>
+            <!-- UPY -->
+            <td>
+                <input
+                    type="number"
+                    step="0.01"
+                    name="upy[]"
+                    class="form-control"
+                    style="min-width:120px;">
+            </td>
 
-    <!-- L_UPY -->
-    <td>
-        <input type="number"
-            step="0.01"
-            name="l_upy[]"
-            class="form-control"
-            style="min-width:100px;">
-    </td>
+            <!-- L_UPY -->
+            <td>
+                <input type="number"
+                    step="0.01"
+                    name="l_upy[]"
+                    class="form-control"
+                    style="min-width:100px;">
+            </td>
 
-    <!-- LAT -->
-    <td>
-        <input type="text"
-            name="lat[]"
-            class="form-control"
-            style="min-width:120px;">
-    </td>
+            <!-- LAT -->
+            <td>
+                <input type="text"
+                    name="lat[]"
+                    class="form-control"
+                    style="min-width:120px;">
+            </td>
 
-    <!-- LONG -->
-    <td>
-        <input type="text"
-            name="long[]"
-            class="form-control"
-            style="min-width:120px;">
-    </td>
+            <!-- LONG -->
+            <td>
+                <input type="text"
+                    name="long[]"
+                    class="form-control"
+                    style="min-width:120px;">
+            </td>
 
-</tr>
+        </tr>
 
-</tbody>
+    </tbody>
       
-    </table>
+</table>
 
-        <div class="row mt-5">
+    <div class="row mt-5">
 
     <div class="col-md-6">
     </div>
@@ -626,7 +630,7 @@
 
 </div>
 
-        <div class="mt-3">
+    <div class="mt-3">
 
         <button
             type="button"
@@ -660,104 +664,103 @@
 </body>
     <script>
 
-document.addEventListener('input', function(e){
+    document.addEventListener('input', function(e){
 
-    let row = e.target.closest('tr');
+        let row = e.target.closest('tr');
 
-    if(!row) return;
+        if(!row) return;
 
-    let sp_r  = parseFloat(row.querySelector('.sp_r')?.value)  || 0;
-    let sp_s  = parseFloat(row.querySelector('.sp_s')?.value)  || 0;
-    let sp_b  = parseFloat(row.querySelector('.sp_b')?.value)  || 0;
-    let sp_ps = parseFloat(row.querySelector('.sp_ps')?.value) || 0;
-    let sp_pl = parseFloat(row.querySelector('.sp_pl')?.value) || 0;
+        let sp_r  = parseFloat(row.querySelector('.sp_r')?.value)  || 0;
+        let sp_s  = parseFloat(row.querySelector('.sp_s')?.value)  || 0;
+        let sp_b  = parseFloat(row.querySelector('.sp_b')?.value)  || 0;
+        let sp_ps = parseFloat(row.querySelector('.sp_ps')?.value) || 0;
+        let sp_pl = parseFloat(row.querySelector('.sp_pl')?.value) || 0;
 
-    let lt_r = parseFloat(row.querySelector('.lt_r')?.value) || 0;
-    let lt_s = parseFloat(row.querySelector('.lt_s')?.value) || 0;
-    let lt_b = parseFloat(row.querySelector('.lt_b')?.value) || 0;
-    let lt_p = parseFloat(row.querySelector('.lt_p')?.value) || 0;
+        let lt_r = parseFloat(row.querySelector('.lt_r')?.value) || 0;
+        let lt_s = parseFloat(row.querySelector('.lt_s')?.value) || 0;
+        let lt_b = parseFloat(row.querySelector('.lt_b')?.value) || 0;
+        let lt_p = parseFloat(row.querySelector('.lt_p')?.value) || 0;
 
-    let sp_j = sp_r + sp_s + sp_b + sp_ps + sp_pl;
+        let sp_j = sp_r + sp_s + sp_b + sp_ps + sp_pl;
 
-    let lt_j = lt_r + lt_s + lt_b + lt_p;
+        let lt_j = lt_r + lt_s + lt_b + lt_p;
 
-    let lk_r = sp_r + lt_r;
-    let lk_s = sp_s + lt_s;
-    let lk_b = sp_b + lt_b;
-    let lk_p = sp_ps + lt_p;
+        let lk_r = sp_r + lt_r;
+        let lk_s = sp_s + lt_s;
+        let lk_b = sp_b + lt_b;
+        let lk_p = sp_ps + lt_p;
 
-    let lk_j = sp_j + lt_j;
+        let lk_j = sp_j + lt_j;
 
-    row.querySelector('.sp_j').value = sp_j;
-    row.querySelector('.lt_j').value = lt_j;
+        row.querySelector('.sp_j').value = sp_j;
+        row.querySelector('.lt_j').value = lt_j;
 
-    row.querySelector('.lk_r').value = sp_r + lt_r;
-    row.querySelector('.lk_s').value = sp_s + lt_s;
-    row.querySelector('.lk_b').value = sp_b + lt_b;
-    row.querySelector('.lk_p').value = sp_ps + lt_p;
+        row.querySelector('.lk_r').value = sp_r + lt_r;
+        row.querySelector('.lk_s').value = sp_s + lt_s;
+        row.querySelector('.lk_b').value = sp_b + lt_b;
+        row.querySelector('.lk_p').value = sp_ps + lt_p;
 
-    row.querySelector('.lk_j').value = lk_j;
+        row.querySelector('.lk_j').value = lk_j;
 
-});
+    });
 
-
-</script>
+    </script>
     <script>
 
-document.getElementById('tambahBaris')
-.addEventListener('click', function(){
+    document.getElementById('tambahBaris')
+    .addEventListener('click', function(){
 
-    let tbody =
-        document.getElementById('tbody-kekeringan');
+        let tbody =
+            document.getElementById('tbody-kekeringan');
 
-    let contohBaris =
-        document.querySelector('.baris-kekeringan');
+        let contohBaris =
+            document.querySelector('.baris-kekeringan');
 
-    let barisBaru =
-        contohBaris.cloneNode(true);
+        let barisBaru =
+            contohBaris.cloneNode(true);
 
-    barisBaru.querySelectorAll('input')
-    .forEach(function(input){
+        barisBaru.querySelectorAll('input')
+        .forEach(function(input){
 
-        if(input.type === 'hidden'){
-            return;
-        }
+            if(input.type === 'hidden'){
+                return;
+            }
 
-        if(
-            input.classList.contains('sp_j')
-            ||
-            input.classList.contains('lt_j')
-            ||
-            input.classList.contains('lk_r')
-            ||
-            input.classList.contains('lk_s')
-            ||
-            input.classList.contains('lk_b')
-            ||
-            input.classList.contains('lk_p')
-            ||
-            input.classList.contains('lk_j')
-        ){
-            input.value = 0;
-        }
-        else{
-            input.value = '';
-        }
+            if(
+                input.classList.contains('sp_j')
+                ||
+                input.classList.contains('lt_j')
+                ||
+                input.classList.contains('lk_r')
+                ||
+                input.classList.contains('lk_s')
+                ||
+                input.classList.contains('lk_b')
+                ||
+                input.classList.contains('lk_p')
+                ||
+                input.classList.contains('lk_j')
+            ){
+                input.value = 0;
+            }
+            else{
+                input.value = '';
+            }
+
+        });
+
+        barisBaru.querySelectorAll('select')
+        .forEach(function(select){
+
+            select.selectedIndex = 0;
+
+        });
+
+        tbody.appendChild(barisBaru);
 
     });
 
-    barisBaru.querySelectorAll('select')
-    .forEach(function(select){
-
-        select.selectedIndex = 0;
-
-    });
-
-    tbody.appendChild(barisBaru);
-
-});
-
-</script>
+    </script>
 </div>
 </html>
 

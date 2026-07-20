@@ -208,7 +208,7 @@
                 1. Pengamatan Persemaian Padi
             </a>
         </td>
-        <td class="checklist">V</td>
+        <td class="checklist"></td>
     </tr>
 
     <tr>
@@ -228,7 +228,7 @@
                 3. Keadaan OPT Pada Petak Pengamatan Tetap
             </a>
         </td>
-        <td class="checklist">V</td>
+        <td class="checklist"></td>
     </tr>
 
     <tr>
@@ -237,16 +237,32 @@
                 4. Kerusakan Tanaman Akibat Banjir
             </a>
         </td>
-        <td class="checklist">V</td>
+        <td class="checklist"></td>
     </tr>
 
     <tr>
         <td>
-            <a href="{{ route('laporan-kerusakan-tanaman-akibat-kekeringan.create',$data->id_data) }}">
-                5. Kerusakan Tanaman Akibat Kekeringan
-            </a>
+            @if($adaKekeringan)
+
+                <a href="{{ route(
+                    'laporan-kerusakan-tanaman-akibat-kekeringan.detail',
+                    $kekeringan->id_laporan_kerusakan_tanaman_akibat_kekeringan
+                ) }}">
+                    5. Kerusakan Tanaman Akibat Kekeringan
+                </a>
+
+            @else
+
+                <a href="{{ route(
+                    'laporan-kerusakan-tanaman-akibat-kekeringan.create',
+                    $data->id_data
+                ) }}">
+                    5. Kerusakan Tanaman Akibat Kekeringan
+                </a>
+
+            @endif
         </td>
-        <td class="checklist">V</td>
+        <td class="checklist"></td>
     </tr>
 
     <tr>
@@ -255,7 +271,7 @@
                 6. Perubahan Kategori Kekeringan
             </a>
         </td>
-        <td class="checklist">V</td>
+        <td class="checklist"></td>
     </tr>
 
     <tr>
@@ -264,7 +280,7 @@
                 7. Kerusakan Tanaman Akibat Gangguan Fisiologis
             </a>
         </td>
-        <td class="checklist">V</td>
+        <td class="checklist"></td>
     </tr>
 
     <tr>
@@ -273,7 +289,7 @@
                 8. Kerusakan Tanaman Akibat Bencana Alam
             </a>
         </td>
-        <td class="checklist">V</td>
+        <td class="checklist"></td>
     </tr>
 
     <tr>
@@ -282,7 +298,7 @@
                 9. Tangkapan Lampu Perangkap
             </a>
         </td>
-        <td class="checklist">-</td>
+        <td class="checklist"></td>
     </tr>
 
     <tr>
@@ -291,7 +307,7 @@
                 10. Kumulatif Luas Tambah Tanam Padi
             </a>
         </td>
-        <td class="checklist">V</td>
+        <td class="checklist"></td>
     </tr>
 
     <tr>
@@ -300,7 +316,7 @@
                 11. Penggunaan Pestisida
             </a>
         </td>
-        <td class="checklist">V</td>
+        <td class="checklist"></td>
     </tr>
 
     <tr>
@@ -309,7 +325,7 @@
                 12. Keadaan Curah Hujan
             </a>
         </td>
-        <td class="checklist">V</td>
+        <td class="checklist"></td>
     </tr>
 
     <tr>
@@ -318,7 +334,7 @@
                 13. Pengamatan Penyebaran dan Perkembangan Siput Murbei
             </a>
         </td>
-        <td class="checklist">V</td>
+        <td class="checklist"></td>
     </tr>
 
     <tr>
@@ -327,7 +343,7 @@
                 14. Laporan Peringatan Dini
             </a>
         </td>
-        <td class="checklist">V</td>
+        <td class="checklist"></td>
     </tr>
 
 </table>

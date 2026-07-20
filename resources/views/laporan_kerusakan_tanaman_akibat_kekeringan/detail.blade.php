@@ -111,12 +111,13 @@
     @endif
 
     <form method="POST"
-    action="{{ route(
-    'laporan-kerusakan-tanaman-akibat-kekeringan.proses-verifikasi',
-    $header->id_laporan_kerusakan_tanaman_akibat_kekeringan
-    ) }}">
+        action="{{ route(
+            'laporan-kerusakan-tanaman-akibat-kekeringan.proses-verifikasi',
+            $header->id_laporan_kerusakan_tanaman_akibat_kekeringan
+        ) }}">
 
     @csrf
+
     <div class="header-form">
 
     <table class="tbl-info-kiri">
@@ -158,184 +159,323 @@
     </table>
 
 </div>
+    <table class="table table-bordered">
+     <thead>
+        <tr>
+            <th rowspan="3" class="bg-biru">Tahun</th>
+            <th rowspan="3" class="bg-biru">Bulan</th>
+            <th rowspan="3" class="bg-biru">Periode</th>
+
+            <th rowspan="3" class="bg-biru">Kab/Kota</th>
+            <th rowspan="3" class="bg-biru">Kecamatan</th>
+            <th rowspan="3" class="bg-biru">Desa</th>
+            <th rowspan="3" class="bg-biru">Tanaman</th>
+
+            <th rowspan="3" class="bg-biru">Varietas</th>
+            <th rowspan="3" class="bg-biru">Umur<br>(Hst)</th>
+
+            <th rowspan="3" class="bg-biru">Luas Tanam<br>(Ha)</th>
+            <th rowspan="3" class="bg-biru">Luas Waspada<br>(Ha)</th>
+
+            <th colspan="6" class="bg-biru">
+                Sisa Periode Sebelumnya / Perubahan Kategori (Ha)
+            </th>
+
+            <th colspan="5" class="bg-biru">
+                Luas Tambah Pada Periode Laporan (Ha)
+            </th>
+
+            <th colspan="5" class="bg-biru">
+                Luas Keadaan Pada Periode Laporan (Ha)
+            </th>
+
+            <th colspan="2" class="bg-biru">
+                Penanganan
+            </th>
+
+            <th colspan="2" class="bg-biru">
+                Koordinat
+            </th>
+
+            <th class="bg-biru">
+                Status Verifikasi
+            </th>
+
+            <th class="bg-biru">
+                Keterangan
+            </th>
+
+            <th class="bg-biru">
+                
+            </th>
+
+        </tr>
+
+        <tr>
+            <th rowspan="2" class="bg-biru">Ringan</th>
+            <th rowspan="2" class="bg-biru">Sedang</th>
+            <th rowspan="2" class="bg-biru">Berat</th>
+            <th rowspan="2" class="bg-biru">Puso</th>
+            <th rowspan="2" class="bg-biru">Pulih</th>
+            <th rowspan="2" class="bg-biru">Jumlah</th>
+
+            <th rowspan="2" class="bg-biru">Ringan</th>
+            <th rowspan="2" class="bg-biru">Sedang</th>
+            <th rowspan="2" class="bg-biru">Berat</th>
+            <th rowspan="2" class="bg-biru">Puso</th>
+            <th rowspan="2" class="bg-biru">Jumlah</th>
+
+            <th rowspan="2" class="bg-biru">Ringan</th>
+            <th rowspan="2" class="bg-biru">Sedang</th>
+            <th rowspan="2" class="bg-biru">Berat</th>
+            <th rowspan="2" class="bg-biru">Puso</th>
+            <th rowspan="2" class="bg-biru">Jumlah</th>
+
+            <th rowspan="2" class="bg-biru">Upaya</th>
+            <th rowspan="2" class="bg-biru">Luas (Ha)</th>
+
+            <th rowspan="2" class="bg-biru">Latitude</th>
+            <th rowspan="2" class="bg-biru">Longitude</th>
+
+            <th rowspan="2" class="bg-biru"></th>
+            <th rowspan="2" class="bg-biru"></th>
+            <th rowspan="2" class="bg-biru"></th>
+
+        </tr>
+
+        <tr>
+        </tr>
+
+        <tr>
+            <th class="bg-kuning bg-pink">THN</th>
+            <th class="bg-kuning bg-pink">BLN</th>
+            <th class="bg-kuning bg-pink">PRD</th>
+
+            <th class="bg-kuning">KAB</th>
+            <th class="bg-kuning">KEC</th>
+            <th class="bg-kuning">DES</th>
+            <th class="bg-kuning">TAN</th>
+
+            <th class="bg-kuning">VAR</th>
+            <th class="bg-kuning">UMR</th>
+
+            <th class="bg-kuning">LST</th>
+            <th class="bg-kuning">WAS</th>
+
+            <th class="bg-kuning">SP_R</th>
+            <th class="bg-kuning">SP_S</th>
+            <th class="bg-kuning">SP_B</th>
+            <th class="bg-kuning">SP_PS</th>
+            <th class="bg-kuning">SP_PL</th>
+            <th class="bg-kuning bg-pink">SP_J</th>
+
+            <th class="bg-kuning">LT_R</th>
+            <th class="bg-kuning">LT_S</th>
+            <th class="bg-kuning">LT_B</th>
+            <th class="bg-kuning">LT_P</th>
+            <th class="bg-kuning bg-pink">LT_J</th>
+
+            <th class="bg-kuning bg-pink">LK_R</th>
+            <th class="bg-kuning bg-pink">LK_S</th>
+            <th class="bg-kuning bg-pink">LK_B</th>
+            <th class="bg-kuning bg-pink">LK_P</th>
+            <th class="bg-kuning bg-pink">LK_J</th>
+
+            <th class="bg-kuning">UPY</th>
+            <th class="bg-kuning">L_UPY</th>
+
+            <th class="bg-kuning">LAT</th>
+            <th class="bg-kuning">LONG</th>
+
+            <th class="bg-kuning">Status</th>
+            <th class="bg-kuning">Keterangan</th>
+            <th class="bg-kuning">Aksi</th>
+
+        </tr>
+
+    </thead>
+    <tbody>
+
+        @foreach($detail as $d)
+        <input
+            type="hidden"
+            name="id_detail[]"
+            value="{{ $d->id_det_laporan_kerusakan_tanaman_akibat_kekeringan }}">
 
 
+        <tr>
+    <td>{{ $d->id_tahun }}</td>
+    <td>{{ $d->id_bulan }}</td>
+    <td>{{ $d->id_periode }}</td>
 
-        <table class="table table-bordered">
-        <thead>
+    <td>{{ $header->id_kabupaten_kota }}</td>
+    <td>{{ $header->id_kecamatan }}</td>
+    <td>{{ $d->desa->nama_desa ?? '-' }}</td>
+    <td>{{ $d->komoditas->komoditas ?? '-' }}</td>
 
-<tr>
+    <td>{{ $d->var }}</td>
+    <td>{{ $d->umr }}</td>
 
-    <th rowspan="3" class="bg-biru">Tahun</th>
-    <th rowspan="3" class="bg-biru">Bulan</th>
-    <th rowspan="3" class="bg-biru">Periode</th>
+    <td>{{ $d->lst }}</td>
+    <td>{{ $d->was }}</td>
 
-    <th rowspan="3" class="bg-biru">Kab/Kota</th>
-    <th rowspan="3" class="bg-biru">Kecamatan</th>
-    <th rowspan="3" class="bg-biru">Desa</th>
-    <th rowspan="3" class="bg-biru">Tanaman</th>
+    <td>{{ $d->sp_r }}</td>
+    <td>{{ $d->sp_s }}</td>
+    <td>{{ $d->sp_b }}</td>
+    <td>{{ $d->sp_ps }}</td>
+    <td>{{ $d->sp_pl }}</td>
+    <td>{{ $d->sp_j }}</td>
 
-    <th rowspan="3" class="bg-biru">Varietas</th>
-    <th rowspan="3" class="bg-biru">Umur<br>(Hst)</th>
+    <td>{{ $d->lt_r }}</td>
+    <td>{{ $d->lt_s }}</td>
+    <td>{{ $d->lt_b }}</td>
+    <td>{{ $d->lt_p }}</td>
+    <td>{{ $d->lt_j }}</td>
 
-    <th rowspan="3" class="bg-biru">Luas Tanam<br>(Ha)</th>
-    <th rowspan="3" class="bg-biru">Luas Waspada<br>(Ha)</th>
+    <td>{{ $d->lk_r }}</td>
+    <td>{{ $d->lk_s }}</td>
+    <td>{{ $d->lk_b }}</td>
+    <td>{{ $d->lk_p }}</td>
+    <td>{{ $d->lk_j }}</td>
 
-    <th colspan="6" class="bg-biru">
-        Sisa Periode Sebelumnya / Perubahan Kategori (Ha)
-    </th>
+    <td>{{ $d->upy }}</td>
+    <td>{{ $d->l_upy }}</td>
 
-    <th colspan="5" class="bg-biru">
-        Luas Tambah Pada Periode Laporan (Ha)
-    </th>
+    <td>{{ $d->lat }}</td>
+    <td>{{ $d->long }}</td>
 
-    <th colspan="5" class="bg-biru">
-        Luas Keadaan Pada Periode Laporan (Ha)
-    </th>
+    <td>
 
-    <th colspan="2" class="bg-biru">
-        Penanganan
-    </th>
+        @if(session('role') == 'lphp')
 
-    <th colspan="2" class="bg-biru">
-        Koordinat
-    </th>
+           <select
+               name="status_verifikasi[{{ $d->id_det_laporan_kerusakan_tanaman_akibat_kekeringan }}]"
+                   class="form-select form-select-sm">
 
-    <th class="bg-biru">
-        Status Verifikasi
-    </th>
+                <option value="menunggu"
+                    {{ $d->status_verifikasi == 'menunggu' ? 'selected' : '' }}>
+                        Menunggu
+                </option>
 
-    <th class="bg-biru">
-        Keterangan
-    </th>
+               <option value="terverifikasi"
+                    {{ $d->status_verifikasi == 'terverifikasi' ? 'selected' : '' }}>
+                        Terverifikasi
+                </option>
 
-</tr>
+                <option value="perlu_perbaikan"
+                    {{ $d->status_verifikasi == 'perlu_perbaikan' ? 'selected' : '' }}>
+                        Perlu Perbaikan
+                </option>
 
-<tr>
+             </select>
 
-    <th rowspan="2" class="bg-biru">Ringan</th>
-    <th rowspan="2" class="bg-biru">Sedang</th>
-    <th rowspan="2" class="bg-biru">Berat</th>
-    <th rowspan="2" class="bg-biru">Puso</th>
-    <th rowspan="2" class="bg-biru">Pulih</th>
-    <th rowspan="2" class="bg-biru">Jumlah</th>
+        @else
 
-    <th rowspan="2" class="bg-biru">Ringan</th>
-    <th rowspan="2" class="bg-biru">Sedang</th>
-    <th rowspan="2" class="bg-biru">Berat</th>
-    <th rowspan="2" class="bg-biru">Puso</th>
-    <th rowspan="2" class="bg-biru">Jumlah</th>
+           @if($d->status_verifikasi == 'terverifikasi')
 
-    <th rowspan="2" class="bg-biru">Ringan</th>
-    <th rowspan="2" class="bg-biru">Sedang</th>
-    <th rowspan="2" class="bg-biru">Berat</th>
-    <th rowspan="2" class="bg-biru">Puso</th>
-    <th rowspan="2" class="bg-biru">Jumlah</th>
+                <span class="badge bg-success">
+                    Terverifikasi
+                </span>
 
-    <th rowspan="2" class="bg-biru">Upaya</th>
-    <th rowspan="2" class="bg-biru">Luas (Ha)</th>
+                    @elseif($d->status_verifikasi == 'perlu_perbaikan')
 
-    <th rowspan="2" class="bg-biru">Latitude</th>
-    <th rowspan="2" class="bg-biru">Longitude</th>
+                        <span class="badge bg-danger">
+                            Perlu Perbaikan
+                        </span>
 
-    <th rowspan="2" class="bg-biru"></th>
-    <th rowspan="2" class="bg-biru"></th>
+                    @else
 
-</tr>
+                        <span class="badge bg-warning text-dark">
+                            Menunggu
+                        </span>
 
-<tr>
-</tr>
+                    @endif
 
-<tr>
+            @endif
 
-    <th class="bg-kuning bg-pink">THN</th>
-    <th class="bg-kuning bg-pink">BLN</th>
-    <th class="bg-kuning bg-pink">PRD</th>
+        </td>
+            <td>
 
-    <th class="bg-kuning">KAB</th>
-    <th class="bg-kuning">KEC</th>
-    <th class="bg-kuning">DES</th>
-    <th class="bg-kuning">TAN</th>
+                @if(session('role') == 'lphp')
 
-    <th class="bg-kuning">VAR</th>
-    <th class="bg-kuning">UMR</th>
+                    <textarea
+                        name="keterangan_verifikasi[{{ $d->id_det_laporan_kerusakan_tanaman_akibat_kekeringan }}]"
+                        class="form-control form-control-sm">
+                            {{ $d->keterangan_verifikasi }}
+                    </textarea>
+                @else
 
-    <th class="bg-kuning">LST</th>
-    <th class="bg-kuning">WAS</th>
+                    {{ $d->keterangan_verifikasi ?? '-' }}
 
-    <th class="bg-kuning">SP_R</th>
-    <th class="bg-kuning">SP_S</th>
-    <th class="bg-kuning">SP_B</th>
-    <th class="bg-kuning">SP_PS</th>
-    <th class="bg-kuning">SP_PL</th>
-    <th class="bg-kuning bg-pink">SP_J</th>
+                @endif
 
-    <th class="bg-kuning">LT_R</th>
-    <th class="bg-kuning">LT_S</th>
-    <th class="bg-kuning">LT_B</th>
-    <th class="bg-kuning">LT_P</th>
-    <th class="bg-kuning bg-pink">LT_J</th>
+            </td>
+                <td>
 
-    <th class="bg-kuning bg-pink">LK_R</th>
-    <th class="bg-kuning bg-pink">LK_S</th>
-    <th class="bg-kuning bg-pink">LK_B</th>
-    <th class="bg-kuning bg-pink">LK_P</th>
-    <th class="bg-kuning bg-pink">LK_J</th>
+                    @if(
+                        session('role') == 'popt'
+                        && $d->status_verifikasi == 'perlu_perbaikan'
+                    )
 
-    <th class="bg-kuning">UPY</th>
-    <th class="bg-kuning">L_UPY</th>
+                        <a href="{{ route(
+                            'laporan-kerusakan-tanaman-akibat-kekeringan.edit',
+                            $d->id_det_laporan_kerusakan_tanaman_akibat_kekeringan
+                        ) }}"
+                        class="btn btn-warning btn-sm">
 
-    <th class="bg-kuning">LAT</th>
-    <th class="bg-kuning">LONG</th>
+                            Edit
 
-    <th class="bg-kuning">Status</th>
-    <th class="bg-kuning">Keterangan</th>
+                        </a>
 
-</tr>
+                    @endif
 
-</thead>
-      <tbody>
+                </td>
 
-@foreach($detail as $d)
+        </tr>
 
-<tr>
-
-    <td>TEST</td>
-    <td>{{ $d->id_det_laporan_kerusakan_tanaman_akibat_kekeringan }}</td>
-    <td>{{ $d->id_desa }}</td>
-    <td>{{ $d->id_komoditas }}</td>
-
-</tr>
-
-@endforeach
-
-</tbody> 
+        @endforeach
+    </tbody> 
 </table>
 
-@if(session('role') == 'lphp')
+    @if(session('role') == 'lphp')
 
-<div class="mt-3">
+    <div class="mt-3">
 
-    <button
-        type="submit"
-        class="btn btn-success">
+        <button
+            type="submit"
+            class="btn btn-success">
 
-        Simpan Verifikasi
+            Simpan Verifikasi
 
-    </button>
+        </button>
 
-</div>
+    </div>
 
-@endif
+    @endif
 
 </form>
 
-<a href="{{ route('laporan-kerusakan-tanaman-akibat-kekeringan.index') }}"
-class="btn btn-secondary">
-
+    <a href="{{ route('sp.create', $header->id_data) }}"
+    class="btn btn-secondary">
     Kembali
-
 </a>
+
+    @if(
+    session('role') == 'popt'
+    && collect($detail)->every(function ($item) {
+        return $item->status_verifikasi == 'menunggu';
+    })
+    )
+
+    <a href="{{ route(
+        'laporan-kerusakan-tanaman-akibat-kekeringan.edit',
+        $d->id_det_laporan_kerusakan_tanaman_akibat_kekeringan
+    ) }}"
+    class="btn btn-warning btn-sm">
+        Edit
+    </a>
+
+    @endif
 
 </div>
 </body>

@@ -157,7 +157,8 @@
 
 </div>
 
-<form action="{{ route('laporan-kerusakan-tanaman-akibat-banjir.update',$header->id_laporan_kerusakan_tanaman_akibat_banjir) }}" method="POST">
+<form action="{{ route('laporan-kerusakan-tanaman-akibat-banjir.update',$header->id_laporan_kerusakan_tanaman_akibat_banjir) }}"
+ method="POST">
     @csrf
 
 

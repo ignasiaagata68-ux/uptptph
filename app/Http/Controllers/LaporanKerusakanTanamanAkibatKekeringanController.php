@@ -10,6 +10,7 @@ use App\Models\Desa;
 use App\Models\Komoditas;
 use App\Models\KabupatenKota;
 use App\Models\Kecamatan;
+use App\Http\Controllers\SpController;
 
 use App\Models\LaporanKerusakanTanamanAkibatKekeringan;
 use App\Models\DetLaporanKerusakanTanamanAkibatKekeringan;
@@ -78,6 +79,18 @@ class LaporanKerusakanTanamanAkibatKekeringanController extends Controller
      */
     public function create($id_data)
     {
+        $laporan = LaporanKerusakanTanamanAkibatKekeringan::where(
+            'id_data',
+            $id_data
+        )->first();
+
+        if ($laporan) {
+            return redirect()->route(
+                'laporan-kerusakan-tanaman-akibat-kekeringan.detail',
+                $laporan->id_laporan_kerusakan_tanaman_akibat_kekeringan
+            );
+        }
+
         $data = Data::with([
             'petugas.kecamatan.kabupaten',
             'tahun',
@@ -110,19 +123,22 @@ class LaporanKerusakanTanamanAkibatKekeringanController extends Controller
 {
     $header = LaporanKerusakanTanamanAkibatKekeringan::create([
 
-        'id_periode' =>
-            $request->id_periode[0],
+    'id_data' =>
+        $request->id_data,
 
-        'id_kabupaten_kota' =>
-            $request->id_kabupaten_kota[0],
+    'id_periode' =>
+        $request->id_periode[0],
 
-        'id_kecamatan' =>
-            $request->id_kecamatan[0],
+    'id_kabupaten_kota' =>
+        $request->id_kabupaten_kota[0],
 
-        'id_musim_tanam' =>
-            $request->id_musim_tanam
+    'id_kecamatan' =>
+        $request->id_kecamatan[0],
 
-    ]);
+    'id_musim_tanam' =>
+        $request->id_musim_tanam,
+
+]);
 
     for ($i = 0; $i < count($request->id_desa); $i++) {
 
@@ -243,13 +259,14 @@ class LaporanKerusakanTanamanAkibatKekeringanController extends Controller
     }
 
     return redirect()
-        ->route(
-            'laporan-kerusakan-tanaman-akibat-kekeringan.index'
-        )
-        ->with(
-            'success',
-            'Data berhasil disimpan'
-        );
+    ->route(
+        'laporan-kerusakan-tanaman-akibat-kekeringan.detail',
+        $header->id_laporan_kerusakan_tanaman_akibat_kekeringan
+    )
+    ->with(
+        'success',
+        'Data berhasil disimpan'
+    );
 }
     /**
      * Display the specified resource.
@@ -262,38 +279,122 @@ class LaporanKerusakanTanamanAkibatKekeringanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-   public function dd($id)
+
+  public function edit($id)
 {
+    // Cek dulu apakah yang dikirim adalah id_detail
+    $detailPerbaikan = DetLaporanKerusakanTanamanAkibatKekeringan::find($id);
+
+    if ($detailPerbaikan) {
+
+        // Ambil id header dari detail
+        $idHeader = $detailPerbaikan
+            ->id_laporan_kerusakan_tanaman_akibat_kekeringan;
+
+        $header = DB::table(
+                'laporan_kerusakan_tanaman_akibat_kekeringan as h'
+            )
+
+            ->leftJoin(
+                'kabupaten_kota as kab',
+                'h.id_kabupaten_kota',
+                '=',
+                'kab.id_kabupaten_kota'
+            )
+
+            ->leftJoin(
+                'kecamatan as kec',
+                'h.id_kecamatan',
+                '=',
+                'kec.id_kecamatan'
+            )
+
+            ->leftJoin(
+                'periode as p',
+                'h.id_periode',
+                '=',
+                'p.id_periode'
+            )
+
+            ->leftJoin(
+                'musim_tanam as mt',
+                'h.id_musim_tanam',
+                '=',
+                'mt.id_musim_tanam'
+            )
+
+            ->where(
+                'h.id_laporan_kerusakan_tanaman_akibat_kekeringan',
+                $idHeader
+            )
+
+            ->select(
+                'h.*',
+                'kab.nama_kabupaten_kota',
+                'kec.nama_kecamatan',
+                'p.periode_pengamatan',
+                'mt.musim_tanam'
+            )
+
+            ->first();
+
+        $detail = collect([$detailPerbaikan]);
+
+        $idDetail = $detailPerbaikan
+            ->id_det_laporan_kerusakan_tanaman_akibat_kekeringan;
+
+        $desa = Desa::all();
+        $komoditas = Komoditas::all();
+
+        return view(
+            'laporan_kerusakan_tanaman_akibat_kekeringan.edit_perbaikan',
+            compact(
+                'header',
+                'detail',
+                'idDetail',
+                'desa',
+                'komoditas'
+            )
+        );
+    }
+
+    // ===== Edit seluruh laporan =====
+
     $header = DB::table(
             'laporan_kerusakan_tanaman_akibat_kekeringan as h'
         )
 
-        ->join(
+        ->leftJoin(
             'kabupaten_kota as kab',
             'h.id_kabupaten_kota',
             '=',
             'kab.id_kabupaten_kota'
         )
 
-        ->join(
+        ->leftJoin(
             'kecamatan as kec',
             'h.id_kecamatan',
             '=',
             'kec.id_kecamatan'
         )
 
-        ->join(
+        ->leftJoin(
             'periode as p',
             'h.id_periode',
             '=',
             'p.id_periode'
         )
 
-        ->join(
+        ->leftJoin(
             'musim_tanam as mt',
             'h.id_musim_tanam',
             '=',
             'mt.id_musim_tanam'
+        )
+
+        ->where(
+            'h.id_laporan_kerusakan_tanaman_akibat_kekeringan',
+            $id
         )
 
         ->select(
@@ -304,39 +405,7 @@ class LaporanKerusakanTanamanAkibatKekeringanController extends Controller
             'mt.musim_tanam'
         )
 
-        ->where(
-            'h.id_laporan_kerusakan_tanaman_akibat_kekeringan',
-            $id
-        )
-
         ->first();
-
-    $detail = DetLaporanKerusakanTanamanAkibatKekeringan::with([
-            'desa',
-            'komoditas'
-        ])
-
-        ->where(
-            'id_laporan_kerusakan_tanaman_akibat_kekeringan',
-            $id
-        )
-
-        ->get();
-
-        dd($detail->first());
-
-    return view(
-        'laporan_kerusakan_tanaman_akibat_kekeringan.detail',
-        compact(
-            'header',
-            'detail'
-        )
-    );
-}
-
-    public function edit($id)
-{
-    $header = LaporanKerusakanTanamanAkibatKekeringan::findOrFail($id);
 
     $detail = DetLaporanKerusakanTanamanAkibatKekeringan::where(
         'id_laporan_kerusakan_tanaman_akibat_kekeringan',
@@ -492,15 +561,13 @@ class LaporanKerusakanTanamanAkibatKekeringanController extends Controller
 
         ]);
     }
-
-    return redirect()
-        ->route(
-            'laporan-kerusakan-tanaman-akibat-kekeringan.index'
-        )
-        ->with(
-            'success',
-            'Data berhasil diupdate'
-        );
+   return redirect()->route(
+        'laporan-kerusakan-tanaman-akibat-kekeringan.detail',
+        ['id' => $id]
+    )->with(
+        'success',
+        'Data berhasil diupdate'
+    );
 }
 
     private function decimal($value)
@@ -518,8 +585,78 @@ class LaporanKerusakanTanamanAkibatKekeringanController extends Controller
     {
         //
     }
+    public function detail($id)
+{
+    $header = DB::table(
+            'laporan_kerusakan_tanaman_akibat_kekeringan as h'
+        )
 
-    public function prosesVerifikasi(Request $request, $id)
+        ->leftJoin(
+            'kabupaten_kota as kab',
+            'h.id_kabupaten_kota',
+            '=',
+            'kab.id_kabupaten_kota'
+        )
+
+        ->leftJoin(
+            'kecamatan as kec',
+            'h.id_kecamatan',
+            '=',
+            'kec.id_kecamatan'
+        )
+
+        ->leftJoin(
+            'periode as p',
+            'h.id_periode',
+            '=',
+            'p.id_periode'
+        )
+
+        ->leftJoin(
+            'musim_tanam as mt',
+            'h.id_musim_tanam',
+            '=',
+            'mt.id_musim_tanam'
+        )
+
+        ->where(
+            'h.id_laporan_kerusakan_tanaman_akibat_kekeringan',
+            $id
+        )
+
+        ->select(
+            'h.*',
+            'kab.nama_kabupaten_kota',
+            'kec.nama_kecamatan',
+            'p.periode_pengamatan',
+            'mt.musim_tanam'
+        )
+
+        ->first();
+
+    $detail = DetLaporanKerusakanTanamanAkibatKekeringan::with([
+            'desa',
+            'komoditas'
+        ])
+
+        ->where(
+            'id_laporan_kerusakan_tanaman_akibat_kekeringan',
+            $id
+        )
+
+        ->get();
+
+    return view(
+        'laporan_kerusakan_tanaman_akibat_kekeringan.detail',
+        compact(
+            'header',
+            'detail'
+
+        )
+    );
+}
+
+public function prosesVerifikasi(Request $request, $id)
 {
     foreach ($request->id_detail as $idDetail) {
 
@@ -543,6 +680,11 @@ class LaporanKerusakanTanamanAkibatKekeringanController extends Controller
         ]);
     }
 
+    $header = LaporanKerusakanTanamanAkibatKekeringan::findOrFail($id);
+
+    app(SpController::class)
+        ->cekStatusPengiriman($header->id_data);
+
     return redirect()
         ->route(
             'laporan-kerusakan-tanaman-akibat-kekeringan.detail',
@@ -552,5 +694,234 @@ class LaporanKerusakanTanamanAkibatKekeringanController extends Controller
             'success',
             'Verifikasi berhasil disimpan.'
         );
+    }   
+
+
+  private function cekStatusPengiriman($idData)
+{
+    $statusPersemaian = DB::table(
+        'det_pengamatan_persemaian_padi as d'
+    )
+    ->join(
+        'pengamatan_persemaian_padi as h',
+        'h.id_pengamatan_persemaian_padi',
+        '=',
+        'd.id_pengamatan_persemaian_padi'
+    )
+    ->where('h.id_data', $idData)
+    ->pluck('d.status_verifikasi');
+
+    $statusKekeringan = DB::table(
+        'det_laporan_kerusakan_tanaman_akibat_kekeringan as d'
+    )
+    ->join(
+        'laporan_kerusakan_tanaman_akibat_kekeringan as h',
+        'h.id_laporan_kerusakan_tanaman_akibat_kekeringan',
+        '=',
+        'd.id_laporan_kerusakan_tanaman_akibat_kekeringan'
+    )
+    ->where(
+        'h.id_data',
+        $idData
+    )
+    ->pluck('d.status_verifikasi');
+
+    $statusSemua = $statusKekeringan
+        ->merge($statusPersemaian);
+
+    if ($statusSemua->contains('perlu_perbaikan')) {
+
+        PengirimanLaporan::where('id_data', $idData)
+            ->update([
+                'status' => 'perlu_perbaikan'
+            ]);
+
+        return;
+    }
+
+    if ($statusSemua->contains('menunggu')) {
+
+        PengirimanLaporan::where('id_data', $idData)
+            ->update([
+                'status' => 'menunggu'
+            ]);
+
+        return;
+    }
+
+    $pengiriman = PengirimanLaporan::where('id_data', $idData)->first();
+
+    $pengiriman->status = 'terverifikasi';
+    $pengiriman->tanggal_verifikasi = now();
+    $pengiriman->id_user_lphp = session('id_user');
+
+    $pengiriman->save();
+}
+public function editPerbaikan($id)
+{
+    $detail = DetLaporanKerusakanTanamanAkibatKekeringan::findOrFail($id);
+
+    $header = DB::table('laporan_kerusakan_tanaman_akibat_kekeringan as l')
+
+        ->leftJoin(
+            'kabupaten_kota as kab',
+            'l.id_kabupaten_kota',
+            '=',
+            'kab.id_kabupaten_kota'
+        )
+
+        ->leftJoin(
+            'kecamatan as kec',
+            'l.id_kecamatan',
+            '=',
+            'kec.id_kecamatan'
+        )
+
+        ->leftJoin(
+            'periode as p',
+            'l.id_periode',
+            '=',
+            'p.id_periode'
+        )
+
+        ->leftJoin(
+            'musim_tanam as mt',
+            'l.id_musim_tanam',
+            '=',
+            'mt.id_musim_tanam'
+        )
+
+        ->where(
+            'l.id_laporan_kerusakan_tanaman_akibat_kekeringan',
+            $detail->id_laporan_kerusakan_tanaman_akibat_kekeringan
+        )
+
+        ->select(
+            'l.*',
+            'kab.nama_kabupaten_kota',
+            'kec.nama_kecamatan',
+            'p.periode_pengamatan',
+            'mt.musim_tanam'
+        )
+
+        ->first();
+
+    $detail = collect([$detailPerbaikan]);
+
+    $idDetail = $detailPerbaikan
+        ->id_det_laporan_kerusakan_tanaman_akibat_kekeringan;
+
+    $desa = Desa::all();
+    $komoditas = Komoditas::all();
+
+    return view(
+        'laporan_kerusakan_tanaman_akibat_kekeringan.edit_perbaikan',
+        compact(
+            'header',
+            'detail',
+            'idDetail',
+            'desa',
+            'komoditas'
+        )
+    );
+}
+public function updatePerbaikan(Request $request, $id)
+{
+    $detail = DetLaporanKerusakanTanamanAkibatKekeringan::findOrFail($id);
+    $detail->update([
+            'id_desa' =>
+                $request->id_desa[0],
+
+            'id_komoditas' =>
+                $request->id_komoditas[0],
+
+            'var' =>
+                $request->var[0],
+
+            'umr' =>
+                $request->umr[0],
+
+            'lst' =>
+                $this->decimal($request->lst[0]),
+
+            'was' =>
+                $this->decimal($request->was[0]),
+
+            'sp_r' =>
+                $this->decimal($request->sp_r[0]),
+
+            'sp_s' =>
+                $this->decimal($request->sp_s[0]),
+
+            'sp_b' =>
+                $this->decimal($request->sp_b[0]),
+
+            'sp_ps' =>
+                $this->decimal($request->sp_ps[0]),
+
+            'sp_pl' =>
+                $this->decimal($request->sp_pl[0]),
+
+            'sp_j' =>
+                $this->decimal($request->sp_j[0]),
+
+            'lt_r' =>
+                $this->decimal($request->lt_r[0]),
+
+            'lt_s' =>
+                $this->decimal($request->lt_s[0]),
+
+            'lt_b' =>
+                $this->decimal($request->lt_b[0]),
+
+            'lt_p' =>
+                $this->decimal($request->lt_p[0]),
+
+            'lt_j' =>
+                $this->decimal($request->lt_j[0]),
+
+            'lk_r' =>
+                $this->decimal($request->lk_r[0]),
+
+            'lk_s' =>
+                $this->decimal($request->lk_s[0]),
+
+            'lk_b' =>
+                $this->decimal($request->lk_b[0]),
+
+            'lk_p' =>
+                $this->decimal($request->lk_p[0]),
+
+            'lk_j' =>
+                $this->decimal($request->lk_j[0]),
+
+            'upy' =>
+                $this->decimal($request->upy[0]),
+
+            'l_upy' =>
+                $this->decimal($request->l_upy[0]),
+
+            'lat' =>
+                $this->decimal($request->lat[0]),
+
+            'long' =>
+                $this->decimal($request->long[0]),
+
+            'status_verifikasi' => 'menunggu',
+
+            'keterangan_verifikasi' => null,
+
+            'verified_by' => null,
+
+            'verified_at' => null,
+
+    ]);
+    
+    return redirect()
+        ->route(
+            'laporan-kerusakan-tanaman-akibat-kekeringan.detail',
+            $detail->id_laporan_kerusakan_tanaman_akibat_kekeringan
+        )
+        ->with('success', 'Data perbaikan berhasil disimpan.');
 }
 }
