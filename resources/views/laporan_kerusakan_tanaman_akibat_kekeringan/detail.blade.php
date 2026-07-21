@@ -454,28 +454,33 @@
     @endif
 
 </form>
+<div class="mt-3">
 
-    <a href="{{ route('sp.create', $header->id_data) }}"
-    class="btn btn-secondary">
-    Kembali
-</a>
-
-    @if(
-    session('role') == 'popt'
-    && collect($detail)->every(function ($item) {
-        return $item->status_verifikasi == 'menunggu';
-    })
-    )
-
-    <a href="{{ route(
-        'laporan-kerusakan-tanaman-akibat-kekeringan.edit',
-        $d->id_det_laporan_kerusakan_tanaman_akibat_kekeringan
-    ) }}"
-    class="btn btn-warning btn-sm">
-        Edit
+    <a href="{{ route('sp.create',$header->id_data) }}"
+       class="btn btn-secondary">
+        Kembali
     </a>
 
+    @if(
+        session('role') == 'popt'
+        && $detail->every(function($item){
+            return $item->status_verifikasi == 'menunggu';
+        })
+    )
+
+        <a href="{{ route(
+            'laporan-kerusakan-tanaman-akibat-kekeringan.edit',
+            $header->id_laporan_kerusakan_tanaman_akibat_kekeringan
+        ) }}"
+        class="btn btn-warning">
+            Edit
+        </a>
+
     @endif
+
+    
+
+</div>
 
 </div>
 </body>

@@ -39,6 +39,14 @@ class DataController extends Controller
                 session('id_user')
             )->first();
 
+            if (!$petugas) {
+
+                return redirect()->back()->with(
+                    'error',
+                    'Data petugas untuk akun ini belum tersedia.'
+                );
+
+            }
             $data = Data::with([
                 'petugas',
                 'tahun',

@@ -647,11 +647,12 @@
 
         </button>
 
-        <a href="{{ route('laporan-kerusakan-tanaman-akibat-kekeringan.index')}}"
+        <a href="{{ route(
+            'laporan-kerusakan-tanaman-akibat-kekeringan.detail',
+            $header->id_laporan_kerusakan_tanaman_akibat_kekeringan
+        ) }}"
         class="btn btn-secondary">
-
             Kembali
-
         </a>
 
     </div>

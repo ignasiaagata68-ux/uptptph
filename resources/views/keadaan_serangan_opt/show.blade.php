@@ -265,27 +265,46 @@
 
     @if(session('role') == 'lphp')
 
-    <div class="mb-3">
+<div class="mb-3">
 
-        <button
-            type="submit"
-            class="btn btn-success">
+    <button
+        type="submit"
+        class="btn btn-success">
 
-            Simpan Verifikasi
+        Simpan Verifikasi
 
-        </button>
+    </button>
 
-    </div>
+</div>
 
-    @endif
+@endif
 
-    </form>
+</form>
 
+    <div class="mt-3">
         <a href="{{ route('sp.create',$header->id_data) }}"
             class="btn btn-secondary">
             Kembali
         </a>
 
+        @if(
+            session('role') == 'popt'
+            && $detail->every(function($item){
+                return $item->status_verifikasi == 'menunggu';
+            })
+        )
+
+            <a href="{{ route(
+                'keadaan-serangan-opt.edit',
+                $header->id_keadaan_serangan_opt_dan_pengendalian_di_wilayah
+            ) }}"
+            class="btn btn-warning">
+                Edit
+            </a>
+
+        @endif
+
+    </div>
 </div>
 
 </body>

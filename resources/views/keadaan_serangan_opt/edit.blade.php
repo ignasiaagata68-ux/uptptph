@@ -584,15 +584,15 @@
 
 <div class="mt-3">
 
-    @if($detail->count() > 1)
-
-    <button type="button"
+    <button
+            type="button"
             id="tambahBaris"
             class="btn btn-primary">
-        Tambah Baris
-    </button>
 
-    @endif
+            Tambah Baris
+
+        </button>
+
 
     <button type="submit"
             class="btn btn-success">

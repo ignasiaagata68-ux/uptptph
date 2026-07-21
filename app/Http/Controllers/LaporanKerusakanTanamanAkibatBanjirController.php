@@ -440,8 +440,7 @@ class LaporanKerusakanTanamanAkibatBanjirController extends Controller
             'header',
             'detail',
             'desa',
-            'komoditas',
-            'idDetail'
+            'komoditas'
 
             )
     );

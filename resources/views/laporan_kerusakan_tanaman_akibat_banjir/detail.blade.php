@@ -203,8 +203,13 @@
                 <th colspan="2" class="bg-biru">
                     Koordinat
                 </th>
-                <th class="bg-biru"></th>
-                <th class="bg-biru"></th>
+                <th colspan="2" class="bg-biru">
+                    
+                </th>
+                <th colspan="2" class="bg-biru">
+                    
+                </th>
+                
 
             </tr>
 
@@ -255,6 +260,7 @@
                 <th rowspan="2" class="bg-biru">
                     
                 </th>
+                
             </tr>
 
             <tr>
@@ -273,6 +279,10 @@
 
                 <th class="bg-biru">
                     Ket (Periode)
+                </th>
+
+                <th class="bg-biru">
+                    
                 </th>
 
             </tr>

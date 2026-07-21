@@ -213,10 +213,29 @@
 
     <tr>
         <td>
-            <a href="{{ route('keadaan-serangan-opt.create',$data->id_data) }}">
-                2. Keadaan Serangan OPT Pangan dan Luas Pengendalian (Pengamatan Keliling)
-            </a>
+
+            @if($adaKeadaanSerangan)
+
+                <a href="{{ route(
+                    'keadaan-serangan-opt.show',
+                    $keadaanSerangan->id_keadaan_serangan_opt_dan_pengendalian_di_wilayah
+                ) }}">
+                    2. Keadaan Serangan OPT Pangan dan Luas Pengendalian (Pengamatan Keliling)
+                </a>
+
+            @else
+
+                <a href="{{ route(
+                    'keadaan-serangan-opt.create',
+                    $data->id_data
+                ) }}">
+                    2. Keadaan Serangan OPT Pangan dan Luas Pengendalian (Pengamatan Keliling)
+                </a>
+
+            @endif
+
         </td>
+
         <td class="checklist">
             {{ $adaKeadaanSerangan ? '✓' : '-' }}
         </td>
