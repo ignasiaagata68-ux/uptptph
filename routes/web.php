@@ -176,7 +176,6 @@ Route::middleware(['ceklogin','cekrole:pengelola_data,popt,lphp'])->group(functi
         Route::get('/create/{id_data}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'create'])->name('create');
         Route::post('/store',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'store'])->name('store');
         Route::get('/detail/{id}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'detail'])->name('detail');
-
         // Edit (normal & edit perbaikan lewat method edit())
         Route::get(
             '/edit/{id}',
