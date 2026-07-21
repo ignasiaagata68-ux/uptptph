@@ -31,20 +31,43 @@
     </div>
 
     <div class="row g-4">
-        <div class="col-lg-3">
 
-    <a href="/user-aplikasi" class="btn-dashboard w-100">
+    <div class="col-lg-3">
+        <a href="/user-aplikasi" class="btn-dashboard w-100 text-decoration-none">
 
-        <div class="quick-card">
+            <div class="quick-card text-center">
 
-            <div class="quick-icon setting">
+                <div class="quick-icon setting">
+                    <i class="bi bi-person-fill"></i>
+                </div>
 
-                <i class="bi bi-person-fill"></i>
+                <h5 class="mt-3">User Aplikasi</h5>
 
             </div>
 
-            
+        </a>
     </div>
+
+    <div class="col-lg-3">
+        <a href="/petugas" class="btn-dashboard w-100 text-decoration-none">
+
+            <div class="quick-card text-center">
+
+                <div class="quick-icon setting">
+                    <i class="bi bi-person-badge-fill"></i>
+                </div>
+
+                <h5 class="mt-3">Petugas</h5>
+
+            </div>
+
+        </a>
+    </div>
+    
+    
+
+</div>
+
 
 </div>
 

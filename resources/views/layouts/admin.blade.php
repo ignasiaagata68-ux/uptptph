@@ -399,6 +399,12 @@
                             </a>
                         </li>
 
+                        <li>
+                            <a href="/petugas">
+                                Petugas
+                            </a>
+                        </li>
+
                     </ul>
 
                 </div>

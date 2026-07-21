@@ -107,6 +107,8 @@ Route::middleware(['ceklogin','cekrole:pengelola_data,popt,lphp'])->group(functi
     
 
     Route::get('/pengiriman-laporan', [PengirimanLaporanController::class, 'index'])->name('pengiriman-laporan.index');
+    Route::get('/pengiriman-laporan/{id}/kirim', [PengirimanLaporanController::class, 'kirim'])->name('pengiriman-laporan.kirim');
+
 
     Route::prefix('pengamatan-persemaian-padi')->group(function () {
 

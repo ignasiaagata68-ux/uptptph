@@ -1,6 +1,5 @@
 /*==================================================
     DASHBOARD UPT PTPH
-    Author : ChatGPT
 ===================================================*/
 
 *{
@@ -644,6 +643,15 @@ QUICK MENU
 
     color:inherit;
 
+}
+
+.quick-purple{
+    background:#f4ecff;
+    color:#7c3aed;
+}
+.quick-green{
+    background:#eafaf1;
+    color:#16a34a;
 }
 
 /*==================================================

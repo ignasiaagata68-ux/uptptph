@@ -136,32 +136,6 @@
 
                     </div>
 
-                    <div class="col-md-3 mb-3">
-
-                        <div class="card text-center shadow-sm h-100 quick-menu">
-
-                            <div class="card-body">
-
-                                <i class="bi bi-bar-chart-fill text-danger fs-1"></i>
-
-                                <h6 class="mt-3">
-
-                                    Statistik
-
-                                </h6>
-
-                                <small class="text-muted">
-
-                                    Statistik bulanan
-
-                                </small>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
                 </div>
 
             </div>
@@ -596,35 +570,7 @@
         </div>
 
     </div>
-<div class="row mt-4">
 
-    <div class="col-lg-12">
-
-        <div class="card shadow-sm border-0">
-
-            <div class="card-header bg-white">
-
-                <h5 class="mb-0">
-
-                    <i class="bi bi-bar-chart-fill text-primary"></i>
-
-                    Grafik Aktivitas Pencatatan
-
-                </h5>
-
-            </div>
-
-            <div class="card-body">
-
-                <canvas id="grafikPencatatan" height="90"></canvas>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 

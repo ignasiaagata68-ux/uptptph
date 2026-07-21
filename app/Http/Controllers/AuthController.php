@@ -15,9 +15,18 @@ class AuthController extends Controller
 
     public function prosesLogin(Request $request)
 {
+    $request->validate([
+        'username' => 'required',
+        'password' => 'required|size:8',
+    ], [
+        'username.required' => 'Username wajib diisi.',
+        'password.required' => 'Password wajib diisi.',
+        'password.size' => 'Password harus tepat 8 karakter.',
+    ]);
+
     $user = DB::table('user')
-            ->where('username', $request->username)
-            ->first();
+        ->whereRaw('BINARY username = ?', [$request->username])
+        ->first();
 
     if (!$user) {
 
@@ -46,6 +55,7 @@ class AuthController extends Controller
 
     }
 
+    $request->session()->regenerate();
     session([
 
         'id_user'  => $user->id_user,
@@ -77,9 +87,11 @@ class AuthController extends Controller
     return redirect('/dashboard');
 }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        session()->flush();
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
 
         return redirect('/login');
     }
