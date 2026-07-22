@@ -64,7 +64,9 @@ class AuthController extends Controller
 
         'role'     => $user->role,
 
-        'status'   => $user->status
+        'status'   => $user->status,
+
+        'id_lphp'  => $user->id_lphp
 
     ]);
 

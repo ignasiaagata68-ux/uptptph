@@ -7,59 +7,82 @@
 
 <style>
 
-    body{
-        font-family:"Times New Roman", serif;
-        font-size:14px;
-        margin:20px;
-    }
+*{
+    box-sizing:border-box;
+}
 
-    table{
-        width:100%;
-        border-collapse:collapse;
-    }
+body{
+    width:1100px;
+    margin:25px auto;
+    padding:20px 40px;
+    font-family:"Times New Roman", serif;
+    font-size:18px;
+    line-height:1.8;
+    color:#000;
+    background:#fff;
+}
 
-    .judul{
-        text-align:center;
-        font-weight:bold;
-        font-size:18px;
-        line-height:1.4;
-    }
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:18px;
+}
 
-    .pink{
-        background:#e8bcbc;
-        padding:3px;
-        font-weight:bold;
-    }
+td{
+    padding:4px 2px;
+    vertical-align:top;
+}
 
-    .checklist{
-        border:1px solid #000;
-        width:120px;
-        text-align:center;
-    }
+.judul{
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+    line-height:1.4;
+    margin-bottom:30px;
+    text-transform:uppercase;
+}
 
-    .mt-20{
-        margin-top:20px;
-    }
+.pink{
+    background:#f9dcdc;
+    padding:3px 8px;
+    border-radius:3px;
+    font-weight:bold;
+}
 
-    .ttd{
-        margin-top:40px;
-        text-align:center;
-    }
+.checklist{
+    width:45px;
+    height:28px;
+    border:1px solid #000;
+    text-align:center;
+    vertical-align:middle;
+    font-size:18px;
+    font-weight:bold;
+}
 
-    table a{
-    color:black;
+.mt-20{
+    margin-top:20px;
+}
+
+.ttd{
+    width:280px;
+    margin-left:auto;
+    margin-top:70px;
+    text-align:center;
+    line-height:2;
+}
+
+table a{
+    color:#000;
     text-decoration:none;
     font-weight:bold;
-    }
+}
 
-    table a:hover{
-        color:blue;
-        text-decoration:underline;
-    }
+table a:hover{
+    color:#0d6efd;
+    text-decoration:underline;
+}
 
 </style>
-
-
 </head>
 <body>
     @if(session('success'))
@@ -83,24 +106,16 @@
 
 <br>
 
-<table width="100%">
+<table>
     <tr>
-        <td colspan="12" align="center">
-  
-        </td>
-    </tr>
-
-    <tr>
-        <td colspan="5">
-            POPT - PHP Kec :
+        <td width="65%">
+            <b>POPT - PHP Kecamatan</b>
         </td>
 
-        <td colspan="7" align="right">
+        <td width="35%" align="right">
             Balai, 20 Juni 2026
         </td>
     </tr>
-
-
 </table>
 
 <br>

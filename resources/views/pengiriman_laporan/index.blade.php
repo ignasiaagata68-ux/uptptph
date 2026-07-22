@@ -80,9 +80,9 @@
 
                             <td class="text-center">
 
-                                @if($item->status == 'draft')
+                                @if($item->status == 'menunggu')
                                     <span class="badge bg-secondary">
-                                        Draft
+                                        Menunggu
                                     </span>
 
                                 @elseif($item->status == 'terverifikasi')
@@ -113,17 +113,30 @@
 
                                 @if($item->status == 'terverifikasi')
 
-                                    <a href="{{ route('pengiriman-laporan.kirim',$item->id_data) }}"
-                                       class="btn btn-success btn-sm">
+                                @if($item->is_kirim_pengelola == 0)
 
-                                        <i class="bi bi-send-fill"></i>
+                                    <form action="{{ route('pengiriman-laporan.kirim-pengelola',$item->id_pengiriman) }}"
+                                        method="POST"
+                                        class="d-inline">
 
-                                        Kirim ke Pengelola
+                                        @csrf
 
-                                    </a>
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            <i class="bi bi-send-fill"></i>
+                                            Kirim ke Pengelola
+                                        </button>
+
+                                    </form>
+
+                                @else
+
+                                    <span class="badge bg-success">
+                                        Sudah Dikirim
+                                    </span>
 
                                 @endif
 
+                            @endif
                             </td>
 
                         </tr>

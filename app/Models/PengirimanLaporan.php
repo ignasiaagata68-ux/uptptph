@@ -18,7 +18,8 @@ class PengirimanLaporan extends Model
         'komentar',
         'tanggal_kirim',
         'tanggal_verifikasi',
-        'id_user_lphp'
+        'id_user_lphp',
+        'is_kirim_pengelola'
     ];
 
     public function data()

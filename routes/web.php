@@ -35,6 +35,9 @@ use App\Http\Controllers\LaporanPeringatanDiniController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardPengelolaController;
 use App\Http\Controllers\PengirimanLaporanController;
+use App\Http\Controllers\LPHP\DashboardLphpController;
+use App\Http\Controllers\VerifikasiPengelolaController;
+
 
 
 
@@ -75,7 +78,7 @@ Route::middleware(['ceklogin','cekrole:pengelola_data'])->group(function () {
     Route::get('/master-data', function () { return view('dashboard.master-data'); });
     Route::get('/data-opt', function () { return view('dashboard.data-opt'); });
     Route::get('/data-dpi', function () { return view('dashboard.data-dpi'); });
-    Route::get('/verifikasi', function () { return view('dashboard.verifikasi'); });
+    Route::get('/verifikasi', [VerifikasiPengelolaController::class, 'index'])->name('verifikasi.index');
     Route::get('/laporan', function () { return view('dashboard.laporan'); });
     Route::get('/manajemen-sistem', function () { return view('dashboard.manajemen-sistem'); });
 
@@ -108,7 +111,7 @@ Route::middleware(['ceklogin','cekrole:pengelola_data,popt,lphp'])->group(functi
 
     Route::get('/pengiriman-laporan', [PengirimanLaporanController::class, 'index'])->name('pengiriman-laporan.index');
     Route::get('/pengiriman-laporan/{id}/kirim', [PengirimanLaporanController::class, 'kirim'])->name('pengiriman-laporan.kirim');
-
+    Route::post('/pengiriman-laporan/{id}/kirim-pengelola',[PengirimanLaporanController::class, 'kirimPengelola'])->name('pengiriman-laporan.kirim-pengelola');
 
     Route::prefix('pengamatan-persemaian-padi')->group(function () {
 
@@ -177,39 +180,16 @@ Route::middleware(['ceklogin','cekrole:pengelola_data,popt,lphp'])->group(functi
         Route::post('/store',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'store'])->name('store');
         Route::get('/detail/{id}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'detail'])->name('detail');
         // Edit (normal & edit perbaikan lewat method edit())
-        Route::get(
-            '/edit/{id}',
-            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'edit']
-        )->name('edit');
-
+        Route::get('/edit/{id}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'edit'])->name('edit');
         // Update seluruh laporan
-        Route::put(
-            '/update/{id}',
-            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'update']
-        )->name('update');
-
+        Route::put('/update/{id}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'update'])->name('update');
         // (Opsional) Jika masih memakai method editPerbaikan
-        Route::get(
-            '/edit-perbaikan/{id}',
-            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'editPerbaikan']
-        )->name('edit-perbaikan');
-
+        Route::get('/edit-perbaikan/{id}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'editPerbaikan'])->name('edit-perbaikan');
         // Update khusus perbaikan
-        Route::put(
-            '/update-perbaikan/{id}',
-            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'updatePerbaikan']
-        )->name('update-perbaikan');
-
+        Route::put('/update-perbaikan/{id}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'updatePerbaikan'])->name('update-perbaikan');
         // Verifikasi
-        Route::post(
-            '/proses-verifikasi/{id}',
-            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'prosesVerifikasi']
-        )->name('proses-verifikasi');
-
-        Route::get(
-            '/verifikasi/{id}/{status}',
-            [LaporanKerusakanTanamanAkibatKekeringanController::class, 'verifikasi']
-        )->name('verifikasi');
+        Route::post('/proses-verifikasi/{id}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'prosesVerifikasi'])->name('proses-verifikasi');
+        Route::get('/verifikasi/{id}/{status}',[LaporanKerusakanTanamanAkibatKekeringanController::class, 'verifikasi'])->name('verifikasi');
     });
 
 
@@ -337,9 +317,8 @@ Route::get('/dashboard', [DashboardController::class,'index'])
  
 Route::middleware(['ceklogin', 'cekrole:lphp'])->group(function () {
 
-    Route::get('/dashboard-lphp', function () {
-        return view('dashboard.lphp');
-    });
+    Route::get('/dashboard-lphp', [DashboardLphpController::class, 'index'])
+        ->name('dashboard-lphp');
 
 });
 
