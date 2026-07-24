@@ -140,13 +140,14 @@
 
                     <h3 class="fw-bold">
 
-                        SISTEM INFORMASI MONITORING
+                        SISTEM PENGELOLAAN DATA
 
                     </h3>
 
                     <h2 class="fw-bold">
 
-                        ORGANISME PENGGANGGU TANAMAN
+                        SERANGAN ORGANISME PENGGANGGU TANAMAN 
+                        TANAMAN PANGAN   
 
                     </h2>
 
@@ -158,7 +159,8 @@
 
                     <h2 class="fw-bold">
 
-                        DAMPAK PERUBAHAN IKLIM
+                        DATA DAMPAK PERUBAHAN 
+                        IKLIM
 
                     </h2>
 
@@ -169,7 +171,8 @@
 
                         <br>
 
-                        Provinsi Kalimantan Barat
+                        DINAS TANAMAN PANGAN DAN 
+                        HORTIKULTURA PROVINSI KALIMANTAN BARAT 
 
                     </p>
 

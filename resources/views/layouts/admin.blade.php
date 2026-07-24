@@ -355,6 +355,23 @@
         </li>
 
         @endif
+        
+        @if(session('role') == 'pengelola_data')
+
+        <li>
+
+            <a href="{{ route('rekap.index') }}"
+            class="{{ request()->is('rekap*') ? 'active' : '' }}">
+
+                <i class="bi bi-table"></i>
+
+                Rekap Laporan
+
+            </a>
+
+        </li>
+
+        @endif
 
         @if(session('role') == 'pengelola_data')
 

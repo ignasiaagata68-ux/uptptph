@@ -37,7 +37,7 @@ use App\Http\Controllers\DashboardPengelolaController;
 use App\Http\Controllers\PengirimanLaporanController;
 use App\Http\Controllers\LPHP\DashboardLphpController;
 use App\Http\Controllers\VerifikasiPengelolaController;
-
+use App\Http\Controllers\RekapLaporanController;
 
 
 
@@ -69,8 +69,18 @@ Route::middleware('ceklogin')->group(function () {
 
     });
 
+    
 
 Route::middleware(['ceklogin','cekrole:pengelola_data'])->group(function () {
+
+    Route::prefix('rekap')->group(function () {
+
+        Route::get('/', [RekapLaporanController::class, 'index'])->name('rekap.index');
+        Route::post('/generate', [RekapLaporanController::class, 'generate'])->name('rekap.generate');
+        Route::get('/get-kecamatan/{id_kabupaten}', [RekapLaporanController::class, 'getKecamatan'])->name('rekap.getKecamatan');
+        Route::post('/export-pdf', [RekapLaporanController::class, 'exportPdf'])->name('rekap.export.pdf');
+        Route::get('/export-excel', [RekapLaporanController::class, 'exportExcel'])->name('rekap.export.excel');
+    });
 
     Route::get('/dashboard-pengelola', [DashboardPengelolaController::class, 'index']);
     Route::get('/dashboard-opt', function () { return view('dashboard.dashboard-opt'); });
@@ -301,10 +311,8 @@ Route::middleware(['ceklogin','cekrole:pengelola_data,popt,lphp'])->group(functi
     });
 });
 
-Route::get('/dashboard', [DashboardController::class,'index'])
-    ->name('dashboard');
-
-
+    Route::get('/dashboard', [DashboardController::class,'index'])
+        ->name('dashboard');
 
     //MANAJEMEN PENGGUNA
     Route::middleware(['ceklogin','cekrole:pengelola_data'])->group(function () {
@@ -312,7 +320,10 @@ Route::get('/dashboard', [DashboardController::class,'index'])
         Route::get('/get-kecamatan/{idKabupaten}', [UserAplikasiController::class, 'getKecamatan'])->name('user-aplikasi.get-kecamatan');
 
     });
+
+    
 });
+
 
  
 Route::middleware(['ceklogin', 'cekrole:lphp'])->group(function () {
